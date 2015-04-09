@@ -1,0 +1,50 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div ng-controller="MemberEmailsController">
+
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <td>Subject</td>
+            <td>Email address</td>
+            <td>Status</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="email in emails.content">
+            <td>
+                <a ng-click="viewEmail(email)">{{email.subject}}</a>
+            </td>
+            <td>
+                {{email.recipient.email}}
+            </td>
+            <td>
+                {{email.status}}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div>
+        <div class="pull-right">
+            page {{emails.number + 1}} of {{emails.totalPages}}
+            <button class="prev-btn btn btn-default btn-xs" ng-disabled="emails.first" ng-click="prevPage()">
+                &lt;</button>
+            <button class="next-btn btn btn-default btn-xs" ng-disabled="emails.last" ng-click="nextPage()">
+                &gt;</button>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,184 @@
+<div class="donation-box">
+
+    <form class="form-horizontal payment-form" data-thank-you-page="{{value.thankYouPage}}">
+
+        <span data-gh-payment-error="general" class="has-error"></span>
+
+        <ul class="nav nav-tabs">
+            <li role="presentation" class="recurring-wrapper active">
+                <a href="#" class="recurring-button">Regular supporter</a>
+            </li>
+            <li role="presentation" class="one-off-wrapper">
+                <a href="#" class="one-off-button" data-tfrequencyype="oneOff">One off donation</a>
+            </li>
+        </ul>
+
+        <div class="payment-form-fields">
+
+            <fieldset>
+                <div class="form-group">
+                    <label for="email" class="col-lg-3">Email</label>
+
+                    <div class="col-lg-9">
+                        <input data-gh-payment-name="email" class="form-control"/>
+                        <span data-gh-payment-error="email" class="has-error"></span>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="recurring-payment-field">
+                <div class="form-group">
+                    <label for="frequency" class="col-lg-3">Donate every</label>
+
+                    <div class="col-lg-9">
+                        <select data-gh-payment-name="frequency" class="form-control">
+                            <option value="week">Week</option>
+                            <option value="month" selected="selected">Month</option>
+                            <option value="year">Year</option>
+                        </select>
+                        <span data-gh-payment-error="frequency" class="has-error"></span>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <div class="form-group">
+                    <label for="name" class="col-lg-3">Amount</label>
+
+                    <div class="col-lg-9">
+                        {{#if value.amounts}}
+                            <div class="payment-amounts">
+                                {{#each value.amounts}}
+                                    <button class="btn btn-default amount-button {{#if default}}selected-amount{{/if}}"
+                                            data-amount="{{amount}}" type="button">${{amount}}</button>
+                                {{/each}}
+                            </div>
+                            {{#if value.otherAmount}}
+                                <span class="input-group">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default amount-button other-amount-button" data-amount="other" type="button">$</button>
+                                    </span>
+                                    <input type="text" class="form-control other-amount" placeholder="Other">
+                                </span>
+                            {{/if}}
+                        {{else}}
+                            <!-- in case 'amounts' has not been set, use a default setup -->
+                            <button class="btn btn-default amount-button" data-amount="20" type="button">$20</button>
+                            <button class="btn btn-default amount-button" data-amount="50" type="button">$50</button>
+                            <button class="btn btn-default amount-button selected-amount" data-amount="70" type="button">$70</button>
+                            <button class="btn btn-default amount-button" data-amount="100" type="button">$100</button>
+                            <span class="input-group">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default amount-button other-amount-button" data-amount="other" type="button">$</button>
+                                </span>
+                                <input type="text" class="form-control other-amount" placeholder="Other">
+                            </span>
+                        {{/if}}
+
+                        <span data-gh-payment-error="amount" class="has-error"></span>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="payment-method">
+
+                <fieldset>
+                    <div class="form-group">
+                        <label for="name" class="col-lg-3">Credit card number</label>
+
+                        <div class="col-lg-9">
+                            <input data-gh-payment-name="number" class="form-control"/>
+                            <span data-gh-payment-error="number" class="has-error"></span>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <div class="form-group">
+                        <label for="name" class="col-lg-3">CVC</label>
+
+                        <div class="col-lg-9">
+                            <input data-gh-payment-name="cvc" class="form-control"/>
+                            <span data-gh-payment-error="cvc" class="has-error"></span>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <div class="form-group">
+                        <label for="name" class="col-lg-3">Expiry</label>
+
+                        <div class="col-lg-9">
+
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <select data-gh-payment-name="exp_month" class="form-control">
+                                        <option selected="" disabled="">MM</option>
+                                        <option value="01">01</option>
+                                        <option value="02">02</option>
+                                        <option value="03">03</option>
+                                        <option value="04">04</option>
+                                        <option value="05">05</option>
+                                        <option value="06">06</option>
+                                        <option value="07">07</option>
+                                        <option value="08">08</option>
+                                        <option value="09">09</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <select data-gh-payment-name="exp_year" class="form-control">
+                                        <option selected="" disabled="">YY</option>
+                                        <option value="14">14</option>
+                                        <option value="15">15</option>
+                                        <option value="16">16</option>
+                                        <option value="17">17</option>
+                                        <option value="18">18</option>
+                                        <option value="19">19</option>
+                                        <option value="20">20</option>
+                                        <option value="21">21</option>
+                                        <option value="22">22</option>
+                                        <option value="23">23</option>
+                                        <option value="24">24</option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div data-gh-payment-error="exp_month" class="has-error"></div>
+                            <div data-gh-payment-error="exp_year" class="has-error"></div>
+                        </div>
+                    </div>
+                </fieldset>
+
+            </div>
+
+            <div class="form-group">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-9">
+                    <button class="btn btn-primary" type="submit">Donate now</button>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+{{#append "head" addOnlyOnce="ghpayments-head"}}
+    <link href="/css/default-donate-styles.css" rel="stylesheet"/>
+{{/append}}
+
+{{#append "scripts" addOnlyOnce="ghpayments-scripts"}}
+
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <script src="/js/goodhuddle-payments.js"></script>
+
+    <script type="text/javascript">
+        goodHuddlePayments.init('{{paymentPublishableKey}}');
+    </script>
+
+{{/append}}
+

@@ -1,0 +1,119 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div ng-controller="CreateMailoutController">
+
+    <div id="breadcrumb-bar">
+        <i class="fa fa-envelope"></i>
+        <a ui-sref="member.mailout.list">mailouts</a>
+        / <a ui-sref="member.mailout.create" class="active">create</a>
+    </div>
+
+
+    <div class="inner">
+
+        <div class="header-bar">
+
+            <h1>Create Mailout</h1>
+
+        </div>
+
+        <div>
+
+            <form class="form-horizontal" role="form">
+
+                <!-- Name -->
+                <div class="row form-group">
+                    <label for="name" class="col-sm-2 control-label">Mailout name</label>
+
+                    <div class="col-sm-6">
+                        <input id="name"
+                               ng-model="mailout.name"
+                               class="form-control" type="text"/>
+
+                        <p class="help-block error-message"></p>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="row form-group">
+                    <label for="description" class="col-sm-2 control-label">Mailout description</label>
+
+                    <div class="col-sm-6">
+                        <input id="description"
+                               ng-model="mailout.description"
+                               class="form-control" type="text"/>
+
+                        <p class="help-block error-message"></p>
+                    </div>
+                </div>
+
+                <hr/>
+
+                <!-- To -->
+                <div class="row form-group">
+                    <label for="subject" class="col-sm-2 control-label">To</label>
+
+                    <div class="col-sm-6">
+                        <select id="to" class="form-control">
+                            <option>All members</option>
+                        </select>
+
+                        <p class="help-block error-message"></p>
+                    </div>
+                </div>
+
+                <!-- Subject -->
+                <div class="row form-group">
+                    <label for="subject" class="col-sm-2 control-label">Subject</label>
+
+                    <div class="col-sm-6">
+                        <input id="subject"
+                               ng-model="mailout.subject"
+                               class="form-control" type="text"/>
+
+                        <p class="help-block error-message"></p>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="row form-group">
+                    <label for="subject" class="col-sm-2 control-label"></label>
+
+                    <div class="col-sm-6">
+                        <textarea ckeditor="editorOptions" ng-model="mailout.content"></textarea>
+                    </div>
+                </div>
+
+                <hr/>
+
+                <div class="row">
+                    <div class="col-sm-offset-2 col-sm-6">
+                        <button class="btn btn-primary" ng-click="submit()">Save</button>
+                        <button class="btn btn-danger" ng-click="cancel()">Cancel</button>
+
+                        <p class="help-block">
+                            Don't worry, no emails will be sent until after you have reviewed and approved them
+                        </p>
+
+                    </div>
+                </div>
+
+
+            </form>
+
+        </div>
+    </div>
+
+</div>

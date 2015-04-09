@@ -1,0 +1,55 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div ng-controller="MemberDonationsController">
+
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <td>Payment #</td>
+            <td>Amount</td>
+            <td>Paid on</td>
+            <td>Description</td>
+        </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="payment in payments.content">
+                <td>
+                    <a ng-click="viewPayment(payment)">{{payment.id}} <span ng-if="payment.testPayment">(test payment)</span></a>
+                </td>
+                <td>
+                    ${{payment.amount}}
+                </td>
+                <td>
+                    {{payment.paidOn | date:'d-MMM-yyyy (h:mm a)'}}
+                </td>
+                <td>
+                    {{payment.description}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div>
+        <div class="pull-right">
+            page {{payments.number + 1}} of {{payments.totalPages}}
+            <button class="prev-btn btn btn-default btn-xs" ng-disabled="payments.first" ng-click="prevPage()">
+                &lt;</button>
+            <button class="next-btn btn btn-default btn-xs" ng-disabled="payments.last" ng-click="nextPage()">
+                &gt;</button>
+        </div>
+    </div>
+
+
+</div>

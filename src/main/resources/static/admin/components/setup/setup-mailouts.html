@@ -1,0 +1,86 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div id="mailout-settings" ng-controller="SetupMailoutsController">
+
+    <div class="container">
+        <div class="row">
+
+            <div class="setup-content">
+
+                <div class="col-md-8">
+
+                    <h1>Setup email sending</h1>
+
+                    <div ng-if="loading">
+                        Loading...
+                    </div>
+
+                    <div ng-if="!loading" class="setup-mailout-options">
+                        <p>
+                            To send mailouts to your members through GoodHuddle you need to register for a free
+                            <a href="https://mandrillapp.com/" target="_blank"><strong>Mandrill</strong></a> account. Mandrill is the
+                            email engine used by MailChimp and provides email queuing and spam protection tools.
+                        </p>
+
+                        <div class="mailout-settings">
+
+                            <div>
+                                Please enter your Mandrill account details below (available from your
+                                <a href="http://mandrillapp.com/settings/index" target="_blank">Mandrill Settings page</a>).
+                                If you do not have a Mandrill account yet, <a href="https://mandrill.com/signup" target="_blank">register for one now</a>.
+                                Registration with Mandrill takes only a few minutes and the starter plan is free.
+                            </div>
+
+                            <div class="margin-top">
+                                <div class="form-group">
+                                    <label>Mandrill API key</label>
+                                    <input type="text" class="form-control" ng-model="settings.mandrillApiKey">
+                                </div>
+                                <div class="form-group">
+                                    <label>Email address to send as</label>
+                                    <input type="text" class="form-control" ng-model="settings.sendFromAddress">
+                                </div>
+                                <div class="form-group">
+                                    <label>Display name to send as</label>
+                                    <input type="text" class="form-control" ng-model="settings.sendFromName">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="setup-actions">
+                        <div ng-if="showError" class="field-error text-right">
+                            Please first register for a Mandrill account using the button above
+                        </div>
+                        <a ng-click="back()" class="btn btn-common"><i class="fa fa-angle-left"></i> Back</a>
+                        <div class="pull-right">
+                            <img ng-show="saving" src="images/loading.gif">
+                            <a ng-click="next()" class="btn btn-common" ng-disable="saving">Next <i class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

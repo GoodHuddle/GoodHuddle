@@ -1,0 +1,73 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div ng-controller="BulkExportMembersController">
+
+    <div id="breadcrumb-bar">
+        <i class="fa fa-user"></i>
+        <a ui-sref="member.list">members</a>
+        / <a class="active">export</a>
+    </div>
+
+
+    <div class="inner">
+
+        <div class="header-bar">
+            <h1>Export members</h1>
+        </div>
+
+        <div>
+            <div class="row">
+                <div class="col-sm-offset-2 col-sm-6">
+                    <div ng-if="downloadFileName" class="alert alert-warning">
+                        Members exported successfully<br/>
+                        <br/>
+                        <a class="btn btn-callout" href="/api/export/{{downloadFileName.value}}">Download now</a>
+                        <a ng-click="cancel()" class="btn btn-default">Back to members list</a>
+                    </div>
+                </div>
+            </div>
+
+
+            <form class="form-horizontal" role="form" ng-if="!downloadFileName">
+
+                <!-- Members -->
+                <div class="row form-group">
+                    <label class="col-sm-2 control-label">Members</label>
+
+                    <div class="col-sm-6">
+                        <div class="form-control-static">
+                            Exporting {{memberBulkSet.totalMembers}} member{{memberBulkSet.totalMembers != 1 ? 's' : ''}}
+                            <a ui-sref="member.list">(change)</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-offset-2 col-sm-6">
+                        <div>
+                            <a ng-click="ok()" class="btn btn-primary" ng-disabled="saving">Export</a>
+                            <a ng-click="cancel()" class="btn btn-danger" ng-disabled="saving">Cancel</a>
+                            <img ng-show="saving" src="images/loading.gif">
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,73 @@
+/*
+ * (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License
+ * (LGPL) version 2.1 which accompanies this distribution, and is available at
+ * http://www.gnu.org/licenses/lgpl-2.1.html
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ */
+
+/* ----------------------------------------------------------------------------
+    Blog
+---------------------------------------------------------------------------- */
+
+.blog-list {
+    margin-top: 30px;
+}
+
+.blog-header {
+}
+
+.blog-post-entry {
+    padding: 10px;
+    border: 1px solid #d3d3d3;
+    margin-bottom: 10px;
+    min-height: 100px;
+}
+
+.blog-post-entry .feature-image {
+    float: left;
+    width: 100px;
+    height: 80px;
+}
+
+.blog-post-entry .feature-image img {
+    width: 100%;
+    height: 100%;
+}
+
+.blog-post-entry .post-summary {
+    margin-left: 120px;
+}
+
+.blog-post-entry .blog-post-title {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.blog-post-entry .post-meta-info {
+    font-size: 8px;
+    color: #808080;
+}
+
+.blog-post-entry .blog-post-blurb {
+    font-size: 12px;
+}
+
+.blog-nav {
+    position: relative;
+    height: 20px;
+}
+
+.blog-nav .newer {
+    float: left;
+}
+
+.blog-nav .older {
+    float: right;
+}

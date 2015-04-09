@@ -1,0 +1,15 @@
+{{#extend "default-layout"}}
+
+    {{#prepend "title"}}{{page.title}} - {{/prepend}}
+
+    {{#append "head"}}
+        <link href="/css/default-block-styles.css" rel="stylesheet"/>
+    {{/append}}
+
+    {{#replace "content"}}
+        {{#with page.content}}
+            {{> content/content}}
+        {{/with}}
+    {{/replace}}
+
+{{/extend}}

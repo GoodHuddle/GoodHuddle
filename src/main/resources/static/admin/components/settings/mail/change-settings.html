@@ -1,0 +1,49 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div class="modal-header">
+    <h3 class="modal-title">Change Email Settings</h3>
+</div>
+<div class="modal-body">
+
+    <form class="form-horizontal" role="form">
+
+        <div>
+            Please enter your Mandrill Account details below (available from your
+            <a href="http://mandrillapp.com/settings/index" target="_blank">Mandrill Dashboard</a>).
+            If you do not have a Mandrill Account yet, <a href="https://mandrill.com/signup/" target="_blank">register for one now</a>.
+        </div>
+
+        <div class="col-sm-12 margin-top">
+            <div class="form-group">
+                <label>Mandrill API key</label>
+                <input type="text" class="form-control" ng-model="settings.mandrillApiKey">
+            </div>
+            <div class="form-group">
+                <label>Email address to send as</label>
+                <input type="text" class="form-control" ng-model="settings.sendFromAddress">
+            </div>
+            <div class="form-group">
+                <label>Display name to send as</label>
+                <input type="text" class="form-control" ng-model="settings.sendFromName">
+            </div>
+        </div>
+
+    </form>
+</div>
+<div class="modal-footer">
+    <img ng-show="cancelling" src="images/loading.gif">
+    <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-primary" ng-click="ok()">Ok</button>
+</div>

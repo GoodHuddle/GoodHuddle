@@ -1,0 +1,54 @@
+{{#blog blogId=value.blogId}}
+    <div class="blog-feed">
+
+        {{#if value.showTitle}}
+            <div class="blog-feed-title">
+                {{value.title}}
+            </div>
+        {{/if}}
+
+        <div class="blog-feed-posts">
+            {{#blogFeed blogId=value.blogId numPosts=value.numPosts}}
+
+                <div class="blog-post-entry {{#if value.showFeatureImage}}with-feature-image{{/if}}">
+
+                    {{#if value.showFeatureImage}}
+                        <div class="feature-image">
+                            <img src="{{featureImageUrl}}"/>
+                        </div>
+                    {{/if}}
+
+                    <div class="post-summary">
+
+                        <div class="blog-post-title">
+                            <a class="blog-post-title-link" href="{{url}}">{{title}}</a>
+                        </div>
+
+                        {{#if published}}
+                            <div class="post-meta-info">
+                                {{#if value.showDatePublished}}
+                                    {{datetime publishedOn}}
+                                {{/if}}
+
+                                {{#if value.showAuthor}}
+                                    by {{memberLink author}}
+                                {{/if}}
+                            </div>
+                        {{/if}}
+
+                        <div class="blog-post-blurb">{{blurb}}</div>
+                    </div>
+                </div>
+            {{/blogFeed}}
+        </div>
+
+        {{#if value.showMoreNewsLink}}
+            <div class="more-news-area">
+                <a class="more-news-button btn btn-default" href="{{url}}">More news</a>
+            </div>
+        {{/if}}
+    </div>
+{{/blog}}
+
+
+

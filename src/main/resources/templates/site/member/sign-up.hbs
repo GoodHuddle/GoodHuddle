@@ -1,0 +1,87 @@
+{{#extend "default-layout"}}
+
+    {{#prepend "title"}}Sign up - {{/prepend}}
+
+    {{#replace "content"}}
+
+        <h1>Sign up</h1>
+
+        <hr/>
+
+        <div>
+
+            <form action="/member/signup" method="post" class="form-horizontal col-md-7">
+
+                {{#hasErrors}}
+                    <div class="alert alert-warning">
+                        <p>Please fix the below errors and try again</p>
+                    </div>
+                {{/hasErrors}}
+
+                <fieldset>
+                    <div class="form-group {{errorClass 'email'}}">
+                        <label for="email" class="col-sm-4 control-label">Email</label>
+                        <div class="col-sm-8">
+                            <input id="email" type="text" class="form-control" name="email"/>
+                            {{errorMessage "email"}}
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <div class="form-group {{errorClass 'firstName'}}">
+                        <label for="firstName" class="col-sm-4 control-label">First Name</label>
+                        <div class="col-sm-8">
+                            <input id="firstName" type="text" class="form-control" name="firstName"/>
+                            <!--<p class="fieldErrorMessage" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>-->
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <div class="form-group {{errorClass 'lastName'}}">
+                        <label for="lastName" class="col-sm-4 control-label">Last Name</label>
+                        <div class="col-sm-8">
+                            <input id="lastName" type="text" class="form-control" name="lastName"/>
+                            <!--<p class="fieldErrorMessage" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>-->
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <div class="form-group {{errorClass 'password'}}">
+                        <label for="password" class="col-sm-4 control-label">Password</label>
+                        <div class="col-sm-8">
+                            <input id="password" type="password" class="form-control" name="password"/>
+                            <!--<p class="fieldErrorMessage" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>-->
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <div class="form-group {{errorClass 'confirm-password'}}">
+                        <label for="confirm-password" class="col-sm-4 control-label">Password (confirm)</label>
+                        <div class="col-sm-8">
+                            <input id="confirm-password" type="password" class="form-control" name="confirmPassword"/>
+                            <!--<p class="fieldErrorMessage" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></p>-->
+                        </div>
+                    </div>
+                </fieldset>
+
+                <div class="form-group">
+                    <div class="col-sm-4"></div>
+                    <div class="col-sm-8">
+                        <button id="save-button" class="btn btn-primary">Sign up</button>&nbsp;&nbsp;
+                        <a href="/" class="btn btn-default">No thanks</a>
+                        <span id="info-area"></span>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+
+
+    {{/replace}}
+
+{{/extend}}

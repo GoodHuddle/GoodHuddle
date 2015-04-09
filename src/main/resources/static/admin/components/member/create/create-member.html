@@ -1,0 +1,143 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div ng-controller="CreateMemberController">
+
+    <div id="breadcrumb-bar">
+        <i class="fa fa-user"></i>
+        <a ui-sref="member.list">members</a>
+        / <a ui-sref="member.create" class="active">add</a>
+    </div>
+
+
+    <div class="inner">
+
+        <div class="header-bar">
+
+            <h1>Add Member</h1>
+
+        </div>
+
+        <div>
+
+            <form class="form-horizontal" role="form">
+
+                <!-- Email -->
+                <div class="row form-group">
+                    <label for="email" class="col-sm-2 control-label">Email</label>
+
+                    <div class="col-sm-6">
+                        <input id="email"
+                               ng-model="member.email"
+                               class="form-control" type="text"/>
+
+                        <p class="help-block error-message"></p>
+                    </div>
+                </div>
+
+                <!-- First name -->
+                <div class="row form-group">
+                    <label for="firstName" class="col-sm-2 control-label">First name</label>
+
+                    <div class="col-sm-6">
+                        <input id="firstName"
+                               ng-model="member.firstName"
+                               class="form-control" type="text"/>
+
+                        <p class="help-block error-message"></p>
+                    </div>
+                </div>
+
+                <!-- Last name -->
+                <div class="row form-group">
+                    <label for="firstName" class="col-sm-2 control-label">Last name</label>
+
+                    <div class="col-sm-6">
+                        <input id="lastName"
+                               ng-model="member.lastName"
+                               class="form-control" type="text"/>
+
+                        <p class="help-block error-message"></p>
+                    </div>
+                </div>
+
+                <!-- Security Group -->
+                <div class="row form-group">
+                    <label for="securityGroup" class="col-sm-2 control-label">Access Level</label>
+
+                    <div class="col-sm-6">
+                        <select id="securityGroup" class="form-control" ng-model="member.securityGroupId"
+                                ng-options="group.id as group.displayName for group in securityGroups">
+                            <option value="">(no login)</option>
+                        </select>
+
+                        <p class="help-block error-message"></p>
+                    </div>
+                </div>
+
+                <div ng-show="loginEnabled">
+                    <!-- Username -->
+                    <div class="row form-group">
+                        <label for="username" class="col-sm-2 control-label">Username</label>
+
+                        <div class="col-sm-6">
+                            <input id="username"
+                                   ng-model="member.username"
+                                   class="form-control" type="text"/>
+
+                            <p class="help-block error-message"></p>
+                        </div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="row form-group">
+                        <label for="password" class="col-sm-2 control-label">Password</label>
+
+                        <div class="col-sm-6">
+                            <input id="password"
+                                   ng-model="member.password"
+                                   class="form-control" type="password"/>
+
+                            <p class="help-block error-message"></p>
+                        </div>
+                    </div>
+
+                    <!-- Password (confirm) -->
+                    <div class="row form-group">
+                        <label for="confirmPassword" class="col-sm-2 control-label">Confirm Password</label>
+
+                        <div class="col-sm-6">
+                            <input id="confirmPassword"
+                                   ng-model="member.confirmPassword"
+                                   class="form-control" type="password"/>
+
+                            <p class="help-block error-message"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-offset-2 col-sm-6">
+                        <button class="btn btn-primary" ng-click="submit()">Add</button>
+                        <button class="btn btn-danger" ng-click="cancel()">Cancel</button>
+                    </div>
+                </div>
+
+
+            </form>
+
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,12 @@
+{{#if value.href}}
+    <a href="{{value.href}}">
+{{/if}}
+
+    <img class="img-responsive" src="{{value.url}}"
+         {{#if value.altText}}alt="{{value.altText}}"{{/if}}
+         {{#if value.newPage}}target="_blank"{{/if}}
+    />
+
+{{#if value.href}}
+    </a>
+{{/if}}

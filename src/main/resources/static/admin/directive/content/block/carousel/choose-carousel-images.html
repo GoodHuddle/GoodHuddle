@@ -1,0 +1,72 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div id="carousel-block-choose-images">
+    <div class="modal-header">
+        <h3 class="modal-title">Add Carousel Images</h3>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6">
+              Slide Interval, in milliseconds: <input type="number" class="form-control" ng-model="details.slideInterval">
+              Enter a negative number to stop the interval.
+            </div>
+            <br>
+        </div>
+
+        <tabset>
+
+            <tab heading="Slide {{$index + 1}}"  active="slide.active" ng-repeat="slide in details.slides" >
+               <div class="tab-body">
+                    <div class="form-group">
+                        <label for="imageUrl" class="col-sm-3 control-label">Image Url</label>
+                        <div class="col-sm-9">
+                            <input id="imageUrl" class="form-control" ng-model="slide.imageUrl" required/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="href" class="col-sm-3 control-label">Slide Link (optional)</label>
+                        <div class="col-sm-9">
+                            <input id="href" class="form-control" ng-model="slide.href"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="caption" class="col-sm-3 control-label">Caption (optional)</label>
+                        <div class="col-sm-9">
+                            <input id="caption" class="form-control" ng-model="slide.caption"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="button" class="btn btn-default" ng-click="deleteSlide(slide)">Delete Slide</button>
+                    </div>
+               </div>
+            </tab>
+
+            <tab ng-click="addSlide()">
+                <tab-heading>
+                    <i class="fa fa-plus"></i>
+                </tab-heading>
+            </tab>
+
+        </tabset>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">Ok</button>
+        <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+    </div>
+</div>

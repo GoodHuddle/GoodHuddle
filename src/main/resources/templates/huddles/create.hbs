@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Setup Huddle</title>
+    <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+
+<body>
+
+<div>
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-8">
+
+                <h1>Setup Huddle</h1>
+
+                <p class="help-block">This huddle has not yet been setup. Enter details to set it up now.</p>
+
+                <hr/>
+
+                <form action="/_huddles/create" method="post" class="form-horizontal">
+
+                    <!--
+                    <div class="alert alert-warning" th:if="${#fields.hasAnyErrors()}">
+                        <p>Please fix the below errors and try again</p>
+                    </div>
+                    -->
+
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="name" class="col-lg-4">Huddle name</label>
+                            <div class="col-lg-8">
+                                <input id="name" type="text" class="form-control" name="name"/>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="slug" class="col-lg-4">Huddle slug</label>
+                            <div class="col-lg-8">
+                                <input id="slug" type="text" class="form-control" name="slug"/>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="baseUrl" class="col-lg-4">Huddle URL</label>
+                            <div class="col-lg-8">
+                                <input id="baseUrl" type="text" class="form-control" name="baseUrl"/>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="description" class="col-lg-4">Description</label>
+                            <div class="col-lg-8">
+                                <input id="description" type="text" class="form-control" name="description"/>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="adminFirstName" class="col-lg-4">Admin first name</label>
+                            <div class="col-lg-8">
+                                <input id="adminFirstName" type="text" class="form-control" name="adminFirstName"/>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="adminLastName" class="col-lg-4">Admin last name</label>
+                            <div class="col-lg-8">
+                                <input id="adminLastName" type="text" class="form-control" name="adminLastName"/>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="adminUsername" class="col-lg-4">Admin user</label>
+                            <div class="col-lg-8">
+                                <input id="adminUsername" type="text" class="form-control" name="adminUsername"/>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="adminEmail" class="col-lg-4">Admin email</label>
+                            <div class="col-lg-8">
+                                <input id="adminEmail" type="text" class="form-control" name="adminEmail"/>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="adminPassword" class="col-lg-4">Admin password</label>
+                            <div class="col-lg-8">
+                                <input id="adminPassword" type="password" class="form-control" name="adminPassword"/>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <hr/>
+
+                    <div class="form-group">
+                        <div class="col-lg-4"></div>
+                        <div class="col-lg-8">
+                            <button type="submit" class="btn btn-primary">Setup</button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="/lib/jquery-1.11.1/jquery-1.11.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var host = window.location.host;
+        $('#baseUrl').val('http://' + host);
+        if (host === 'localhost:8080') {
+            $('#name').val('Test Huddle');
+            $('#slug').val('test');
+            $('#description').val('A local Huddle for testing');
+            $('#adminUsername').val('admin');
+            $('#adminFirstName').val('Test');
+            $('#adminLastName').val('Dummy');
+            $('#adminEmail').val('dan@goodhuddle.com');
+            $('#adminPassword').val('huddl3');
+        }
+    });
+</script>
+
+</body>
+
+</html>

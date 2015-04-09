@@ -1,0 +1,44 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div ng-controller="ContactUsBlock">
+    <div>
+        <form>
+
+            <div class="form-group">
+                <input data-gh-contact-us-name="email" class="form-control" placeholder="Enter email"/>
+                <span data-gh-contact-us-error="email" class="has-error"></span>
+            </div>
+
+            <div class="form-group">
+                <input data-gh-contact-us-name="name" class="form-control" placeholder="Enter name"/>
+                <span data-gh-contact-us-error="name" class="has-error"></span>
+            </div>
+
+            <div class="form-group">
+                <textarea data-gh-contact-us-name="message" class="form-control" placeholder="Enter message" rows="7"></textarea>
+                <span data-gh-contact-us-error="message" class="has-error"></span>
+            </div>
+
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit">Submit</button>
+                <button class="btn btn-default" type="reset">Reset</button>
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="drag-handle full-block-drag-handle"></div>
+</div>

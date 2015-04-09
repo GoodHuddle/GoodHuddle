@@ -1,0 +1,74 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div ng-controller="BulkTagMembersController">
+
+    <div id="breadcrumb-bar">
+        <i class="fa fa-user"></i>
+        <a ui-sref="member.list">members</a>
+        / <a class="active">tag</a>
+    </div>
+
+
+    <div class="inner">
+
+        <div class="header-bar">
+            <h1>Tag members</h1>
+        </div>
+
+        <div>
+            <form class="form-horizontal" role="form">
+
+                <!-- Members -->
+                <div class="row form-group">
+                    <label class="col-sm-2 control-label">Members</label>
+
+                    <div class="col-sm-6">
+                        <div class="form-control-static">
+                            Tagging {{memberBulkSet.totalMembers}} member{{memberBulkSet.totalMembers != 1 ? 's' : ''}}
+                            <a ui-sref="member.list">(change)</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tags -->
+                <div class="row form-group">
+                    <label class="col-sm-2 control-label">Tags</label>
+
+                    <div class="col-sm-6">
+                        <ui-select multiple ng-model="selected.tags" theme="bootstrap">
+                            <ui-select-match placeholder="Select tags...">{{$item.name}}</ui-select-match>
+                            <ui-select-choices repeat="tag in availableTags.content | filter:$select.search">
+                                {{tag.name}}
+                            </ui-select-choices>
+                        </ui-select>
+                        <p class="help-block error-message"></p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-offset-2 col-sm-6">
+                        <a ng-click="ok()" class="btn btn-primary" ng-disabled="saving">Apply</a>
+                        <a ng-click="cancel()" class="btn btn-danger" ng-disabled="saving">Cancel</a>
+                        <img ng-show="saving" src="images/loading.gif">
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<html lang="en" ng-app="huddleAdmin">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Huddle Admin</title>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" sizes="57x57" href="images/fav/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/fav/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/fav/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="images/fav/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="images/fav/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="images/fav/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="images/fav/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="images/fav/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/fav/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="images/fav/favicon-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="images/fav/favicon-160x160.png" sizes="160x160">
+    <link rel="icon" type="image/png" href="images/fav/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="images/fav/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="images/fav/favicon-32x32.png" sizes="32x32">
+    <meta name="msapplication-TileColor" content="#e04e39">
+    <meta name="msapplication-TileImage" content="images/fav/mstile-144x144.png">
+
+    <link rel="stylesheet" href="lib/font-awesome-4.1.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="lib/bootstrap-3.2.0/css/bootstrap.min.css"/>
+
+    <!-- todo: remove as deprecated -->
+    <link rel="stylesheet" href="lib/select2-3.5.1/select2.css"/>
+    <link rel="stylesheet" href="lib/select2-3.5.1/select2-bootstrap.css"/>
+
+    <link rel="stylesheet" href="lib/angular-ui-select/select.min.css"/>
+
+    <link rel="stylesheet" href="app.css"/>
+    <link rel="stylesheet" href="lib/ngOnboarding-0.1.7/ng-onboarding.css">
+</head>
+<body>
+
+<gh-error-alert></gh-error-alert>
+
+<div class="global-loading" ng-if="globalLoading">
+    Loading...
+</div>
+
+<div ng-if="!globalLoading">
+    <div id="header">
+        <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle btn navbar-btn" ng-init="navCollapsed = true"
+                            ng-click="navCollapsed = !navCollapsed">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">
+                        <h1><img src="images/logo.png" alt="logo"></h1>
+                    </a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div collapse="navCollapsed" class="navbar-collapse collapse navbar-responsive-collapse" id="main-menu">
+                    <ul class="nav navbar-nav top-level-nav" ng-hide="!huddle.setupWizardComplete">
+                        <li ng-class="{active: $state.includes('website')}">
+                            <a ui-sref="website">
+                                <!--<i class="fa fa-desktop"></i>-->
+                                <span>Website</span>
+                            </a>
+                        </li>
+                        <li ng-class="{active: $state.includes('member')}">
+                            <a ui-sref="member">
+                                <!--<i class="fa fa-users"></i>-->
+                                <span>Members</span>
+                            </a>
+                        </li>
+                        <li ng-class="{active: $state.includes('funding')}">
+                            <a ui-sref="funding">
+                                <!--<i class="fa fa-dollar"></i>-->
+                                <span>Payments</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right" ng-hide="!huddle.setupWizardComplete">
+
+                        <li>
+                            <a href="{{huddle.baseUrl}}" class="view-site-btn" target="_blank">
+                                <i class="fa fa-eye"></i> View site
+                            </a>
+                        </li>
+                        <li class="dropdown" dropdown>
+                            <a href="#" class="dropdown-toggle" dropdown-toggle>{{currentUser.displayName}} <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a ui-sref="settings">Settings</a></li>
+                                <li><a ng-click="changePassword()">Change Password</a></li>
+                                <li><a ng-click="logout()">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                </div><!-- /.navbar-collapse -->
+        </nav>
+    </div>
+</div>
+
+
+<div id="main-body">
+    <!--[if lt IE 7]>
+    <p class="browsehappy">
+        You are using an <strong>outdated</strong> browser.
+        Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.
+    </p>
+    <![endif]-->
+
+    <ui-view/>
+</div>
+
+<script src="lib/jquery-1.11.1/jquery-1.11.1.min.js"></script>
+
+<script src="lib/angular-1.2.22/angular.js"></script>
+<script src="lib/angular-1.2.22/angular-resource.js"></script>
+<script src="lib/angular-1.2.22/angular-cookies.min.js"></script>
+<script src="lib/angular-1.2.22/angular-sanitize.min.js"></script>
+
+<script src="lib/angular-ui/angular-ui-router.min.js"></script>
+<script src="lib/angular-ui-bootstrap-0.12/ui-bootstrap-tpls-0.12.0.min.js"></script>
+<script src="lib/angular-file-upload/angular-file-upload.js"></script>
+
+<!-- todo: remove as deprecated -->
+<script src="lib/select2-3.5.1/select2.js"></script>
+<script src="lib/angular-ui-select2/select2.js"></script>
+
+<script src="lib/angular-ui-select/select.js"></script>
+
+<script src="lib/angular-moment/moment.js"></script>
+<script src="lib/angular-moment/angular-moment.min.js"></script>
+
+<script src="lib/ckeditor/ckeditor.js"></script>
+<script src="lib/ng-ckeditor/ng-ckeditor.js"></script>
+
+<script src="lib/ace-editor/src-min-noconflict/ace.js"></script>
+<script src="lib/ace-editor/src-min-noconflict/ext-language_tools.js"></script>
+<script src="lib/ui-ace-src/ui-ace.js"></script>
+<script src="lib/ngOnboarding-0.1.7/ng-onboarding.min.js"></script>
+
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+
+<script src="app.js"></script>
+
+<script src="components/setup/setup-controller.js"></script>
+
+<script src="components/website/menu/menu-controller.js"></script>
+<script src="components/website/page/page-controller.js"></script>
+<script src="components/website/blog/blog-controller.js"></script>
+<script src="components/website/blog/post/blog-post-controller.js"></script>
+<script src="components/website/theme/current/current-theme-controller.js"></script>
+<script src="components/website/theme/choose/choose-theme-controller.js"></script>
+<script src="components/website/theme/upload/upload-theme-controller.js"></script>
+<script src="components/website/theme/edit/edit-theme-controller.js"></script>
+<script src="components/website/theme/order/order-theme-controller.js"></script>
+<script src="components/website/dashboard/website-dashboard.js"></script>
+
+<script src="components/member/list/members-controller.js"></script>
+<script src="components/member/view/member.js"></script>
+<script src="components/member/view/emails/member-emails.js"></script>
+<script src="components/member/view/donations/member-donations.js"></script>
+<script src="components/member/view/subscriptions/member-subscriptions.js"></script>
+<script src="components/member/create/create-member.js"></script>
+<script src="components/member/edit/edit-member.js"></script>
+<script src="components/member/mailouts/mailouts-controller.js"></script>
+<script src="components/member/mailouts/create/create-mailout.js"></script>
+<script src="components/member/mailouts/view/view-mailout.js"></script>
+<script src="components/member/mailouts/email/view/view-email.js"></script>
+<script src="components/member/bulk/bulk-tag-members-controller.js"></script>
+<script src="components/member/bulk/bulk-export-members-controller.js"></script>
+
+<script src="components/funding/payments/payments-controller.js"></script>
+<script src="components/funding/payments/paid/paid-controller.js"></script>
+<script src="components/funding/payments/paid/view/view-payment.js"></script>
+<script src="components/funding/payments/subscriptions/subscriptions-controller.js"></script>
+<script src="components/funding/payments/subscriptions/view/view-subscription.js"></script>
+
+<script src="components/settings/huddle/huddle-settings.js"></script>
+<script src="components/settings/mail/email-settings.js"></script>
+<script src="components/settings/payment/payment-settings.js"></script>
+
+<script src="factory/session-factory.js"></script>
+
+<script src="service/recursion-service.js"></script>
+
+<script src="service/huddle-service.js"></script>
+<script src="service/menu-service.js"></script>
+<script src="service/layout-service.js"></script>
+<script src="service/page-service.js"></script>
+<script src="service/search-service.js"></script>
+<script src="service/blog-service.js"></script>
+<script src="service/blog-post-service.js"></script>
+<script src="service/blog-post-comment-service.js"></script>
+<script src="service/theme-service.js"></script>
+<script src="service/theme-setting-service.js"></script>
+<script src="service/theme-bundle-service.js"></script>
+<script src="service/member-service.js"></script>
+<script src="service/member-bulk-service.js"></script>
+<script src="service/export-service.js"></script>
+<script src="service/tag-service.js"></script>
+<script src="service/mailout-service.js"></script>
+<script src="service/email-service.js"></script>
+<script src="service/payment-service.js"></script>
+<script src="service/subscription-service.js"></script>
+<script src="service/payment-settings-service.js"></script>
+<script src="service/email-settings-service.js"></script>
+<script src="service/security-group-service.js"></script>
+<script src="service/auth-service.js"></script>
+
+<script src="directive/error/error-alert.js"></script>
+<script src="directive/search/search-nav.js"></script>
+<script src="directive/tag/tag-chooser.js"></script>
+<script src="directive/tag/tag-field.js"></script>
+
+<script src="directive/util/checklist-model.js"></script>
+<script src="directive/util/youtube.js"></script>
+<script src="directive/util/pagechooser/page-chooser.js"></script>
+<script src="directive/util/twitter.js"></script>
+<script src="directive/util/subscription-display-name.js"></script>
+<script src="directive/util/enter.js"></script>
+
+<script src="directive/theme/settings/theme-image-field.js"></script>
+
+<script src="directive/menu/menu.js"></script>
+<script src="directive/menu/menu-item.js"></script>
+
+<script src="directive/content/content-editor.js"></script>
+<script src="directive/content/row.js"></script>
+<script src="directive/content/cell.js"></script>
+<script src="directive/content/cell-divider.js"></script>
+<script src="directive/content/block.js"></script>
+<script src="directive/content/tool.js"></script>
+<script src="directive/image/image-chooser.js"></script>
+<script src="directive/image/thumb.js"></script>
+
+<script src="directive/content/block/html/html-block.js"></script>
+<script src="directive/content/block/raw-html/raw-html-block.js"></script>
+<script src="directive/content/block/spacer/spacer-block.js"></script>
+<script src="directive/content/block/image/image-block.js"></script>
+<script src="directive/content/block/blog-feed/blog-feed-block.js"></script>
+<script src="directive/content/block/youtube/youtube-block.js"></script>
+<script src="directive/content/block/carousel/carousel-block.js"></script>
+<script src="directive/content/block/twitter-feed/twitter-feed-block.js"></script>
+<script src="directive/content/block/member-signup/member-signup-block.js"></script>
+<script src="directive/content/block/member-login/member-login-block.js"></script>
+<script src="directive/content/block/join-mail-list/join-mail-list-block.js"></script>
+<script src="directive/content/block/donate-form/donate-form-block.js"></script>
+<script src="directive/content/block/contact-us/contact-us-block.js"></script>
+
+
+</body>
+</html>

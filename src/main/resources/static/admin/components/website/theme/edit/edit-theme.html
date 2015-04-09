@@ -1,0 +1,84 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div ng-controller="EditThemeController" id="edit-theme">
+
+    <div id="breadcrumb-bar">
+        <a ui-sref="website">website</a>
+        / <a ui-sref="website.theme.current">theme</a>
+        / <a ui-sref="website.theme.edit">settings</a>
+    </div>
+
+    <div class="inner">
+
+        <div class="header-bar">
+            <h1>Theme settings</h1>
+        </div>
+
+        <div class="row">
+
+            <div ng-show="settingsForm.sections.length == 0" class="col-md-8">
+                <p>
+                    The theme you are currently using has no customisable settings. Each theme is different and the
+                    settings available depend on how your theme was built. If you would like to customise this theme
+                    please contact your theme creator.
+                </p>
+                <p>
+                    <a class="btn btn-default" ng-click="cancel()">Back to theme</a>
+                </p>
+
+            </div>
+
+            <form ng-show="settingsForm.sections.length > 0" class="form-horizontal">
+
+                <div ng-repeat="section in settingsForm.sections">
+                    <div class="col-sm-12">
+                        <h3>{{section.name}}</h3>
+                        <hr>
+                    </div>
+
+                    <div class="form-group" ng-repeat="field in section.fields">
+                        <label class="col-sm-3 control-label">{{field.name}}</label>
+                        <div class="col-sm-9 col-md-6">
+
+                            <input ng-if="field.type == 'text'" type="text" class="form-control"
+                                   ng-model="settings[section.code + '_' + field.code]">
+
+                            <gh-theme-image-field ng-if="field.type == 'image'"
+                                                  settings="settings"
+                                                  uploaders="uploaders"
+                                                  field-code="{{section.code}}_{{field.code}}">
+                            </gh-theme-image-field>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <hr>
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <span class="save-buttons">
+                            <a class="btn btn-primary" ng-click="save()" ng-disabled="saving">Save</a>
+                            <a class="btn btn-danger" ng-click="cancel()" ng-disabled="saving">Cancel</a>
+                        </span>
+                        <span ng-show="saving">Saving...</span>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+</div>

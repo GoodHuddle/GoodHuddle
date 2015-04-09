@@ -1,0 +1,33 @@
+{{#extend "default-layout"}}
+
+    {{#prepend "title"}}{{blogPost.title}} - {{/prepend}}
+
+    {{#append "head"}}
+        <link href="/css/default-blog-styles.css" rel="stylesheet"/>
+        <link href="/css/default-block-styles.css" rel="stylesheet"/>
+    {{/append}}
+
+    {{#replace "content"}}
+
+        <h1 class="blog-post-header">{{blogPost.title}}</h1>
+
+        <div class="blog-post-info">
+            Posted by {{memberLink blogPost.author}}
+        </div>
+
+        {{#if blogPost.featureImageUrl}}
+            <div class="feature-image">
+                <img src="{{blogPost.featureImageUrl}}"/>
+            </div>
+        {{/if}}
+
+        <div class="blog-post-content">
+            {{#with blogPost.content}}
+                {{> content/content}}
+            {{/with}}
+        </div>
+
+    {{/replace}}
+
+{{/extend}}
+

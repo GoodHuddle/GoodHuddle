@@ -1,0 +1,172 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div class="content-editor" ng-class="showGrid ? 'show-grid' : ''">
+
+    <div class="content-toolbar">
+
+        <div class="tool-group">
+            <div class="tool-group-header" ng-click="hideContent = !hideContent">
+                <span  class="expander" >
+                    <i class="fa" ng-class="hideContent ? ' fa-chevron-right' : 'fa-chevron-down'"></i>
+                </span>
+                Basic content
+            </div>
+            <div class="tool-group-body" ng-hide="hideContent">
+                <ul>
+                    <gh-tool block-functions="blockFunctions" type="'html'"></gh-tool>
+                    <gh-tool block-functions="blockFunctions" type="'divider'"></gh-tool>
+                    <gh-tool block-functions="blockFunctions" type="'spacer'"></gh-tool>
+                </ul>
+                <div class="show-grid-tool">
+                    <input type="checkbox" ng-model="showGrid"> Show guide lines
+                </div>
+            </div>
+        </div>
+
+        <div class="tool-group">
+            <div class="tool-group-header" ng-click="hideMedia = !hideMedia">
+                <span  class="expander" >
+                    <i class="fa" ng-class="hideMedia ? ' fa-chevron-right' : 'fa-chevron-down'"></i>
+                </span>
+                Media
+            </div>
+            <div class="tool-group-body" ng-hide="hideMedia">
+                <ul>
+                    <gh-tool block-functions="blockFunctions" type="'image'"></gh-tool>
+                    <gh-tool block-functions="blockFunctions" type="'youtube'"></gh-tool>
+                    <!--<gh-tool block-functions="blockFunctions" type="'carousel'"></gh-tool>-->
+                </ul>
+            </div>
+        </div>
+
+        <div class="tool-group">
+            <div class="tool-group-header" ng-click="hideFeeds = !hideFeeds">
+                <span  class="expander" >
+                    <i class="fa" ng-class="hideFeeds ? ' fa-chevron-right' : 'fa-chevron-down'"></i>
+                </span>
+                Feeds
+            </div>
+            <div class="tool-group-body" ng-hide="hideFeeds">
+                <ul>
+                    <gh-tool block-functions="blockFunctions" type="'blog-feed'"></gh-tool>
+                    <gh-tool block-functions="blockFunctions" type="'twitter-feed'"></gh-tool>
+                </ul>
+            </div>
+        </div>
+
+        <div class="tool-group">
+            <div class="tool-group-header" ng-click="hideMemberships = !hideMemberships">
+                <span  class="expander">
+                    <i class="fa" ng-class="hideMemberships ? ' fa-chevron-right' : 'fa-chevron-down'"></i>
+                </span>
+                Memberships
+            </div>
+            <div class="tool-group-body" ng-hide="hideMemberships">
+                <ul>
+                    <!--
+                    <gh-tool block-functions="blockFunctions" type="'member-signup'">
+                        Sign up
+                    </gh-tool>
+                    -->
+                    <gh-tool block-functions="blockFunctions" type="'join-mail-list'">
+                        Join mail list
+                    </gh-tool>
+                    <!--
+                    <gh-tool block-functions="blockFunctions" type="'member-login'">
+                        Login
+                    </gh-tool>
+                    -->
+                    <gh-tool block-functions="blockFunctions" type="'contact-us'"></gh-tool>
+
+                </ul>
+            </div>
+        </div>
+
+        <div class="tool-group">
+            <div class="tool-group-header" ng-click="hideDonations = !hideDonations">
+                <span  class="expander">
+                    <i class="fa" ng-class="hideDonations ? ' fa-chevron-right' : 'fa-chevron-down'"></i>
+                </span>
+                Donations
+            </div>
+            <div class="tool-group-body" ng-hide="hideDonations">
+                <ul>
+                    <gh-tool block-functions="blockFunctions" type="'donate-form'">
+                        Donate
+                    </gh-tool>
+                </ul>
+            </div>
+        </div>
+
+       <div class="tool-group">
+            <div class="tool-group-header" ng-click="hideAdvanced = !hideAdvanced">
+                <span  class="expander">
+                    <i class="fa" ng-class="hideAdvanced ? ' fa-chevron-right' : 'fa-chevron-down'"></i>
+                </span>
+                Advanced
+            </div>
+            <div class="tool-group-body" ng-hide="hideAdvanced">
+                <ul>
+                    <gh-tool block-functions="blockFunctions" type="'raw-html'"></gh-tool>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="content-wrapper">
+
+        <div ng-show="!content || !content.rows || content.rows.length == 0" class="no-content">
+            <h1>Blank page</h1>
+            <p>
+                Drag content onto this page from the toolbar to the right
+            </p>
+
+            <div>
+                <i class="fa fa-arrow-circle-right"></i>
+            </div>
+        </div>
+
+        <gh-row ng-repeat="row in content.rows" row="row">
+            <gh-cell ng-repeat="cell in row.cells" cell="cell">
+                <gh-block ng-repeat="block in cell.blocks"
+                          block-functions="blockFunctions"
+                          cell="cell"
+                          block="block">
+                </gh-block>
+            </gh-cell>
+
+            <gh-cell-divider
+                    ng-repeat="cell in row.cells"
+                    row="row" cell="cell"
+                    ng-if="$index < row.cells.length - 1">
+            </gh-cell-divider>
+
+        </gh-row>
+
+    </div>
+
+
+    <div class="block-drag-floater" ng-show="dragContext.dragging"
+         ng-style="{left: (dragContext.x + 4) + 'px', top: (dragContext.y + 4) + 'px'}">
+        {{dragContext.label}}
+    </div>
+
+    <div class="block-drop-marker block-drop-marker-{{dropTarget.type}}" ng-show="dropTarget.type != null"
+         ng-style="{left: dropTarget.markerBounds.left + 'px', top: dropTarget.markerBounds.top + 'px', width: dropTarget.markerBounds.width + 'px', height: dropTarget.markerBounds.height + 'px'}">
+    </div>
+
+</div>

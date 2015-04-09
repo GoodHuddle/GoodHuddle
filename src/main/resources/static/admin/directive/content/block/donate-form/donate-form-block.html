@@ -1,0 +1,119 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div ng-controller="DonateFormBlock">
+    <div>
+
+        <ul class="nav nav-tabs">
+            <li role="presentation" class="recurring-wrapper active">
+                <a href="#" class="recurring-button">Regular supporter</a>
+            </li>
+            <li role="presentation" class="one-off-wrapper">
+                <a href="#" class="one-off-button" data-tfrequencyype="oneOff">One off donation</a>
+            </li>
+        </ul>
+
+        <form class="form-horizontal donate-form-fields">
+
+
+            <fieldset>
+                <div class="form-group">
+                    <label class="col-lg-3">Email</label>
+
+                    <div class="col-lg-9">
+                        <input class="form-control"/>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <div class="form-group">
+                    <label class="col-lg-3">Donate every</label>
+
+                    <div class="col-lg-9">
+                        <select class="form-control">
+                            <option>Month</option>
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <div class="form-group">
+                    <label class="col-lg-3">Amount</label>
+
+                    <div class="col-lg-9">
+
+                        <div class="payment-amounts">
+                            <button ng-repeat="amount in block.value.amounts" class="btn btn-default amount-button"
+                                    ng-class="{'selected-amount' : amount.default}"
+                                    type="button">${{amount.amount}}</button>
+                        </div>
+                        <span ng-if="block.value.otherAmount" class="input-group">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default amount-button other-amount-button" type="button">$</button>
+                            </span>
+                            <input type="text" class="form-control other-amount" placeholder="Other">
+                        </span>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="payment-method">
+
+                <fieldset>
+                    <div class="form-group">
+                        <label class="col-lg-3">Credit card number</label>
+
+                        <div class="col-lg-9">
+                            <input class="form-control"/>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <div class="form-group">
+                        <label class="col-lg-3">CVC</label>
+
+                        <div class="col-lg-9">
+                            <input class="form-control"/>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <div class="form-group">
+                        <label class="col-lg-3">Expiry (mm/yy)</label>
+
+                        <div class="col-lg-9">
+                            <input class="form-control"/>
+                        </div>
+                    </div>
+                </fieldset>
+
+            </div>
+
+            <div class="form-group">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-9">
+                    <button class="btn btn-primary">Donate</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="drag-handle full-block-drag-handle"></div>
+    <div class="edit-block-btn btn btn-xs btn-default" ng-click="editSettings()">edit</div>
+
+</div>

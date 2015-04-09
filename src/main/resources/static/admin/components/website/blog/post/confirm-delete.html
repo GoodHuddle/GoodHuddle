@@ -1,0 +1,26 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div class="modal-header">
+    <h3 class="modal-title">Delete blog post</h3>
+</div>
+<div class="modal-body">
+    <div class="confirm-delete-message">
+        Are you sure you want to delete "{{post.title}}"?
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-danger" ng-click="ok()">Delete</button>
+    <button class="btn btn-default" ng-click="cancel()">No</button>
+</div>

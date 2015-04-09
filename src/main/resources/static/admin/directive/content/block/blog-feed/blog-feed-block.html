@@ -1,0 +1,30 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div ng-controller="BlogFeedBlock">
+    <div class="edit-block-btn btn btn-xs btn-default" ng-click="editSettings()">edit</div>
+    <div>
+        <div class="blog-feed-title" ng-if="block.value.showTitle">
+            {{block.value.title}}
+        </div>
+        <div class="blog-feed-post" ng-repeat="post in posts track by $index">
+            <div ng-show="block.value.showFeatureImage" class="feature-image"></div>
+            <div class="blurb" ng-class="{'with-feature-image': block.value.showFeatureImage}"></div>
+        </div>
+        <div ng-if="block.value.showMoreNewsLink">
+            <a class="btn btn-default" href="#">More news</a>
+        </div>
+    </div>
+    <div class="drag-handle full-block-drag-handle"></div>
+</div>

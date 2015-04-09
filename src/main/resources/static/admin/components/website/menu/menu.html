@@ -1,0 +1,100 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div ng-controller="PagesController" id="website">
+
+    <div id="breadcrumb-bar">
+        <i class="fa fa-globe"></i>
+        <a ui-sref="website.menu" class="active">web pages</a>
+    </div>
+
+    <div class="inner">
+        <div class="header-bar">
+            <h1>Web pages</h1>
+        </div>
+
+        <div class="row">
+
+            <div class="col-sm-12">
+                <div class="menu-area">
+
+                    <div id="website-main-nav">
+
+                        <div class="menu-header">
+
+                            <div class="pull-right">
+
+                                <div class="btn-group" dropdown is-open="mainNavDropdown.isopen">
+
+                                    <button type="button" class="btn btn-xs btn-default dropdown-toggle" dropdown-toggle>
+                                        Add
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                        <li>
+                                            <a ng-click="createPage(mainMenu)">Add page</a>
+                                            <a ng-click="createBlog(mainMenu)">Add blog</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+
+                            <div>
+                                <div class="title">Main web pages</div>
+                                <div class="menu-help">These pages appear in your web site main menu (drag to change order)</div>
+                            </div>
+                        </div>
+
+                        <gh-menu menu="mainMenu" selection="menuSelection"
+                                 no-items-text="'There are no items in the main website menu'"></gh-menu>
+                    </div>
+
+                    <div id="website-unlinked-pages">
+
+                        <div class="menu-header">
+
+                            <div class="pull-right">
+
+                                <div class="btn-group" dropdown is-open="unlinkedNavDropdown.isopen">
+                                    <button type="button" class="btn btn-xs btn-default dropdown-toggle" dropdown-toggle>
+                                        Add
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                        <li>
+                                            <a ng-click="createPage(unlinkedMenu)">Add page</a>
+                                            <a ng-click="createBlog(unlinkedMenu)">Add blog</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+
+                            <div>
+                                <div class="title">Other pages</div>
+                                <div class="menu-help">These pages do not appear in your web site main menu</div>
+                            </div>
+                        </div>
+
+                        <gh-menu menu="unlinkedMenu" selection="menuSelection"
+                                 no-items-text="'There are no unlinked pages'"></gh-menu>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

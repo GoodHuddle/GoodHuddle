@@ -1,0 +1,145 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div ng-controller="ViewSubscriptionController">
+
+    <div id="breadcrumb-bar">
+        <i class="fa fa-dollar"></i>
+        <a ui-sref="funding.payments.subscriptions" class="active">payments</a>
+        / <a ui-sref="funding.subscription({subscriptionId: subscription.id})">
+            <gh-subscription-display-name subscription="subscription"/>
+          </a>
+    </div>
+
+    <div class="inner">
+
+        <div class="header-bar">
+            <div class="action-buttons">
+                <span class="dropdown">
+                    <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <li class="fa fa-caret-down"></li>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                        <li>
+                            <a ng-click="cancelSubscription()">Cancel subscription</a>
+                        </li>
+                    </ul>
+                </span>
+            </div>
+
+            <h1>Subscription for <gh-subscription-display-name subscription="subscription"/></h1>
+        </div>
+
+        <div ng-if="subscription.status == 'cancelled'" class="alert alert-danger">
+            This subscription was cancelled on {{subscription.cancelledOn | date:'d-MMM-yyyy (h:mm a)'}}
+            by {{subscription.cancelledBy.displayName}}
+        </div>
+
+        <hr/>
+
+        <div class="row  detail-form">
+            <div class="col-md-12">
+
+                <div class="detail-row">
+                    <span class="field-label">Amount:</span>
+                    <span class="field-value">${{subscription.amount}}</span> <span ng-if="subscription.testPayment">(test payment)</span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="field-label">Type:</span>
+                    <span class="field-value">{{subscription.paymentType}}</span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="field-label">Frequency:</span>
+                    <span class="field-value">{{subscription.frequency}}ly</span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="field-label">Next payment:</span>
+                    <span class="field-value">{{subscription.nextPaymentDue | date:'d-MMM-yyyy'}}</span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="field-label">Member:</span>
+                    <a ui-sref="member.view({memberId: subscription.member.id})">
+                        {{subscription.member.displayName}}
+                    </a>
+                </div>
+
+                <div class="detail-row">
+                    <span class="field-label">Description:</span>
+                    <span class="field-value">{{subscription.description}}</span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <ul class="nav nav-tabs">
+                    <li role="presentation" class="active">
+                        <a>Payments</a>
+                    </li>
+                </ul>
+
+                <div class="detail-tab-body">
+
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <td>Payment #</td>
+                            <td>Amount</td>
+                            <td>Paid on</td>
+                            <td>Description</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="payment in payments.content">
+                            <td>
+                                <a ng-click="viewPayment(payment)">{{payment.id}} <span ng-if="payment.testPayment">(test payment)</span></a>
+                            </td>
+                            <td>
+                                ${{payment.amount}}
+                            </td>
+                            <td>
+                                {{payment.paidOn | date:'d-MMM-yyyy (h:mm a)'}}
+                            </td>
+                            <td>
+                                {{payment.description}}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+                    <div>
+                        <div class="pull-right">
+                            page {{payments.number + 1}} of {{payments.totalPages}}
+                            <button class="prev-btn btn btn-default btn-xs" ng-disabled="payments.first" ng-click="prevPage()">
+                                &lt;</button>
+                            <button class="next-btn btn btn-default btn-xs" ng-disabled="payments.last" ng-click="nextPage()">
+                                &gt;</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>

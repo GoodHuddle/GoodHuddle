@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="default-layout">
+
+<head>
+    <title>Home</title>
+</head>
+
+<body>
+
+<section layout:fragment="content">
+
+    <div>
+
+        <h1 th:text="${member.displayName}"></h1>
+
+        <div class="col-md-10 col-lg-7">
+
+            <input type="hidden" id="member-id" th:value="${member.id}"/>
+
+            <fieldset>
+                <div class="form-group">
+                    <label for="username" class="col-sm-4">Username</label>
+                    <div class="col-sm-8">
+                        <span id="username" th:text="${member.username}"></span>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <div class="form-group">
+                    <label for="first-name" class="col-sm-4">First Name</label>
+                    <div class="col-sm-8">
+                        <span id="first-name" th:text="${member.firstName}">first name</span>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <div class="form-group">
+                    <label for="last-name" class="col-sm-4">Last Name</label>
+                    <div class="col-sm-8">
+                        <span id="last-name" th:text="${member.lastName}">last name</span>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <div class="form-group">
+                    <label for="email" class="col-sm-4">Email</label>
+                    <div class="col-sm-8">
+                        <span id="email" th:text="${member.email}"></span>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <div class="form-group">
+                    <label for="security-group" class="col-sm-4">Access</label>
+                    <div class="col-sm-8">
+                        <span id="security-group" th:text="${member.securityGroup.displayName}"></span>
+                    </div>
+                </div>
+            </fieldset>
+
+        </div>
+
+    </div>
+
+</section>
+
+</body>
+
+</html>

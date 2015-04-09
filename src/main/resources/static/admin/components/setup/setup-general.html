@@ -1,0 +1,63 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div id="setup-general" ng-controller="SetupGeneralController">
+
+    <div class="container setup-content">
+
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Tell us about your community</h1>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="">
+
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <label for="name">Community name</label>
+                        <input id="name" type="text" name="name" class="form-control" ng-model="huddle.name" placeholder="Community name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description (optional)</label>
+                        <textarea id="description" name="description" class="form-control" rows="4"
+                                  ng-model="huddle.description"
+                                  placeholder="A short description of your community group"></textarea>
+                    </div>
+
+
+                    <div class="setup-actions">
+                        <a ng-click="back()" class="btn btn-common" ng-disable="saving"><i class="fa fa-angle-left"></i> Back</a>
+                        <div class="pull-right">
+                            <img ng-show="saving" src="images/loading.gif">
+                            <a ng-click="next()" class="btn btn-common" ng-disable="saving">Next <i class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

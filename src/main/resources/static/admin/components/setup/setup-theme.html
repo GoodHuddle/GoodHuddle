@@ -1,0 +1,113 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div id="setup-theme" ng-controller="SetupThemeController">
+
+    <div class="container setup-content">
+
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <h1>Choose a theme for your website</h1>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-xs-6 setup-theme-panel">
+
+                <div ng-if="!selected.bundle">
+
+                    <p>
+                        Your theme provides the colours, fonts, and general layout of your website. Choose from one of our
+                        hand-crafted themes to give your site the look and feel that best represents your community
+                        group.
+                    </p>
+                    <p>
+                        Later you can completely customise your theme, or build your own from scratch. We also have
+                        trusted partner organisations that can build a custom theme for you for a small fee.
+                    </p>
+
+                </div>
+
+                <div ng-if="selected.bundle">
+                    <h2 class="bold">{{selected.bundle.name}}</h2>
+                    <div class="project-info overflow">
+                        <p>{{selected.bundle.description}}</p>
+                    </div>
+                    <div class="text-center">
+                        <img src="/api/theme/bundle/{{selected.bundle.slug}}/thumbnail"
+                             class="img-responsive setup-theme-img" alt="">
+                    </div>
+                </div>
+
+                <div class="setup-actions">
+                    <div ng-if="showError" class="field-error text-right">
+                        Please select a theme before continuing.
+                    </div>
+                    <a ng-click="back()" class="btn btn-common"><i class="fa fa-angle-left"></i> Back</a>
+                    <div class="pull-right">
+                        <img ng-show="saving" src="images/loading.gif">
+                        <a ng-click="next()" class="btn btn-common" ng-disable="saving">Next <i class="fa fa-angle-right"></i></a>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="col-xs-6 setup-theme-list">
+
+                <div class="row">
+
+                    <div ng-repeat="bundle in bundles" class="col-xs-12 col-sm-12 col-md-6 col-lg-4 setup-theme-item branded logos">
+                        <div class="setup-theme-wrapper">
+                            <div class="setup-theme-single">
+                                <div class="setup-theme-thumb">
+                                    <img src="/api/theme/bundle/{{bundle.slug}}/thumbnail" class="img-responsive setup-theme-img" alt="">
+                                </div>
+                                <div class="setup-theme-view">
+                                    <ul class="nav nav-pills">
+                                        <li><a ng-click="selectBundle(bundle)">select</a></li>
+                                        <li><a ng-click="preview(bundle)" data-lightbox="example-set">view</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="setup-theme-info ">
+                                <h2>{{bundle.name}}</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="text-center padding">
+                    <p>More themes coming soon!</p>
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+    </div>
+
+
+
+
+
+</div>

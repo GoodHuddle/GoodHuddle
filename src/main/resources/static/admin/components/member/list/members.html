@@ -1,0 +1,147 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div ng-controller="MembersController">
+
+    <div id="breadcrumb-bar">
+        <i class="fa fa-user"></i>
+        <a ui-sref="member.list" class="active">members</a>
+    </div>
+
+
+    <div class="inner">
+
+        <div class="header-bar">
+            <div class="pull-right">
+                <button class="btn btn-default" ng-click="createMember()">Add Member</button>
+            </div>
+
+            <h1>Members</h1>
+        </div>
+
+        <div class="filter-options-bar">
+
+            <span class="filter-label">Filter by:</span>
+            <ul>
+                <li><a ng-click="filterKeywords()">Keywords</a></li>
+                <li><a ng-click="filterSecurityGroups()">Access level</a></li>
+                <li><a ng-click="filterTags()">Tagged</a></li>
+            </ul>
+
+        </div>
+
+        <div class="active-filter-bar" ng-if="hasActiveFilter">
+
+            <span class="filter-label">Active Filter:</span>
+
+            <!-- keywords -->
+            <span class="filter-pill" ng-if="search.keywords">
+                <span ng-click="filterKeywords()">Keywords = &quot;{{search.keywords}}&quot;</span>
+                <i class="fa fa-times" ng-click="clearKeywordsFilter()"></i>
+            </span>
+
+            <!-- security groups -->
+            <span class="filter-pill" ng-if="search.securityGroups.length > 0 || search.includeNoAccess">
+                <span ng-click="filterSecurityGroups()">
+                    <span>Access levels = </span>
+                    <span ng-if="search.includeNoAccess">No access<span ng-if="search.securityGroups"> or </span></span>
+                    <span ng-repeat="group in search.securityGroups">
+                        {{group.displayName}}<span ng-if="!$last"> or </span></span>
+                </span>
+                <i class="fa fa-times" ng-click="clearSecurityGroupFilter()"></i>
+            </span>
+
+            <!-- tags -->
+            <span class="filter-pill" ng-if="search.tags">
+                <span ng-click="filterTags()">
+                    <span>Tagged = </span>
+                    <span ng-repeat="tag in search.tags.included.tags">
+                        &quot;{{tag.name}}&quot;
+                        <span ng-if="!$last">
+                            <span ng-if="search.tags.included.matchType == 'all'"> and </span>
+                            <span ng-if="search.tags.included.matchType == 'any'"> or </span>
+                        </span>
+                    </span>
+                    <span ng-if="search.tags.excluded.tags.length > 0"> not </span>
+                    <span ng-repeat="tag in search.tags.excluded.tags">
+                        &quot;{{tag.name}}&quot;
+                        <span ng-if="!$last">
+                            <span ng-if="search.tags.excluded.matchType == 'all'"> and </span>
+                            <span ng-if="search.tags.excluded.matchType == 'any'"> or </span>
+                        </span>
+                    </span>
+                </span>
+                <i class="fa fa-times" ng-click="clearTagFilter()"></i>
+            </span>
+
+        </div>
+
+        <div>
+
+            <div class="search-table-actions">
+                <span>
+                    Found {{members.totalElements}} member{{members.totalElements != 1 ? 's': ''}}
+                </span>
+
+                <div class="pull-right">
+                    <span class="dropdown" dropdown>
+                        <a class="btn btn-default dropdown-toggle" dropdown-toggle>
+                            Bulk actions <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                            <li>
+                                <a ng-click="bulkTag()">Tag</a>
+                                <a ng-click="bulkExport()">Export</a>
+                            </li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Access Level</td>
+                    <td>Username</td>
+                    <td>Email</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="member in members.content">
+                    <td>
+                        <a ng-click="viewMember(member)">{{member.displayName}}</a>
+                    </td>
+                    <td>
+                        {{member.securityGroup.displayName ? member.securityGroup.displayName : '(no login)'}}
+                    </td>
+                    <td>
+                        {{member.username}}
+                    </td>
+                    <td>
+                        {{member.email}}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div>
+            <div class="pull-right">
+                <gh-search-nav search="search" results="members"/>
+            </div>
+        </div>
+    </div>
+
+</div>

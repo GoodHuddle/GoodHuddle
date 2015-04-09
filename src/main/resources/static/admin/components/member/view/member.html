@@ -1,0 +1,114 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div ng-controller="MemberController">
+
+    <div id="breadcrumb-bar">
+        <i class="fa fa-user"></i>
+        <a ui-sref="member.list">members</a>
+        / <a ui-sref="member.view({memberId: member.id})" class="active">{{member.displayName}}</a>
+    </div>
+
+
+    <div class="inner">
+        <div class="row">
+        </div>
+        <div class="row">
+            <div class="header-bar">
+                <div class="pull-right">
+                    <button class="btn btn-default" ng-click="edit()">Edit</button>
+                    <button class="btn btn-default" ng-click="delete()">Delete</button>
+                </div>
+            </div>
+        </div>
+            <!--
+            <div class="col-md-2 col-xs-3 user-profile-image">
+                <img src="images/website/user-placeholder.png" alt="" class="img-responsive">
+            </div>
+            -->
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="top-profile">
+                    <h2><strong>{{member.displayName}}</strong></h2>
+                    <hr>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-7">
+
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Email</label>
+                        <div class="col-sm-10">
+                            <p class="form-control-static">{{member.email}}</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Tags</label>
+                        <div class="col-sm-10">
+                            <p class="form-control-static">
+                                <gh-tag-chooser tags="member.tags" target-id="member.id" type="'member'"></gh-tag-chooser>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Access level</label>
+                        <div class="col-sm-10">
+                            <p class="form-control-static">{{member.securityGroup.displayName ? member.securityGroup.displayName : '(no login)'}}</p>
+                        </div>
+                    </div>
+                    <div ng-if="member.securityGroup" class="form-group">
+                        <label class="col-sm-2 control-label">Last login</label>
+                        <div class="col-sm-10">
+                            <p class="form-control-static">{{member.lastLogin | date:"d-MMM-yyyy 'at' h:mm a"}}</p>
+                        </div>
+                    </div>
+                    <div ng-if="member.securityGroup" class="form-group">
+                        <label class="col-sm-2 control-label">Username</label>
+                        <div class="col-sm-10">
+                            <p class="form-control-static">{{member.username}}</p>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+        <div class="row member-tabs">
+            <div class="col-md-12">
+
+                <ul class="nav nav-tabs">
+                    <li role="presentation" ng-class="{active: $state.includes('member.view.emails')}">
+                        <a ng-click="showEmails()">Emails</a>
+                    </li>
+                    <li role="presentation" ng-class="{active: $state.includes('member.view.donations')}">
+                        <a ng-click="showDonations()">Payments</a>
+                    </li>
+                    <li role="presentation" ng-class="{active: $state.includes('member.view.subscriptions')}">
+                        <a ng-click="showSubscriptions()">Subscriptions</a>
+                    </li>
+                </ul>
+
+                <div class="member-tab-body">
+                    <ui-view/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+

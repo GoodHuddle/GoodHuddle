@@ -1,0 +1,221 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div ng-controller="BlogController" id="blog-editor">
+
+    <div id="breadcrumb-bar">
+        <i class="fa fa-globe"></i>
+        <a ui-sref="website.menu" class="active">web pages</a>
+        / <a ui-sref="website.blog({blogId:blog.id})" class="active">{{blog.slug}}</a>
+    </div>
+
+    <div class="inner">
+        <div class="website-content-body">
+
+            <div class="header-bar">
+
+                <div class="action-buttons">
+                    <span ng-show="saving">Saving...</span>
+
+                    <span ng-show="modified" class="save-buttons">
+                        <a class="btn btn-danger" ng-click="cancel()" ng-disabled="saving">Cancel</a>
+                        <a class="btn btn-primary" ng-click="save()" ng-disabled="saving">Save</a>
+                    </span>
+
+                    <span ng-hide="modified">
+                        <a class="btn btn-default" ng-click="view()">View</a>
+                    </span>
+                    <span ng-show="modified">
+                        <a class="btn btn-default" ng-click="preview()">Preview</a>
+                    </span>
+
+                    <span class="dropdown" dropdown>
+                        <a href="#" class="btn btn-default dropdown-toggle" dropdown-toggle>
+                            <li class="fa fa-caret-down"></li>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                            <li>
+                                <a ng-click="deleteBlog()">Delete blog</a>
+                            </li>
+                        </ul>
+                    </span>
+
+                </div>
+
+                <div class="header-bar-title">
+                    <input class="title-field" type="text" ng-model="blog.title" placeholder="Title for blog">
+                </div>
+
+            </div>
+
+            <tabset class="small-tabs">
+
+                <tab heading="Posts">
+                    <tab-heading><i class="fa fa-file-text-o" title="Posts"></i> Posts</tab-heading>
+                    <div class="general-tab">
+
+                        <div class="posts-header-bar">
+                            <div class="pull-right">
+                                <button class="btn btn-sm btn-callout" ng-click="addPost()">Add post</button>
+                            </div>
+                            <div class="post-search-field">
+                                <!--<span class="input-group-addon"><i class="fa fa-search"></i></span>-->
+                                <input ng-model="search.phrase" ng-if="posts.totalElements > 0" type="text" class="form-control"
+                                       placeholder="Search">&nbsp;
+                            </div>
+                        </div>
+
+                        <div>
+
+                            <div ng-if="posts.totalElements == 0" class="no-blog-posts">
+                                No posts have been made for this blog yet
+                            </div>
+
+                            <div class="blog-post-entry" ng-repeat="post in posts.content">
+
+                                <div class="feature-image">
+                                    <img ng-if="post.featureImageUrl" src="{{post.featureImageUrl}}">
+                                </div>
+
+                                <div class="post-summary">
+                                    <div>
+                                        <div class="pull-right">
+                                            <button class="btn btn-default btn-xs" ng-click="editPost(post)">Edit</button>
+                                            <button class="btn btn-default btn-xs" ng-click="viewPost(post)">View</button>
+                                        </div>
+                                        <a class="post-title" ng-click="editPost(post)">{{post.title}}</a>
+                                    </div>
+
+                                    <div class="published-info">
+                                        <div ng-show="!post.published">
+                                            Draft
+                                        </div>
+                                        <div ng-show="post.published">
+                                            Published: <span>{{post.publishedOn | amDateFormat:'Do MMM YY'}}</span>
+                                            by <span>{{post.author.displayName}}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="blurb">
+                                        {{post.blurb}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="posts-nav-bar">
+                            <div class="pull-right">
+                                page {{posts.number + 1}} of {{posts.totalPages}}
+                                <button class="prev-btn btn btn-default btn-xs" ng-disabled="posts.first"
+                                        ng-click="prevPage()">&lt;</button>
+                                <button class="next-btn btn btn-default btn-xs" ng-disabled="posts.last"
+                                        ng-click="nextPage()">&gt;</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </tab>
+
+                <tab heading="Settings">
+                    <tab-heading><i class="fa fa-cog" title="Settings"></i> Settings</tab-heading>
+
+                    <div class="general-tab">
+                        <form class="form-horizontal" role="form">
+
+                            <!-- Slug -->
+                            <div class="row form-group">
+                                <label for="slug" class="col-sm-2 control-label">URL</label>
+
+                                <div class="col-sm-6">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">{{huddle.baseUrl}}/blog/</div>
+                                        <input id="slug"
+                                               ng-model="blog.slug"
+                                               class="form-control" type="text"
+                                               placeholder="Enter slug to use as blog URL"/>
+                                    </div>
+                                    <p class="help-block error-message"></p>
+                                </div>
+                            </div>
+
+                            <!-- Layout -->
+                            <div class="row form-group">
+                                <label for="layout" class="col-sm-2 control-label">Layout for blog list</label>
+
+                                <div class="col-sm-6">
+                                    <select id="layout" class="form-control" ng-model="blog.layout"
+                                            ng-options="layout.name as layout.name for layout in layouts">
+                                    </select>
+
+                                    <p class="help-block error-message"></p>
+                                </div>
+                            </div>
+
+                            <!-- Default Post Layout -->
+                            <div class="row form-group">
+                                <label for="default-post-layout" class="col-sm-2 control-label">Default layout for
+                                    posts</label>
+
+                                <div class="col-sm-6">
+                                    <select id="default-post-layout" class="form-control"
+                                            ng-model="blog.defaultPostLayout"
+                                            ng-options="layout.name as layout.name for layout in layouts">
+                                    </select>
+
+                                    <p class="help-block error-message"></p>
+                                </div>
+                            </div>
+
+                            <!-- Allow comments -->
+                            <!--
+                            <div class="row form-group" >
+                                <label for="allow-comments" class="col-sm-2 control-label">Allow comments</label>
+
+                                <div class="col-sm-6">
+                                    <select id="allow-comments" class="form-control"
+                                            ng-model="blog.allowComments"
+                                            ng-options="allowComment.value as allowComment.label for allowComment in allowComments">
+                                    </select>
+
+                                    <p class="help-block error-message"></p>
+                                </div>
+                            </div>
+                            -->
+
+                            <!-- Require approval -->
+                            <!--
+                            <div class="row form-group">
+                                <label for="require-approval" class="col-sm-2 control-label">Require approval</label>
+
+                                <div class="col-sm-6">
+                                    <select id="require-approval" class="form-control"
+                                            ng-model="blog.requireCommentApproval"
+                                            ng-options="requireApproval.value as requireApproval.label for requireApproval in requireApprovals">
+                                    </select>
+
+                                    <p class="help-block error-message"></p>
+                                </div>
+                            </div>
+                            -->
+
+                        </form>
+                    </div>
+
+                </tab>
+
+            </tabset>
+
+        </div>
+    </div>
+</div>

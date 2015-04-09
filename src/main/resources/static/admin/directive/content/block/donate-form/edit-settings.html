@@ -1,0 +1,74 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div id="image-block-choose-image">
+    <div class="modal-header">
+        <h3 class="modal-title">Donation Form Settings</h3>
+    </div>
+    <div class="modal-body">
+
+        <div class="form-horizontal">
+
+            <!-- thank you page -->
+            <div class="form-group">
+                <label for="amount" class="col-sm-3 control-label">Suggest donation amounts</label>
+
+                <div class="col-sm-9">
+                    <div ng-repeat="amount in details.amounts" class="form-inline">
+                        <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input type="text" class="form-control " ng-model="amount.amount">
+                        </div>
+
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" class="form-control" name="defaultAmount" ng-model="amount.default" ng-click="updateSelection($index)">
+                                <span class="badge">default</span>
+                            </label>
+                        </div>
+
+                        <button class="btn btn-default btn-xs" ng-click="moveAmountUp($index)" ng-disabled="$index <= 0">
+                            <i class="fa fa-caret-up"></i>
+                        </button>
+
+                        <button class="btn btn-default btn-xs" ng-click="moveAmountDown($index)" ng-disabled="$index >= details.amounts.length - 1">
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+
+                        <button class="btn btn-default btn-xs" ng-click="deleteAmount($index)" ng-disabled="details.amounts.length < 2">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                    <div>
+                        <input type="checkbox" ng-model="details.otherAmount"> allow 'other' amount
+                    </div>
+                </div>
+            </div>
+
+            <!-- thank you page -->
+            <div class="form-group">
+                <label for="thankYouPage" class="col-sm-3 control-label">Thank you page</label>
+                <div class="col-sm-9">
+                    <gh-page-chooser ng-model="details.thankYouPage" />
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">Ok</button>
+        <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+    </div>
+</div>

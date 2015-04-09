@@ -1,0 +1,29 @@
+{{#extend "admin/admin-account-layout"}}
+
+    {{#replace "content"}}
+        <h1 class="form-header">Sign in to your Account</h1>
+
+        <!-- Form -->
+        <form action="/admin/login" method="post" id="signin-form_id" class="panel">
+
+            {{#if hasError}}
+                <div class="has-error">Invalid username and password</div>
+            {{/if}}
+
+            <div class="form-group">
+                <input type="text" name="username" id="username_id" class="form-control input-lg"
+                       value="{{username}}" placeholder="Username or email"/>
+            </div>
+
+            <div class="form-group signin-password">
+                <input type="password" name="password" id="password_id" class="form-control input-lg" placeholder="Password"/>
+                <a href="/admin/forgot" class="forgot">Forgot?</a>
+            </div>
+
+            <div class="form-actions">
+                <input type="submit" value="Sign In" class="btn btn-primary btn-block btn-lg"/>
+            </div>
+        </form>
+    {{/replace}}
+
+{{/extend}}

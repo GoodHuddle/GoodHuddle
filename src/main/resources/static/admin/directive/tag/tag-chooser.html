@@ -1,0 +1,56 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div>
+    <span class="tag-pill" ng-repeat="tag in tags">{{tag.name}}</span>
+
+    <span class="dropdown" dropdown on-toggle="toggled(open)">
+
+        <a href class="dropdown-toggle" dropdown-toggle>
+            <i class="fa fa-edit"/>
+        </a>
+
+        <ul class="dropdown-menu tag-list pull-right" role="menu">
+            <li ng-repeat="tag in availableTags">
+                <a ng-click="toggleTag($event, tag)" >
+                    <i class="fa fa-check-square-o" ng-show="isSelected(tag)"></i>
+                    <i class="fa fa-square-o" ng-hide="isSelected(tag)"></i>
+                    {{tag.name}}
+                </a>
+            </li>
+            <li class="divider"></li>
+            <li>
+                <a ng-click="createAndUseTag()">Create new tag</a>
+            </li>
+        </ul>
+    </span>
+
+    <!--
+    <span ng-click="toggleShowTagList()"><i class="fa fa-plus"></i></span>
+    <div ng-show="showTagList" class="tag-chooser-popup">
+        <input type="text" ng-model="search.name" ng-enter="useSelectedTag()">
+        <ul>
+
+            <li ng-repeat="tag in availableTags.content" ng-click="useTag(tag)">
+                {{tag.name}}
+            </li>
+
+            <li ng-click="newTag)">
+            </li>
+
+        </ul>
+    </div>
+    -->
+</div>
+

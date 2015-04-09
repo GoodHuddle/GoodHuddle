@@ -1,0 +1,169 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div ng-controller="ViewMailoutController">
+
+    <div id="breadcrumb-bar">
+        <i class="fa fa-envelope"></i>
+        <a ui-sref="member.mailout.list">mailouts</a>
+        / <a ui-sref="member.mailout.view({mailoutId: mailout.id})" class="active">{{mailout.name}}</a>
+    </div>
+
+
+    <div class="inner">
+
+        <div class="header-bar">
+            <div class="pull-right">
+                <button ng-show="mailout.status == 'generated'" class="btn btn-callout" ng-click="sendEmails()">Send Emails</button>
+                <button class="btn btn-default" ng-click="edit()">Edit</button>
+                <button class="btn btn-default" ng-click="delete()">Delete</button>
+            </div>
+            <h1>{{mailout.name}}</h1>
+        </div>
+
+        <tabset class="small-tabs">
+
+            <tab>
+
+                <tab-heading><i class="fa fa-envelope-o" title="Emails"></i> Emails</tab-heading>
+
+                <div class="mailout-recipients general-tab">
+
+                    <!-- If not yet generated -->
+                    <div ng-show="mailout.status == 'created'">
+
+                        <div>
+
+                        </div>
+
+                        <div>
+                            Emails have not been generated yet
+                        </div>
+
+                        <div>
+                            <button class="btn btn-callout" ng-click="generateEmails()">Generate Emails</button>
+                        </div>
+                    </div>
+
+                    <!-- If not yet sent -->
+
+                    <div ng-if="mailout.status != 'created'">
+                        <div>
+
+                            <div ng-if="mailout.status == 'generated'" class="alert alert-warning">
+                                <span>
+                                    <ng-pluralize count="emails.totalElements"
+                                        when="{'one': '{} email has been generated and is ready to send',
+                                               'other': '{} emails have been generated and are ready to send'}">
+                                    </ng-pluralize>
+                                </span>
+
+                                <span class="pull-right">
+                                generated at {{mailout.generatedOn | date:'h:mm a, d-MMM'}}
+                                </span>
+                            </div>
+
+                            <div ng-if="mailout.status == 'sending'" class="alert alert-warning">
+                                <ng-pluralize count="emails.totalElements"
+                                      when="{'one': 'Sending an email to {} recipient',
+                                             'other': 'Sending emails to {} recipients'}">
+                                </ng-pluralize>
+                            </div>
+
+                            <div ng-if="mailout.status == 'complete'" class="alert alert-warning">
+                                Emails sent on {{mailout.sentOn | date:'h:mm a, d-MMM'}}
+                            </div>
+
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <td>Recipient</td>
+                                    <td>Email address</td>
+                                    <td>Status</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="email in emails.content">
+                                    <td>
+                                        <a ng-click="viewEmail(email)">{{email.recipient.displayName}}</a>
+                                    </td>
+                                    <td>
+                                        {{email.recipient.email}}
+                                    </td>
+                                    <td>
+                                        {{email.status}}
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div>
+                            <div class="pull-right">
+                                page {{emails.number + 1}} of {{emails.totalPages}}
+                                <button class="prev-btn btn btn-default btn-xs" ng-disabled="emails.first" ng-click="prevPage()">
+                                    &lt;</button>
+                                <button class="next-btn btn btn-default btn-xs" ng-disabled="emails.last" ng-click="nextPage()">
+                                    &gt;</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </tab>
+
+            <tab>
+                <tab-heading><i class="fa fa-file-text-o" title="Details"></i> Details</tab-heading>
+
+                <div class="general-tab">
+
+                    <div class="form-horizontal">
+
+                        <!-- description -->
+                        <div class="row form-group">
+                            <label class="col-sm-3 control-label">Description</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static">{{mailout.description}}</p>
+                            </div>
+                        </div>
+
+                        <!-- subject -->
+                        <div class="row form-group">
+                            <label class="col-sm-3 control-label">Subject</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static">{{mailout.subject}}</p>
+                            </div>
+                        </div>
+
+                        <!-- subject -->
+                        <div class="row form-group">
+                            <label class="col-sm-3 control-label">Content</label>
+                            <div class="col-sm-3">
+                                <iframe id="content-iframe">
+                                </iframe>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </tab>
+
+        </tabset>
+
+
+    </div>
+
+</div>

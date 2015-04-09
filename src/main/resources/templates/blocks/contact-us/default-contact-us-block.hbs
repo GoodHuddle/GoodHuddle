@@ -1,0 +1,43 @@
+<div class="gh-contact-us">
+
+    <form class="gh-contact-us-form">
+
+        <span data-gh-contact-us-error="general" class="has-error"></span>
+
+        <div class="form-group">
+            <input data-gh-contact-us-name="email" class="form-control" placeholder="Enter email"/>
+            <span data-gh-contact-us-error="email" class="has-error"></span>
+        </div>
+
+        <div class="form-group">
+            <input data-gh-contact-us-name="name" class="form-control" placeholder="Enter name"/>
+            <span data-gh-contact-us-error="name" class="has-error"></span>
+        </div>
+
+        <div class="form-group">
+            <textarea data-gh-contact-us-name="message" class="form-control" placeholder="Enter message" rows="7"></textarea>
+            <span data-gh-contact-us-error="message" class="has-error"></span>
+        </div>
+
+        <div style="display:none" class="gh-contact-us-success alert alert-success">
+            Thank you, your message has been received and we'll get back to you as soon as we can.
+        </div>
+
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit">Submit</button>
+            <button class="btn btn-default" type="reset">Reset</button>
+        </div>
+
+    </form>
+</div>
+
+{{#append "scripts" addOnlyOnce="ghcontactus"}}
+
+    <script src="/js/goodhuddle-contact-us.js"></script>
+
+    <script type="text/javascript">
+        goodHuddleContactUs.init();
+    </script>
+
+{{/append}}
+

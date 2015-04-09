@@ -1,0 +1,77 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div class="modal-header">
+    <h3 class="modal-title">Publish blog post</h3>
+</div>
+<div class="modal-body">
+    <div class="publish-blog-post">
+        <p>Publishing your post will make it visible to everyone.</p>
+
+        <!-- Blurb -->
+        <form role="form">
+
+            <div class="form-group">
+                <label>Blurb</label>
+                <textarea id="blurb" class="form-control" ng-model="post.blurb" placeholder="Brief description of your post"></textarea>
+            </div>
+
+            <!-- Feature image -->
+            <div class="form-group">
+                <label>Feature image</label>
+
+                <div class="blog-post-editor">
+
+                    <input id="publish-feature-image" class="form-control" type="file"
+                           ng-hide="true" nv-file-select uploader="uploader"/>
+
+                    <div ng-hide="uploader.isUploading">
+                        <div class="feature-image" ng-if="post.featureImageUrl">
+                            <button class="btn btn-xs btn-danger delete-feature-image"
+                                    ng-click="deleteFeatureImage()">
+                                <i class="fa fa-times"></i>
+                            </button>
+                            <img src="{{post.featureImageUrl}}" ng-click="chooseFeatureImage()"/>
+                        </div>
+
+                        <div ng-if="!post.featureImageUrl">
+                            <div class="no-feature-image" ng-click="chooseFeatureImage()">
+                                Click to upload image
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-show="uploader.isUploading">
+                        <div>Uploading...</div>
+                        <div ng-show="uploader.isHTML5">
+                            <div class="progress" style="margin-bottom: 0;">
+                                <div class="progress-bar" role="progressbar"
+                                     ng-style="{ 'width': item.progress + '%' }"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="help-block error-message"></p>
+                </div>
+            </div>
+
+        </form>
+
+
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">Publish</button>
+    <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+</div>

@@ -1,0 +1,81 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div>
+    <div class="modal-header">
+        <h3 class="modal-title">Filter by tag</h3>
+    </div>
+    <div class="modal-body">
+
+        <div>
+
+            <form class="form-horizontal" role="form">
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        Include members tagged as
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <ui-select multiple ng-model="search.tags.included.tags" theme="bootstrap">
+                            <ui-select-match placeholder="Select tags...">{{$item.name}}</ui-select-match>
+                            <ui-select-choices repeat="tag in availableTags.content | filter:$select.search">
+                                {{tag.name}}
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-control" ng-model="search.tags.included.matchType"
+                                ng-show="search.tags.included.tags.length > 1">
+                            <option value="all">Match all tags</option>
+                            <option value="any">Match any tag</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row margin-top">
+                    <div class="col-sm-12">
+                        Exclude members tagged as
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <ui-select multiple ng-model="search.tags.excluded.tags" theme="bootstrap">
+                            <ui-select-match placeholder="Select tags...">{{$item.name}}</ui-select-match>
+                            <ui-select-choices repeat="tag in availableTags.content | filter:$select.search">
+                                {{tag.name}}
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-control" ng-model="search.tags.excluded.matchType"
+                                ng-show="search.tags.excluded.tags.length > 1">
+                            <option value="all">Match all tags</option>
+                            <option value="any">Match any tag</option>
+                        </select>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">OK</button>
+        <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+    </div>
+</div>

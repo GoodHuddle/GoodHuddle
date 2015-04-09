@@ -1,0 +1,33 @@
+<div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="{{value.slideInterval}}">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    {{#each value.slides}}
+      <li data-target="#carousel-example-generic" data-slide-to="{{@index}}" {{#if @first}}class="active"{{/if}}></li>
+    {{/each}}
+  </ol>
+
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner">
+    {{#each value.slides}}
+      <div class=" item {{#if @first}}active{{/if}}">
+        {{#if href}}<a href="{{href}}">{{/if}}
+          <div style="background:url({{imageUrl}}) center center;
+                    background-size:cover;" class="slider-size">
+            {{!-- <img src="{{value.url}}" alt="..."> --}}
+            <div class="carousel-caption">
+              <p>{{caption}}</p>
+            </div>
+          </div>
+        {{#if href}}</a>{{/if}}
+      </div>
+    {{/each}}
+  </div>
+
+  <!-- Controls -->
+  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left"></span>
+  </a>
+  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right"></span>
+  </a>
+</div>

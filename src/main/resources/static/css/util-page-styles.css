@@ -1,0 +1,65 @@
+/*
+ * (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License
+ * (LGPL) version 2.1 which accompanies this distribution, and is available at
+ * http://www.gnu.org/licenses/lgpl-2.1.html
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ */
+
+@import url(https://fonts.googleapis.com/css?family=Lato:100,300,400,700);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700);
+@import url(https://fonts.googleapis.com/css?family=Noto+Sans:400,700);
+
+body {
+    background: #fff;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 22px;
+    color: #000;
+}
+
+
+a{
+    color:#a5732a;
+}
+
+a:hover {
+    outline: none;
+    text-decoration:none;
+    color:#dab074;
+}
+
+a:focus {
+    outline:none;
+    outline-offset: 0;
+}
+
+a {
+    -webkit-transition: 300ms;
+    -moz-transition: 300ms;
+    -o-transition: 300ms;
+    transition: 300ms;
+}
+
+#coming-soon {
+    margin: 100px 0;
+    color: #686868;
+    background-image: url("/images/banner-bg-alt.png");
+    background-position: center top;
+    background-repeat: repeat-x;
+    padding: 40px 0;
+    overflow: hidden;
+}
+
+#coming-soon-help {
+    color: #686868;
+    font-size: 18px;
+    font-weight: 300;
+}

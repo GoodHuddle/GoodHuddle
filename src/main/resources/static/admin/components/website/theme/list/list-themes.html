@@ -1,0 +1,87 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div ng-controller="ListThemesController" id="list-themes">
+
+    <div id="breadcrumb-bar">
+        <a ui-sref="website">website</a>
+        / <a ui-sref="website.theme.list">theme</a>
+    </div>
+
+    <div class="inner">
+
+        <div class="header-bar">
+            <div class="pull-right">
+                <a class="btn btn-default" ui-sref="website.theme.upload">Upload theme</a>
+            </div>
+            <h1>Website theme</h1>
+        </div>
+
+        <div class="panel panel-primary">
+
+            <div class="panel-heading">
+                <span class="panel-title">Active Theme</span>
+            </div>
+
+
+            <div class="panel-body">
+
+                <div ng-if="!activeTheme">
+                    <span class="text-muted">There is no active theme selected, using system default.</span>
+                </div>
+
+                <div ng-if="activeTheme">
+                    <div class="pull-right">
+                        <a class="btn btn-default" ng-click="editTheme(activeTheme)">Edit</a>
+                    </div>
+
+                    <h4>{{activeTheme.name}}</h4>
+                    <span>{{activeTheme.description}}</span>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="panel panel-default">
+
+            <div class="panel-heading">
+                <span class="panel-title">Other Themes</span>
+            </div>
+
+            <table class="table">
+
+                <tbody class="valign-middle">
+                <tr ng-repeat="theme in themes" ng-if="!theme.active">
+                    <td>
+                        <span>{{theme.name}}</span>
+                    </td>
+                    <td>
+                        <span>{{theme.description}}</span>
+                    </td>
+                    <td>
+                        <div class="pull-right theme-action-bar" data-theme-id="5405c8150cf240571042327b">
+                            <span ng-show="theme.loading">working...</span>
+                            <a class="btn btn-primary btn-xs" ng-click="activate(theme)">Activate</a>
+                            <a class="btn btn-default btn-xs" ng-click="editTheme(theme)">Edit</a>
+                            <a class="btn btn-danger btn-xs" ng-click="deleteTheme(theme)">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>

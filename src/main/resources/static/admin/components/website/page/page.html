@@ -1,0 +1,120 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div ng-controller="PageController" id="page-editor">
+
+    <div ng-if="tip.show">
+        <div class="help-tips-overlay"></div>
+        <div id="page-help-tips" class="help-tips" ng-style="tip.style">
+            <ng-include src="tip.src"/>
+        </div>
+    </div>
+
+    <div id="breadcrumb-bar">
+        <i class="fa fa-globe"></i>
+        <a ui-sref="website.menu">web pages</a>
+        / <a ui-sref="website.page({pageId:page.id})" class="active">{{page.slug}}</a>
+    </div>
+
+    <div class="inner">
+
+        <div class="header-bar">
+
+            <div class="action-buttons">
+                <span ng-show="saving">Saving...</span>
+
+                <span ng-show="modified" class="save-buttons">
+                    <a class="btn btn-danger" ng-click="cancel()" ng-disabled="saving">Cancel</a>
+                    <a class="btn btn-primary" ng-click="save()" ng-disabled="saving">Save</a>
+                </span>
+
+                <span ng-hide="modified">
+                    <a class="btn btn-default" ng-click="view()">View</a>
+                </span>
+                <span ng-hide="!modified">
+                    <a class="btn btn-default" ng-click="preview()">Preview</a>
+                </span>
+
+                <span class="dropdown" dropdown>
+                    <a href="#" class="btn btn-default dropdown-toggle" dropdown-toggle>
+                        <li class="fa fa-caret-down"></li>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                        <li>
+                            <a ng-click="showTips()">Show help tips</a>
+                        </li>
+                        <li>
+                            <a ng-click="deletePage()">Delete page</a>
+                        </li>
+                    </ul>
+                </span>
+            </div>
+
+            <div class="header-bar-title">
+                <input class="title-field" type="text" ng-model="page.title" placeholder="Title for page">
+            </div>
+
+        </div>
+
+
+        <tabset class="small-tabs">
+
+            <tab>
+                <tab-heading><i class="fa fa-file-text-o" title="Content"></i> Content</tab-heading>
+                <gh-content-editor content="page.content" context="context"></gh-content-editor>
+            </tab>
+
+            <tab>
+                <tab-heading><i class="fa fa-cog" title="Settings"></i> Settings</tab-heading>
+
+                <div class="general-tab">
+                    <form class="form-horizontal" role="form">
+
+                        <!-- Slug -->
+                        <div class="row form-group">
+                            <label for="slug" class="col-sm-2 control-label">URL</label>
+
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    <div class="input-group-addon">{{huddle.baseUrl}}/</div>
+                                    <input id="slug"
+                                           ng-model="page.slug"
+                                           class="form-control" type="text"
+                                           placeholder="Enter slug to use as page URL"/>
+                                </div>
+                                <p class="help-block error-message"></p>
+                            </div>
+                        </div>
+
+                        <!-- Layout -->
+                        <div class="row form-group">
+                            <label for="layout" class="col-sm-2 control-label">Layout</label>
+
+                            <div class="col-sm-6">
+                                <select id="layout" class="form-control" ng-model="page.layout"
+                                        ng-options="layout.name as layout.name for layout in layouts">
+                                </select>
+
+                                <p class="help-block error-message"></p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </tab>
+
+        </tabset>
+
+    </div>
+</div>

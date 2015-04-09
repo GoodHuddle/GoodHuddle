@@ -1,0 +1,55 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div id="website-dashboard" ng-controller="WebsiteDashboardController">
+
+    <div id="breadcrumb-bar">
+        &nbsp;
+    </div>
+
+    <div class="inner">
+        <div class=" padding">
+
+            <!--
+            <div class="onboard-me">
+                <onboarding-popover enabled="onBoardingEnabled" steps="onboardingSteps" on-finish-callback='myCallbackFunction' step-index='stepIndex'></onboarding-popover>
+                <i id="start_button" href="" ng-click="startOnboarding()" class="fa fa-question-circle help-me"></i>
+            </div>
+            -->
+
+            <div class="row">
+                <div class="col-sm-4 col-lg-3 col-lg-offset-3 text-center fadeIn">
+                    <div class="single-service" ui-sref="website.menu" id="manage_pages">
+                        <div>
+                            <i class="dashboard-item fa fa-desktop"></i>
+                            <!--<img src="images/website/webpages-icon.png" alt="">-->
+                        </div>
+                        <h2>Manage web pages</h2>
+                        <p>Create and edit web pages for your website, and re-order navigation menus.</p>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-lg-3 text-center fadeIn">
+                    <div class="single-service" ui-sref="website.theme.current" id="change_theme">
+                        <div>
+                            <i class="dashboard-item fa fa-photo"></i>
+                            <!--<img src="images/website/theme-icon.png" alt="">-->
+                        </div>
+                        <h2>Change theme</h2>
+                        <p>Change the look and feel of your website by customising its theme.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

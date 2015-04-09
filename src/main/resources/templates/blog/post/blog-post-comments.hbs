@@ -1,0 +1,18 @@
+<form class="blog-comment-form">
+    <div>
+        <input data-gh-field="blog-post-id" type="hidden" value="{{blogPost.id}}">
+        <input data-gh-field="name" type="text" class="form-control" placeholder="Your name">
+        <textarea data-gh-field="comment" class="form-control" placeholder="Your comment"></textarea>
+        <button class="btn btn-primary">Submit</button>
+    </div>
+</form>
+
+{{#append "scripts" addOnlyOnce="ghblog-scripts"}}
+
+    <script src="/js/goodhuddle-blog.js"></script>
+
+    <script type="text/javascript">
+        goodHuddleBlog.init();
+    </script>
+
+{{/append}}

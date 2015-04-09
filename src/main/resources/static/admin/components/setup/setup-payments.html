@@ -1,0 +1,84 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div id="setup-payments" ng-controller="SetupPaymentsController">
+
+    <div class="container">
+        <div class="row">
+
+            <div class="setup-content">
+
+                <div class="col-md-8">
+
+                    <h1>Setup donations</h1>
+
+                    <div ng-if="loading">
+                        Loading...
+                    </div>
+
+                    <div ng-if="!loading" class="setup-payment-options">
+                        <p>
+                            GoodHuddle integrates with the
+                            <a href="https://stripe.com/au"><strong>Stripe Payment Gateway</strong></a> to securely
+                            process online payments. Please note that Stripe charges a small processing fee for each
+                            payment made. For a complete list of fees please see the
+                            <a href="https://stripe.com/au/pricing" target="_blank">Stripe pricing page</a>
+                        </p>
+
+                        <div class="payment-settings" ng-show="payment.choice == 'production'">
+
+                            <div>
+                                Please enter your Stripe Account details below (available from your
+                                <a href="https://support.stripe.com/questions/where-do-i-find-my-api-keys">Stripe Dashboard</a>).
+                                If you do not have a Stripe Account yet, <a href="https://dashboard.stripe.com/register" target="_blank">register for one now</a>.
+                                Registration with Stripe takes only a few minutes and all you need is your bank account number and ABN.
+                            </div>
+
+                            <div class="margin-top">
+                                <div class="form-group">
+                                    <label>Stripe Publishable key</label>
+                                    <input type="text" class="form-control" ng-model="settings.publishableKey">
+                                </div>
+                                <div class="form-group">
+                                    <label>Stripe Secret key</label>
+                                    <input type="text" class="form-control" ng-model="settings.secretKey">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="setup-actions">
+                        <div ng-if="showError" class="field-error text-right">
+                            Please first register for a Stripe account using the button above
+                        </div>
+                        <a ng-click="back()" class="btn btn-common"><i class="fa fa-angle-left"></i> Back</a>
+                        <div class="pull-right">
+                            <img ng-show="saving" src="images/loading.gif">
+                            <a ng-click="next()" class="btn btn-common" ng-disable="saving">Next <i class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

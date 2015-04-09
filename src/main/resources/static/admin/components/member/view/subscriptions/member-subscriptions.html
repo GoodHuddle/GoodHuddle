@@ -1,0 +1,59 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div ng-controller="MemberSubscriptionsController">
+
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <td>Amount</td>
+            <td>Frequency</td>
+            <td>Description</td>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr ng-if="subscriptions.totalElements == 0">
+            <td colspan="5">
+                <p class="text-muted">You do not have subscribed payments yet</p>
+            </td>
+        </tr>
+
+        <tr ng-repeat="subscription in subscriptions.content">
+            <td>
+                <a ng-click="viewSubscription(subscription)">${{subscription.amount}} <span ng-if="subscription.testSubscription">(test payment)</span></a>
+            </td>
+            <td>
+                {{subscription.frequency}}ly
+            </td>
+            <td>
+                {{subscription.description}}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div>
+        <div class="pull-right">
+            page {{subscriptions.number + 1}} of {{subscriptions.totalPages}}
+            <button class="prev-btn btn btn-default btn-xs" ng-disabled="subscriptions.first" ng-click="prevPage()">
+                &lt;</button>
+            <button class="next-btn btn btn-default btn-xs" ng-disabled="subscriptions.last" ng-click="nextPage()">
+                &gt;</button>
+        </div>
+    </div>
+
+
+
+</div>

@@ -1,0 +1,63 @@
+{{#extend "default-layout"}}
+
+    {{#prepend "title"}}{{blog.title}} - {{/prepend}}
+
+    {{#append "head"}}
+        <link href="/css/default-blog-styles.css" rel="stylesheet"/>
+    {{/append}}
+
+    {{#replace "content"}}
+
+        <h1 class="blog-header">{{blog.title}}</h1>
+
+        {{#each blogPosts}}
+            <div class="blog-post-entry">
+
+                {{#if featureImageUrl}}
+                    <div class="feature-image">
+                        <img src="{{featureImageUrl}}"/>
+                    </div>
+                {{/if}}
+
+                <div class="post-summary">
+                    <div class="blog-post-title">
+                        <a class="blog-post-title-link" href="{{url}}">{{title}}</a>
+                    </div>
+
+                    {{#if published}}
+                        <div class="post-meta-info">
+                            Published {{datetime publishedOn}} by {{memberLink author}}
+                        </div>
+                    {{/if}}
+
+                    <div class="blog-post-blurb">{{blurb}}</div>
+                </div>
+            </div>
+        {{/each}}
+
+        <div class="blog-nav">
+
+            {{#unless blogPosts.first}}
+                <div class="newer">
+                    <a href="{{blog.url}}?page={{plus blogPosts.number -1}}">
+                        <i class="fa fa-arrow-left"></i> Newer posts
+                    </a>
+                </div>
+            {{/unless}}
+
+            {{#unless blogPosts.last}}
+                <div class="older">
+                    <a href="{{blog.url}}?page={{plus blogPosts.number 1}}">
+                        Older posts <i class="fa fa-arrow-right"></i>
+                    </a>
+                </div>
+            {{/unless}}
+
+        </div>
+
+    {{/replace}}
+
+{{/extend}}
+
+
+

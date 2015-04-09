@@ -1,0 +1,52 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div class="modal-header">
+    <h3 class="modal-title">Add Post</h3>
+</div>
+<div class="modal-body">
+
+    <form class="form-horizontal" role="form">
+
+        <!-- Title -->
+        <div class="row form-group">
+            <label for="slug" class="col-sm-2 control-label">Title</label>
+            <div class="col-sm-10">
+                <input id="title" ng-model="post.title" class="form-control" type="text"
+                       placeholder="Title for post"/>
+                <p class="help-block error-message"></p>
+            </div>
+        </div>
+
+        <!-- Slug -->
+        <div class="row form-group">
+            <label for="slug" class="col-sm-2 control-label">URL</label>
+            <div class="col-sm-10">
+                <div class="input-group">
+                    <div class="input-group-addon">{{huddle.baseUrl}}{{blog.url}}/</div>
+                    <input id="slug"
+                           ng-model="post.slug"
+                           class="form-control" type="text"/>
+                </div>
+                <p class="help-block error-message"></p>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">Save</button>
+    <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+</div>

@@ -1,0 +1,54 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div id="payment-settings" ng-controller="PaymentSettingsController">
+
+    <div class="header-bar">
+
+        <div class="header-bar-title">
+            <h1>Payment settings</h1>
+        </div>
+
+    </div>
+
+    <div class="col-md-8">
+
+        <div ng-if="loading">
+            Loading...
+        </div>
+
+        <div ng-if="!loading && settings.publishableKey" class="stripe-success">
+            <p class="">
+                <img src="images/stripe/big.png">
+            </p>
+            <p>
+                Your Stripe account is fully registered and you are able to process payments directly from within your
+                Huddle. Please note that Stripe charges a small processing fee for each payment made. For a complete list
+                of fees please see the <a href="https://stripe.com/au/pricing" target="_blank">Stripe pricing page</a>.
+            </p>
+            <p>
+                If you wish to change your Stripe account <a ng-click="changeSettings()">click here</a>.
+            </p>
+        </div>
+
+        <div ng-if="!loading && !settings.publishableKey" class="setup-payment-options">
+            <div class="alert alert-danger">
+                Your Stripe Account details have not yet been setup. Payments cannot be accepted through your Huddle
+                until this is fixed. <a ng-click="changeSettings()">Click here</a> to enter your Stripe Account details.
+            </div>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,209 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div ng-controller="BlogPostController" class="blog-post-editor">
+
+    <div id="breadcrumb-bar">
+        <i class="fa fa-globe"></i>
+        <a ui-sref="website.menu" class="active">web pages</a>
+        / <a ui-sref="website.blog({blogId:blog.id})">{{blog.slug}}</a>
+        / <a ui-sref="website.blogPost({blogId:blog.id, postId: post.id})" class="active">{{post.slug}}</a>
+    </div>
+
+    <div class="inner">
+
+        <div class="website-content-body">
+            <div class="header-bar">
+
+                <div class="action-buttons pull-right">
+                    <span ng-show="saving">Saving...</span>
+
+                    <span class="save-buttons">
+                        <a ng-show="modified" class="btn btn-danger" ng-click="cancel()" ng-disabled="saving">Cancel</a>
+                        <a ng-show="modified && post.published" class="btn btn-primary" ng-click="save()" ng-disabled="saving">Update</a>
+                        <a ng-show="!post.published" class="btn btn-default" ng-click="save()" ng-disabled="saving">Save draft</a>
+                        <a ng-show="!post.published" class="btn btn-primary" ng-click="save(true)" ng-disabled="saving">Publish</a>
+                    </span>
+
+                    <span ng-hide="modified">
+                        <a class="btn btn-default" ng-click="view()">View</a>
+                    </span>
+                    <span ng-show="modified">
+                        <a class="btn btn-default" ng-click="preview()">Preview</a>
+                    </span>
+
+
+                    <span class="dropdown" dropdown>
+                        <a href="#" class="btn btn-default dropdown-toggle" dropdown-toggle>
+                            <li class="fa fa-caret-down"></li>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                            <li>
+                                <a ng-click="deleteBlogPost()">Delete blog post</a>
+                            </li>
+                        </ul>
+                    </span>
+
+                </div>
+
+                <div class="header-bar-title">
+                    <input class="title-field" type="text" ng-model="post.title">
+                </div>
+            </div>
+
+            <tabset class="small-tabs">
+
+                <tab>
+                    <tab-heading><i class="fa fa-file-text-o" title="Content"></i> Post</tab-heading>
+
+                    <gh-content-editor content="post.content" context="context"></gh-content-editor>
+
+                </tab>
+
+                <tab>
+                    <tab-heading><i class="fa fa-cog" title="Settings"></i> Settings</tab-heading>
+
+                    <div class="settings-tab general-tab">
+                        <form class="form-horizontal" role="form">
+
+                            <!-- Slug -->
+                            <div class="row form-group">
+                                <label for="slug" class="col-sm-2 control-label">URL</label>
+
+                                <div class="col-sm-6">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">{{huddle.baseUrl}}{{blog.url}}/</div>
+                                        <input id="slug"
+                                               ng-model="post.slug"
+                                               class="form-control" type="text"
+                                               placeholder="Enter slug to use as post URL"/>
+                                    </div>
+                                    <p class="help-block error-message"></p>
+                                </div>
+                            </div>
+
+                            <!-- Layout -->
+                            <div class="row form-group">
+                                <label for="layout" class="col-sm-2 control-label">Layout</label>
+
+                                <div class="col-sm-6">
+                                    <select id="layout" class="form-control" ng-model="post.layout"
+                                            ng-options="layout.name as layout.name for layout in layouts">
+                                        <option value="">Use blog default</option>
+                                    </select>
+
+                                    <p class="help-block error-message"></p>
+                                </div>
+                            </div>
+
+                            <!-- Comments -->
+                            <!--
+                            <div class="row form-group">
+                                <label for="comments_open" class="col-sm-2 control-label">Open for comments</label>
+                                <div class="col-sm-6">
+                                    <div ng-if="blog.allowComments == 'none'" class="form-control-static">
+                                        Comments are not allowed for this blog (<a ui-sref="website.blog({blogId:blog.id})">change</a>)
+                                        {{blog}}
+                                    </div>
+                                    <div ng-if="blog.allowComments != 'none'">
+                                        <input id="comments_open" type="checkbox" class="form-control" ng-model="post.commentsOpen">
+                                    </div>
+
+                                    <p class="help-block error-message"></p>
+                                </div>
+                            </div>
+                            -->
+
+                            <!-- Tags -->
+                            <div class="row form-group">
+                                <label for="layout" class="col-sm-2 control-label">Tags</label>
+
+                                <div class="col-sm-6">
+                                    <gh-tag-field ng-model="post.tags"></gh-tag-field>
+                                    <p class="help-block error-message"></p>
+                                </div>
+                            </div>
+
+                            <!-- Blurb -->
+                            <div class="row form-group">
+                                <label for="blurb" class="col-sm-2 control-label">Blurb</label>
+                                <div class="col-sm-6">
+                                    <textarea id="blurb" class="form-control" ng-model="post.blurb" placeholder="Brief description of your post"></textarea>
+
+                                    <p class="help-block error-message"></p>
+                                </div>
+                            </div>
+
+                            <!-- Feature image -->
+                            <div class="row form-group">
+                                <label for="feature-image" class="col-sm-2 control-label">Feature image</label>
+
+                                <div class="col-sm-6">
+
+                                    <input id="feature-image" class="form-control" type="file"
+                                           ng-hide="true" nv-file-select uploader="uploader"/>
+
+                                    <div ng-hide="uploader.isUploading">
+                                        <div class="feature-image" ng-if="post.featureImageUrl">
+                                            <button class="btn btn-xs btn-danger delete-feature-image"
+                                                    ng-click="deleteFeatureImage()">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                            <img src="{{post.featureImageUrl}}" ng-click="chooseFeatureImage()"/>
+                                        </div>
+
+                                        <div ng-if="!post.featureImageUrl">
+                                            <div class="no-feature-image" ng-click="chooseFeatureImage()">
+                                                Click to upload image
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div ng-show="uploader.isUploading">
+                                        <div>Uploading...</div>
+                                        <div ng-show="uploader.isHTML5">
+                                            <div class="progress" style="margin-bottom: 0;">
+                                                <div class="progress-bar" role="progressbar"
+                                                     ng-style="{ 'width': item.progress + '%' }"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <p class="help-block error-message"></p>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                </tab>
+
+                <!--
+                <tab>
+                    <tab-heading><i class="fa fa-comment-o" title="Content"></i> Comments</tab-heading>
+
+                    <div ng-repeat="comment in comments.content">
+                        {{comment}}
+                    </div>
+
+                </tab>
+                -->
+
+
+            </tabset>
+
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,93 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div id="setup-pages" ng-controller="SetupPagesController">
+
+    <div class="container">
+        <div class="row">
+
+            <div class="setup-content">
+
+                <div class="col-md-7">
+
+                    <h1>Create some pages</h1>
+
+                    <p>
+                        Would you like us to create some sample starting pages for you? You will be able to completely
+                        edit these pages, remove them, or add new ones later.
+                    </p>
+
+                    <ul>
+                        <li ng-if="pages.home.show">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" ng-model="pages.home.selected" ng-disabled="pages.home.exists"> Home page
+                                </label>
+                                <span class="text-muted" ng-if="pages.home.exists"> - this page has already been created</span>
+                            </div>
+                        </li>
+                        <li ng-if="pages.blog.show">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" ng-model="pages.blog.selected" ng-disabled="pages.blog.exists"> Blog (latest news)
+                                </label>
+                                <span class="text-muted" ng-if="pages.blog.exists"> - this page has already been created</span>
+                            </div>
+                        </li>
+                        <li ng-if="pages.about.show">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" ng-model="pages.about.selected" ng-disabled="pages.about.exists"> About us
+                                </label>
+                                <span class="text-muted" ng-if="pages.about.exists"> - this page has already been created</span>
+                            </div>
+                        </li>
+                        <li ng-if="pages.contact.show">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" ng-model="pages.contact.selected" ng-disabled="pages.contact.exists"> Contact us
+                                </label>
+                                <span class="text-muted" ng-if="pages.contact.exists"> - this page has already been created</span>
+                            </div>
+                        </li>
+                        <li ng-if="pages.donate.show">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" ng-model="pages.donate.selected" ng-disabled="pages.donate.exists"> Donate (and thank you page)
+                                </label>
+                                <span class="text-muted" ng-if="pages.donate.exists"> - this page has already been created</span>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div class="setup-actions">
+                        <a ng-click="back()" class="btn btn-common"><i class="fa fa-angle-left"></i> Back</a>
+                        <div class="pull-right">
+                            <img ng-show="saving" src="images/loading.gif">
+                            <a ng-click="next()" class="btn btn-common" ng-disable="saving">Next <i class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

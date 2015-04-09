@@ -1,0 +1,70 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div ng-controller="ViewEmailController">
+
+    <div id="breadcrumb-bar">
+        <i class="fa fa-envelope"></i>
+        <a ui-sref="member.mailout.list">mailouts</a>
+        / <a ui-sref="member.mailout.view({mailoutId: email.mailout.id})">{{email.mailout.name}}</a>
+        / <a ui-sref="member.mailout.email.view({emailId: email.id})" class="active">{{email.id}}</a>
+    </div>
+
+
+    <div class="inner">
+
+        <div class="header-bar">
+            <div class="pull-right">
+                <button class="btn btn-default" ng-click="edit()">Edit</button>
+                <button class="btn btn-default" ng-click="delete()">Delete</button>
+            </div>
+            <h1>Email to {{email.recipient.displayName}}</h1>
+        </div>
+
+        <div class="form-horizontal">
+
+            <!-- to -->
+            <div class="row form-group">
+                <label class="col-sm-2 control-label">To</label>
+                <div class="col-sm-6">
+                    <p class="form-control-static">
+                        <a ui-sref="member.view({memberId: email.recipient.id})">
+                            {{email.recipient.displayName}} ({{email.recipient.email}})
+                        </a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- subject -->
+            <div class="row form-group">
+                <label class="col-sm-2 control-label">Subject</label>
+                <div class="col-sm-6">
+                    <p class="form-control-static">{{email.subject}}</p>
+                </div>
+            </div>
+
+            <!-- subject -->
+            <div class="row form-group">
+                <label class="col-sm-2 control-label">Content</label>
+                <div class="col-sm-10">
+                    <iframe id="content-iframe">
+                    </iframe>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

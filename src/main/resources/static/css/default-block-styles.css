@@ -1,0 +1,106 @@
+/*
+ * (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License
+ * (LGPL) version 2.1 which accompanies this distribution, and is available at
+ * http://www.gnu.org/licenses/lgpl-2.1.html
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ */
+
+.block-error {
+    color: darkred;
+}
+
+.has-error {
+    color: darkred;
+}
+
+/* ----------------------------------------------------------------------------
+    Blog
+---------------------------------------------------------------------------- */
+
+.block .blog-feed {
+    border: 1px solid #d3d3d3;
+}
+
+.block .blog-feed .blog-feed-title {
+    background-color: #6e6e6e;
+    color: #ffffff;
+    font-weight: bold;
+    padding: 10px;
+    border-bottom: 1px solid #d3d3d3;
+}
+
+.block .more-news-area {
+    background-color: #e9e9e9;
+    border-top: 1px solid #d3d3d3;
+    padding: 5px;
+    text-align: center;
+}
+
+
+.block .blog-feed .blog-feed-posts {
+    padding: 10px;
+}
+
+.block .blog-post-entry {
+    padding: 10px;
+    margin-bottom: 10px;
+    min-height: 100px;
+    border-bottom: 1px solid #d3d3d3;
+}
+
+.block .blog-post-entry:last-child {
+    border-bottom: none;
+}
+
+.block .blog-post-entry .feature-image {
+    float: left;
+    width: 100px;
+    height: 80px;
+}
+
+.block .blog-post-entry .feature-image img {
+    width: 100%;
+    height: 100%;
+}
+
+.block .blog-post-entry.with-feature-image .post-summary {
+    margin-left: 120px;
+}
+
+.block .blog-post-entry .blog-post-title {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.block .blog-post-entry .post-meta-info {
+    font-size: 8px;
+    color: #808080;
+}
+
+.block .blog-post-entry .blog-post-blurb {
+    font-size: 12px;
+}
+
+/* Carousel Block */
+
+.block .slider-size {
+    height: 400px; /* This is your slider height */
+}
+.block .carousel {
+    width:100%;
+    margin:0 auto; /* center your carousel if other than 100% */
+}
+
+/* Twitter Block */
+
+.block iframe[id^='twitter-widget-'] {
+    width:100% !important;
+}
+

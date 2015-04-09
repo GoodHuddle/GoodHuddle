@@ -1,0 +1,47 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div>
+    <div class="image-block-view-wrapper" ng-show="hasImage">
+        <div>
+
+            <!-- show previously uploaded image if there is one -->
+            <img class="img-responsive" ng-show="settings[fieldCode]"
+                 src="{{settings[fieldCode]}}" width="250px" height="250px">
+
+            <!-- show newly selected image -->
+            <div ng-repeat="item in uploader.queue">
+                <div class="img-responsive" ng-thumb="{ file: item._file, height: 250 }"></div>
+            </div>
+            <div class="image-block-view">
+                <ul class="nav nav-pills">
+                    <li><a ng-click="clickUpload()">Change</a></li>
+                    <li><a ng-click="removeImage()">Remove</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- otherwise show an upload icon -->
+    <div class="image-upload-empty" ng-click="clickUpload()" ng-hide="hasImage">
+        <p class="prompt">Drag image here, or click to choose file</p>
+        <i class="fa fa-cloud-upload"></i>
+    </div>
+
+    <!-- hidden file upload field -->
+    <input ng-if="uploader" id="upload-field" style="display:none;"
+           type="file" nv-file-select uploader="uploader"/>
+
+</div>
+

@@ -1,0 +1,103 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div id="image-block-choose-image">
+    <div class="modal-header">
+        <h3 class="modal-title">Image settings</h3>
+    </div>
+    <div class="modal-body">
+
+        <div class="row">
+            <div class="col-md-6">
+                <tabset>
+
+                    <tab heading="Upload file" ng-click="selectTab('upload')">
+                        <div class="tab-body">
+
+                            <!-- show the current image if there is one-->
+                            <div class="image-block-view-wrapper" ng-show="details.url || uploader.queue.length">
+                                <div>
+                                    <img ng-src="{{details.url}}" class="img-responsive" ng-hide="uploader.queue.length"/>
+                                    <div ng-repeat="item in uploader.queue">
+                                        <div class="img-responsive" ng-thumb="{ file: item._file, width:250 }"></div>
+                                    </div>
+                                    <div class="image-block-view">
+                                        <ul class="nav nav-pills">
+                                            <li><a ng-click="clickUpload()">Change</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- otherwise show an upload icon -->
+                            <div class="image-upload-empty" ng-click="clickUpload()" ng-hide="details.url || uploader.queue.length">
+                                <p class="prompt">Drag image here, or click to choose file</p>
+                                <i class="fa fa-cloud-upload"></i>
+                            </div>
+
+                        </div>
+                    </tab>
+
+                    <tab heading="Link from web" ng-click="selectTab('link')">
+                        <div class="tab-body">
+                            <div class="form-group">
+                                <input id="url" class="form-control" ng-model="details.url" placeholder="Web URL to image"/>
+                            </div>
+                        </div>
+                    </tab>
+
+                </tabset>
+            </div>
+            <div class="col-md-6">
+
+                <h4>
+                    Additional settings (optional)
+                </h4>
+
+                <div class="form choose-image-additional-settings">
+
+                    <div class="form-group">
+                        <label>Alternate text</label>
+                        <input class="form-control" type="text" placeholder="Alternate text for screen readers" ng-model="details.altText">
+                    </div>
+
+                    <div class="form-group">
+                        <label>If clicked, go to page</label>
+                        <gh-page-chooser ng-model="details.href"></gh-page-chooser>
+                        <div class="checkbox" ng-show="details.href">
+                            <label>
+                                <input type="checkbox" ng-model="details.newPage"> open link in new window
+                            </label>
+                        </div>
+                    </div>
+
+
+                    <!-- hidden file upload field -->
+                    <input id="upload-field" style="display:none;"
+                           type="file"
+                           nv-file-select
+                           uploader="uploader"/><br/>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">Ok</button>
+        <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+    </div>
+</div>

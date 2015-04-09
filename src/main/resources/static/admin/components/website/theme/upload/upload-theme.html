@@ -1,0 +1,79 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div ng-controller="UploadThemeController" id="upload-theme">
+
+    <div id="breadcrumb-bar">
+        <a ui-sref="website">website</a>
+        / <a ui-sref="website.theme.current">theme</a>
+        / <a ui-sref="website.theme.upload">upload</a>
+    </div>
+
+    <div class="inner">
+
+        <div class="header-bar">
+            <h1>Upload theme</h1>
+        </div>
+
+        <div class="row">
+
+            <div class="col-sm-6">
+
+                <p>
+                    With GoodHuddle you can fully customise your theme
+                    using HTML and CSS. See the
+                    <a href="https://github.com/GoodHuddle/help/blob/master/theming.md">theme building guide</a> (work
+                    in progress) for more information.
+                </p>
+
+                <p>
+                    For non-techies, we're busy building simple tools to make this easier for you too. They may be a little while
+                    yet, so in the meantime either <a ui-sref="website.theme.choose">choose a theme</a> from the GoodHuddle library, or ask us to
+                    connect you with one of <a ui-sref="website.theme.order">our partner organisations</a> to custom build you one.
+                </p>
+
+                <p>
+                    If you have a theme built for you already, upload it using the form below.
+                </p>
+
+                <form role="form" class="upload-theme-form">
+
+                    <div class="form-group">
+                        <label for="upload-field">Theme (zip bundle)</label>
+                        <input id="upload-field" class="form-control" type="file" nv-file-select uploader="uploader"/>
+                    </div>
+
+                    <div>
+                        <button ng-click="upload()" class="btn btn-primary" ng-disabled="uploader.isUploading">Upload</button>
+                        <a class="btn btn-default" ui-sref="website.theme.current" ng-disabled="uploader.isUploading">Cancel</a>
+
+                        <!-- upload progress -->
+                        <div ng-show="uploader.isUploading">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                Uploading:
+                                <div class="progress" style="max-width: 800px">
+                                    <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
