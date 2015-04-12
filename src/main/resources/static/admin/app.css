@@ -1478,6 +1478,28 @@ body {
     padding: 1px,  0;
 }
 
+.content-editor .content-row .content-row-handle {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-top: -5px;
+    margin-left: -20px;
+    width: 40px;
+    text-align: center;
+    z-index: 1000;
+    font-size: 8pt;
+    text-transform: uppercase;
+    color: #464646;
+    background-color: white;
+    border: 1px solid #a9a9a9;
+    border-radius: 4px;
+    padding: 0 4px 0 4px;
+    display: none;
+}
+
+.content-editor .content-row:hover .content-row-handle {
+    display: block;
+}
 
 .content-editor .content-row-inner {
     position: relative;
@@ -1691,35 +1713,16 @@ body {
 
 /* Raw HTML block */
 
-.content-editor .raw-html-block {
-    border: 1px solid lightgrey;
+.content-editor .raw-html-placeholder {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    text-align: center;
+    font-size: 24pt;
+    color: #d3d3d3;
+    background-color: #f6f5f5;
+    border: 1px solid #808080;
 }
 
-.content-editor .raw-html-block .drag-handle {
-    position: static;
-}
-
-.content-editor .raw-html-block .raw-html-header {
-    font-size: 10px;
-    color: #808080;
-    background-color: #e1e1e1;
-    padding: 2px 4px;
-}
-
-.content-editor .raw-html-block .raw-html-content {
-    padding: 2px 4px;
-}
-
-.content-editor .raw-html-block textarea {
-    height: 100px;
-    width: 100%;
-    resize: none;
-    border: none;
-    outline: none;
-}
-.content-editor .raw-html-block textarea:active {
-    border: none;
-}
 
 /* Ace Editor */
 
@@ -2009,12 +2012,27 @@ body {
     background-color: #428bca;
 }
 
+
+/* Carousel block */
+
+.carousel-block .carousel-placeholder {
+    padding-top: 80px;
+    padding-bottom: 80px;
+    text-align: center;
+    font-size: 24pt;
+    color: #d3d3d3;
+    background-color: #f6f5f5;
+    border: 1px solid #808080;
+}
+
+
 /* Join Mailing List block */
 
 .join-mail-list-block input {
     height: 34px;
     border: 1px solid #ccc;
 }
+
 
 /* Member profile */
 

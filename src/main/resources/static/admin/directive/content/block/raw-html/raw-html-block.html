@@ -13,12 +13,10 @@
   -->
 
 <div ng-controller="RawHtmlBlock">
-    <div class="raw-html-header drag-handle" >
-        HTML Block
+    <div class="raw-html-placeholder">
+        <i class="fa fa-code"></i><br/>
+        Custom HTML
     </div>
+    <div class="drag-handle full-block-drag-handle"></div>
     <div class="edit-block-btn btn btn-xs btn-default" ng-click="enterHtml()">edit</div>
-        <div class="raw-html-content">
-            {{block.value.html}}
-        </div>
-    </div>
 </div>

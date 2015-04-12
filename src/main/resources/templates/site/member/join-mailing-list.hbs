@@ -4,43 +4,46 @@
 
     {{#replace "content"}}
 
-        <h1>Join mailing list</h1>
+        <div class="container">
 
-        <hr/>
+            <h1>Join mailing list</h1>
 
-        <div>
+            <hr/>
 
-            <form action="/member/join" method="post" class="form-horizontal col-md-7">
+            <div>
 
-                {{#hasErrors}}
-                    <div class="alert alert-warning">
-                        <p>Please fix the below errors and try again</p>
-                    </div>
-                {{/hasErrors}}
+                <form action="/member/join" method="post" class="form-horizontal col-md-7">
 
-                <fieldset>
-                    <div class="form-group {{errorClass 'email'}}">
-                        <label for="email" class="col-sm-4 control-label">Email</label>
+                    {{#hasErrors}}
+                        <div class="alert alert-warning">
+                            <p>Please fix the below errors and try again</p>
+                        </div>
+                    {{/hasErrors}}
+
+                    <fieldset>
+                        <div class="form-group {{errorClass 'email'}}">
+                            <label for="email" class="col-sm-4 control-label">Email</label>
+                            <div class="col-sm-8">
+                                <input id="email" type="text" class="form-control" name="email" value="{{request.email}}"/>
+                                {{errorMessage "email"}}
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <div class="form-group">
+                        <div class="col-sm-4"></div>
                         <div class="col-sm-8">
-                            <input id="email" type="text" class="form-control" name="email" value="{{request.email}}"/>
-                            {{errorMessage "email"}}
+                            <button id="save-button" class="btn btn-primary">Join</button>&nbsp;&nbsp;
+                            <a href="/" class="btn btn-default">No thanks</a>
+                            <span id="info-area"></span>
                         </div>
                     </div>
-                </fieldset>
 
-                <div class="form-group">
-                    <div class="col-sm-4"></div>
-                    <div class="col-sm-8">
-                        <button id="save-button" class="btn btn-primary">Join</button>&nbsp;&nbsp;
-                        <a href="/" class="btn btn-default">No thanks</a>
-                        <span id="info-area"></span>
-                    </div>
-                </div>
+                </form>
 
-            </form>
+            </div>
 
         </div>
-
 
     {{/replace}}
 

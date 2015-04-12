@@ -13,19 +13,11 @@
   -->
 
 <div ng-controller="CarouselBlock">
-    <div class="edit-block-btn btn btn-xs btn-default" ng-click="chooseCarouselImages()">edit</div>
-    <div class="no-images" ng-hide="block.value.slides[0].imageUrl">(no images selected)</div>
-    <div style="height: 305px">
-        <carousel interval="block.value.slideInterval">
-            <slide ng-repeat="slide in block.value.slides" active="slide.active">
-                <img ng-src="{{slide.imageUrl}}" style="margin:auto;">
-                <div class="carousel-caption">
-                    <p>{{slide.caption}}</p>
-                </div>
-            </slide>
-        </carousel>
+    <div class="carousel-placeholder">
+        SLIDER
      </div>
     <div class="drag-handle full-block-drag-handle"></div>
+    <div class="edit-block-btn btn btn-xs btn-default" ng-click="chooseCarouselImages()">edit</div>
 </div>
 
 

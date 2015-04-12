@@ -37,10 +37,20 @@ public class PageContent {
 
     public static final class Row {
 
+        private String cssClass;
+        private boolean fullWidth;
         private List<Cell> cells;
 
         public Row() {
             this.cells = new ArrayList<>();
+        }
+
+        public boolean isFullWidth() {
+            return fullWidth;
+        }
+
+        public String getCssClass() {
+            return cssClass;
         }
 
         public List<Cell> getCells() {

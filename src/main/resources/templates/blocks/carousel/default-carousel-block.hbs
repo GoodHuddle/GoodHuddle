@@ -10,15 +10,20 @@
   <div class="carousel-inner">
     {{#each value.slides}}
       <div class=" item {{#if @first}}active{{/if}}">
-        {{#if href}}<a href="{{href}}">{{/if}}
+        <!--{{#if href}}<a href="{{href}}">{{/if}}-->
           <div style="background:url({{imageUrl}}) center center;
                     background-size:cover;" class="slider-size">
             {{!-- <img src="{{value.url}}" alt="..."> --}}
+            <!--
             <div class="carousel-caption">
               <p>{{caption}}</p>
             </div>
+            -->
           </div>
-        {{#if href}}</a>{{/if}}
+          <div class="carousel-tagline">
+              <p>{{caption}}</p>
+          </div>
+        <!--{{#if href}}</a>{{/if}}-->
       </div>
     {{/each}}
   </div>

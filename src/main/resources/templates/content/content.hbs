@@ -1,16 +1,20 @@
-{{#each rows}}
-    <div class="row">
-        {{#each cells}}
-            <div class="col-sm-{{width}}">
+<div class="body-content">
+    {{#each rows}}
+        <div class="container{{#if fullWidth}}-fluid{{/if}}">
+            <div class="row {{cssClass}}">
+                {{#each cells}}
+                    <div class="col-sm-{{width}}">
 
-                {{#each blocks}}
-                    <div class="block block-{{type}}">
-                        {{#assign "blockLayout"}}blocks/{{type}}/default-{{type}}-block{{/assign}}
-                        {{{include blockLayout}}}
+                        {{#each blocks}}
+                            <div class="block block-{{type}}">
+                                {{#assign "blockLayout"}}blocks/{{type}}/default-{{type}}-block{{/assign}}
+                                {{{include blockLayout}}}
+                            </div>
+                        {{/each}}
+
                     </div>
                 {{/each}}
-
             </div>
-        {{/each}}
-    </div>
-{{/each}}
+        </div>
+    {{/each}}
+</div>

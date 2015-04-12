@@ -108,6 +108,8 @@ angular.module('huddleAdmin')
 
                     dragContext.dragging = false;
 
+                    console.log('Dropping onto: ' + JSON.stringify(dropTarget));
+
                     if (dropTarget.type == 'page') {
 
                         // drop a new row when no content
@@ -304,6 +306,23 @@ angular.module('huddleAdmin')
                                     // we are inside a row - find the best cell
 
                                     var cellElems = angular.element(rowElem).find('.content-cell');
+
+                                    // if this is my row and I'm the only one in it, no drop allowed
+
+                                    if (cellElems.length == 1) {
+                                        var cellElem = cellElems[0];
+                                        var blockElems = angular.element(cellElem).find('.content-block');
+                                        if (blockElems.length == 1) {
+                                            var blockElem = blockElems[0];
+                                            var blockId = $(blockElem).scope().id;
+                                            if (blockId == dragContext.blockId) {
+                                                return;
+                                            }
+                                        }
+                                    }
+
+                                    // otherwise find best matching cell
+
                                     for (var cellIndex = 0; cellIndex < cellElems.length; cellIndex++) {
                                         var cellElem = cellElems[cellIndex];
                                         var cell = $(cellElem).scope().cell;
@@ -402,7 +421,7 @@ angular.module('huddleAdmin')
                                                 }
 
                                                 var pos = findNearestEdge({ x: dragContext.x, y: dragContext.y }, checkBounds);
-                                                console.log('Nearest edge is: ' + pos);
+                                                //console.log('Nearest edge is: ' + pos);
                                                 switch (pos) {
                                                     case 'top':
                                                         if (usingLastBlock) {

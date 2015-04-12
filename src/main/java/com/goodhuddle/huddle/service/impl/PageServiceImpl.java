@@ -14,15 +14,15 @@
 
 package com.goodhuddle.huddle.service.impl;
 
-import com.goodhuddle.huddle.domain.MenuItem;
-import com.goodhuddle.huddle.domain.Page;
-import com.goodhuddle.huddle.domain.PageContent;
+import com.goodhuddle.huddle.domain.*;
 import com.goodhuddle.huddle.repository.PageRepository;
+import com.goodhuddle.huddle.repository.PageRevisionRepository;
 import com.goodhuddle.huddle.service.HuddleService;
 import com.goodhuddle.huddle.service.MenuService;
 import com.goodhuddle.huddle.service.PageService;
 import com.goodhuddle.huddle.service.exception.PageSlugExistsException;
 import com.goodhuddle.huddle.service.impl.file.FileStore;
+import com.goodhuddle.huddle.service.impl.security.SecurityHelper;
 import com.goodhuddle.huddle.service.request.menu.UpdateMenuItemDetailsRequest;
 import com.goodhuddle.huddle.service.request.page.CreatePageRequest;
 import com.goodhuddle.huddle.service.request.page.UpdatePageRequest;
@@ -30,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,17 +42,23 @@ public class PageServiceImpl implements PageService {
     private static final Logger log = LoggerFactory.getLogger(PageServiceImpl.class);
 
     private final HuddleService huddleService;
+    private final SecurityHelper securityHelper;
     private final PageRepository pageRepository;
+    private final PageRevisionRepository pageRevisionRepository;
     private final MenuService menuService;
     private final FileStore fileStore;
 
     @Autowired
     public PageServiceImpl(HuddleService huddleService,
+                           SecurityHelper securityHelper,
                            PageRepository pageRepository,
+                           PageRevisionRepository pageRevisionRepository,
                            MenuService menuService,
                            FileStore fileStore) {
         this.huddleService = huddleService;
+        this.securityHelper = securityHelper;
         this.pageRepository = pageRepository;
+        this.pageRevisionRepository = pageRevisionRepository;
         this.menuService = menuService;
         this.fileStore = fileStore;
     }
@@ -72,6 +79,7 @@ public class PageServiceImpl implements PageService {
     }
 
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public Page createPage(CreatePageRequest request) throws PageSlugExistsException {
 
         Page slugOwner = pageRepository.findByHuddleAndSlug(huddleService.getHuddle(), request.getSlug());
@@ -98,6 +106,7 @@ public class PageServiceImpl implements PageService {
     }
 
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public Page updatePage(UpdatePageRequest request) throws PageSlugExistsException {
 
         Page slugOwner = pageRepository.findByHuddleAndSlug(huddleService.getHuddle(), request.getSlug());
@@ -108,6 +117,10 @@ public class PageServiceImpl implements PageService {
         Page page = pageRepository.findByHuddleAndId(huddleService.getHuddle(), request.getId());
         page.update(request.getTitle(), request.getSlug(), request.getLayout(), request.getContent());
         page = pageRepository.save(page);
+
+        Member currentMember = securityHelper.getCurrentMember();
+        pageRevisionRepository.save(new PageRevision(page, currentMember));
+
         menuService.updateMenuItemDetails(new UpdateMenuItemDetailsRequest(
                 page.getMenuItem().getId(), page.getTitle(), page.getUrl()
         ));
@@ -116,6 +129,7 @@ public class PageServiceImpl implements PageService {
     }
 
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public void deletePage(long pageId) {
         Page page = pageRepository.findByHuddleAndId(huddleService.getHuddle(), pageId);
         if (page != null) {

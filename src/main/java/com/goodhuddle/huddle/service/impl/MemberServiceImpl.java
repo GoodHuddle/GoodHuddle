@@ -159,8 +159,10 @@ public class MemberServiceImpl implements MemberService {
     @Transactional(readOnly = false)
     public Member joinMailingList(JoinMailingListRequest request) throws EmailExistsException {
 
-        if (memberRepository.findByHuddleAndEmailIgnoreCase(huddleService.getHuddle(), request.getEmail()) != null) {
-            throw new EmailExistsException("Member with email '" + request.getEmail() + "' already exists");
+        Member existingMember = memberRepository.findByHuddleAndEmailIgnoreCase(huddleService.getHuddle(), request.getEmail());
+        if (existingMember != null) {
+            log.debug("Member already exists for: {}", request.getEmail());
+            return existingMember;
         }
 
         log.info("Adding email {} to mailing list", request.getEmail());

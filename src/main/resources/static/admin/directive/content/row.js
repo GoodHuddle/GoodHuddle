@@ -16,21 +16,42 @@
 
 angular.module('huddleAdmin')
 
-    .directive('ghRow', function ($window) {
+    .directive('ghRow', function ($window, $modal) {
 
         return {
+
             restrict: 'E',
             transclude: true,
             scope: {
                 row: "="
             },
+
             template:
                 '<div class="content-row">'
+                    + '<div class="content-row-handle" ng-click="editSettings()">row</div>'
                     + '<div class="content-row-inner" ng-transclude>'
                     + '</div>'
                     + '</div>',
+
             link: function (scope, elem, attrs) {
 
+                scope.editSettings = function() {
+                    $modal.open({
+                        templateUrl: 'directive/content/row-settings.html',
+                        resolve: {
+                            row: function () { return scope.row }
+                        },
+                        controller: function ($scope, $modalInstance, row) {
+                            $scope.row = row;
+                            $scope.ok = function () {
+                                $modalInstance.dismiss('ok');
+                            };
+                            $scope.cancel = function () {
+                                $modalInstance.dismiss('cancel');
+                            };
+                        }
+                    });
+                };
             }
         };
     });
