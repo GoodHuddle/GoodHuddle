@@ -9,22 +9,31 @@
 
     {{#replace "content"}}
 
-        <h1 class="blog-post-header">{{blogPost.title}}</h1>
+        <div class="body-content">
+            <div class="container">
 
-        <div class="blog-post-info">
-            Posted by {{memberLink blogPost.author}}
-        </div>
+                <div class="row">
 
-        {{#if blogPost.featureImageUrl}}
-            <div class="feature-image">
-                <img src="{{blogPost.featureImageUrl}}"/>
+                    <h1 class="blog-post-header">{{blogPost.title}}</h1>
+
+                    <div class="blog-post-info">
+                        Posted by {{memberLink blogPost.author}}
+                    </div>
+
+                    {{#if blogPost.featureImageUrl}}
+                        <div class="feature-image">
+                            <img src="{{blogPost.featureImageUrl}}"/>
+                        </div>
+                    {{/if}}
+
+                    <div class="blog-post-content">
+                        {{#with blogPost.content}}
+                            {{> content/content}}
+                        {{/with}}
+                    </div>
+
+                </div>
             </div>
-        {{/if}}
-
-        <div class="blog-post-content">
-            {{#with blogPost.content}}
-                {{> content/content}}
-            {{/with}}
         </div>
 
     {{/replace}}
