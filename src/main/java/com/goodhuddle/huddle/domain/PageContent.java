@@ -38,6 +38,11 @@ public class PageContent {
     public static final class Row {
 
         private String cssClass;
+        private String backgroundColor;
+        private String paddingTop;
+        private String paddingLeft;
+        private String paddingBottom;
+        private String paddingRight;
         private boolean fullWidth;
         private List<Cell> cells;
 
@@ -51,6 +56,26 @@ public class PageContent {
 
         public String getCssClass() {
             return cssClass;
+        }
+
+        public String getBackgroundColor() {
+            return backgroundColor;
+        }
+
+        public String getPaddingTop() {
+            return paddingTop;
+        }
+
+        public String getPaddingLeft() {
+            return paddingLeft;
+        }
+
+        public String getPaddingBottom() {
+            return paddingBottom;
+        }
+
+        public String getPaddingRight() {
+            return paddingRight;
         }
 
         public List<Cell> getCells() {

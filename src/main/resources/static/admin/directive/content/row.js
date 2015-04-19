@@ -26,14 +26,19 @@ angular.module('huddleAdmin')
                 row: "="
             },
 
-            template:
-                '<div class="content-row">'
-                    + '<div class="content-row-handle" ng-click="editSettings()">row</div>'
-                    + '<div class="content-row-inner" ng-transclude>'
-                    + '</div>'
-                    + '</div>',
+            templateUrl: 'directive/content/row.html',
 
             link: function (scope, elem, attrs) {
+
+                scope.$watch('row', function() {
+                    scope.rowStyle = {
+                        'background-color': scope.row.backgroundColor,
+                        'padding-top': scope.row.paddingTop,
+                        'padding-left': scope.row.paddingLeft,
+                        'padding-right': scope.row.paddingRight,
+                        'padding-bottom': scope.row.paddingBottom
+                    };
+                }, true);
 
                 scope.editSettings = function() {
                     $modal.open({
@@ -42,7 +47,9 @@ angular.module('huddleAdmin')
                             row: function () { return scope.row }
                         },
                         controller: function ($scope, $modalInstance, row) {
+
                             $scope.row = row;
+
                             $scope.ok = function () {
                                 $modalInstance.dismiss('ok');
                             };

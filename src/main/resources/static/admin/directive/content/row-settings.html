@@ -21,21 +21,58 @@
         <div class="row">
             <div class="col-md-12">
 
-                <div class="form-group">
-                    <label for="fullWidth" class="col-sm-3 control-label">Stretch full width</label>
-                    <div class="col-sm-9">
-                        <label>
-                            <input id="fullWidth" type="checkbox" ng-model="row.fullWidth"/>
-                        </label>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="fullWidth" class="col-sm-3 control-label">Stretch full width</label>
+                        <div class="col-sm-9">
+                            <label>
+                                <input id="fullWidth" type="checkbox" ng-model="row.fullWidth"/>
+                            </label>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label for="cssClass" class="col-sm-3 control-label">CSS class</label>
-                    <div class="col-sm-9">
-                        <input id="cssClass" class="form-control" ng-model="row.cssClass"/>
+                    <div class="form-group">
+                        <label for="cssClass" class="col-sm-3 control-label">CSS class</label>
+                        <div class="col-sm-9">
+                            <input id="cssClass" class="form-control" ng-model="row.cssClass"/>
+                        </div>
                     </div>
-                </div>
+
+                    <div class="form-group">
+                        <label for="backgroundColor" class="col-sm-3 control-label">Background color</label>
+                        <div class="col-sm-9">
+                            <input id="backgroundColor" class="form-control" ng-model="row.backgroundColor"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="paddingTop" class="col-sm-3 control-label">Padding (top)</label>
+                        <div class="col-sm-9">
+                            <input id="paddingTop" class="form-control" ng-model="row.paddingTop"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="paddingLeft" class="col-sm-3 control-label">Padding (left)</label>
+                        <div class="col-sm-9">
+                            <input id="paddingLeft" class="form-control" ng-model="row.paddingLeft"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="paddingBottom" class="col-sm-3 control-label">Padding (bottom)</label>
+                        <div class="col-sm-9">
+                            <input id="paddingBottom" class="form-control" ng-model="row.paddingBottom"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="paddingRight" class="col-sm-3 control-label">Padding (right)</label>
+                        <div class="col-sm-9">
+                            <input id="paddingRight" class="form-control" ng-model="row.paddingRight"/>
+                        </div>
+                    </div>
+                </form>
 
             </div>
         </div>

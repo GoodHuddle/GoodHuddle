@@ -1,7 +1,7 @@
 <div class="body-content">
     {{#each rows}}
         <div class="container{{#if fullWidth}}-fluid{{/if}}">
-            <div class="row {{cssClass}}">
+            <div class="row {{cssClass}}" style="{{#if backgroundColor}}background-color: {{backgroundColor}}; {{/if}}{{#if paddingTop}}padding-top: {{paddingTop}}; {{/if}}{{#if paddingLeft}}padding-top: {{paddingLeft}}; {{/if}}{{#if paddingBottom}}padding-top: {{paddingBottom}}; {{/if}}{{#if paddingRight}}padding-top: {{paddingRight}}; {{/if}}">
                 {{#each cells}}
                     <div class="col-sm-{{width}}">
 

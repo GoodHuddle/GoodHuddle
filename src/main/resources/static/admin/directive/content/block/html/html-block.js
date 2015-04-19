@@ -28,7 +28,7 @@ angular.module('huddleAdmin')
                 { name: 'links', items: [ 'Ghlink', 'Unlink' ] },
                 { name: 'tools', items: [ 'SpellChecker', 'Maximize' ] },
                 { name: 'styles', items: [ 'FontSize', 'TextColor', 'PasteText', 'PasteFromWord' ] },
-                { name: 'insert', items: [ 'Image', 'Table' ] },
+                { name: 'insert', items: [ 'Image', 'Table', 'FontAwesome' ] },
                 { name: 'clipboard', items: [ 'Undo', 'Redo' ] },
                 { name: 'document', items: [ 'Source' ] }
             ]

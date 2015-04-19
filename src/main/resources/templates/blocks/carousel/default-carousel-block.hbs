@@ -9,7 +9,7 @@
   <!-- Wrapper for slides -->
   <div class="carousel-inner">
     {{#each value.slides}}
-      <div class=" item {{#if @first}}active{{/if}}">
+      <div class=" item {{#if @first}}active{{/if}} slide{{@index}}">
         <!--{{#if href}}<a href="{{href}}">{{/if}}-->
           <div style="background:url({{imageUrl}}) center center;
                     background-size:cover;" class="slider-size">
@@ -20,19 +20,21 @@
             </div>
             -->
           </div>
+
           <div class="carousel-tagline">
               <p>{{caption}}</p>
+              <!-- Controls -->
+              <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                  <span class="fa fa-angle-left"></span>
+              </a>
+              <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                  <span class="fa fa-angle-right"></span>
+              </a>
           </div>
+
         <!--{{#if href}}</a>{{/if}}-->
       </div>
     {{/each}}
   </div>
 
-  <!-- Controls -->
-  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-    <span class="glyphicon glyphicon-chevron-left"></span>
-  </a>
-  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-    <span class="glyphicon glyphicon-chevron-right"></span>
-  </a>
 </div>

@@ -74,7 +74,7 @@ app.directive('ckeditor', ['$timeout', '$q', '$modal', 'SearchService',  functio
                         { name: 'tools', items: [ 'SpellChecker', 'Maximize' ] },
                         '/',
                         { name: 'styles', items: [ 'Format', 'FontSize', 'TextColor', 'PasteText', 'PasteFromWord', 'RemoveFormat' ] },
-                        { name: 'insert', items: [ 'Image', 'Table', 'SpecialChar' ] },
+                        { name: 'insert', items: [ 'Image', 'Table', 'FontAwesome', 'SpecialChar' ] },
                         { name: 'forms', items: [ 'Outdent', 'Indent' ] },
                         { name: 'clipboard', items: [ 'Undo', 'Redo'] },
                         { name: 'document', items: [ 'PageBreak', 'Source' ] }
