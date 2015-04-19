@@ -1,0 +1,1 @@
+alter table page_revision drop constraint page_revision_page_id_fkey;
