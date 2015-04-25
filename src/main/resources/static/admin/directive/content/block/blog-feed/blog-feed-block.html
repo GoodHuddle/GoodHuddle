@@ -13,7 +13,6 @@
   -->
 
 <div ng-controller="BlogFeedBlock">
-    <div class="edit-block-btn btn btn-xs btn-default" ng-click="editSettings()">edit</div>
     <div>
         <div class="blog-feed-title" ng-if="block.value.showTitle">
             {{block.value.title}}
@@ -27,4 +26,5 @@
         </div>
     </div>
     <div class="drag-handle full-block-drag-handle"></div>
+    <div class="edit-block-btn btn btn-xs btn-default" ng-click="editSettings()">edit</div>
 </div>

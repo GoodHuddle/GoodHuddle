@@ -6,7 +6,7 @@
                     <div class="col-sm-{{width}}">
 
                         {{#each blocks}}
-                            <div class="block block-{{type}}">
+                            <div class="block block-{{type}}" data-block-id="{{id}}">
                                 {{#assign "blockLayout"}}blocks/{{type}}/default-{{type}}-block{{/assign}}
                                 {{{include blockLayout}}}
                             </div>

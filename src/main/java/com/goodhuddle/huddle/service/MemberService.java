@@ -16,6 +16,7 @@ package com.goodhuddle.huddle.service;
 
 import com.goodhuddle.huddle.domain.Member;
 import com.goodhuddle.huddle.domain.SecurityGroup;
+import com.goodhuddle.huddle.domain.SignUpResult;
 import com.goodhuddle.huddle.service.exception.*;
 import com.goodhuddle.huddle.service.request.member.*;
 import org.springframework.data.domain.Page;
@@ -39,6 +40,9 @@ public interface MemberService {
 
     Member joinMailingList(JoinMailingListRequest request) throws EmailExistsException;
 
+    SignUpResult signUpMember(SignUpMemberRequest request) throws NoSuchBlockException;
+
+
     Member updateMember(UpdateMemberRequest request) throws UsernameExistsException, EmailExistsException;
 
     Member updatePassword(long id, String password);
@@ -54,4 +58,6 @@ public interface MemberService {
     Member getMemberForPasswordResetCode(String resetCode);
 
     Member resetPassword(ResetPasswordRequest request);
+
+
 }

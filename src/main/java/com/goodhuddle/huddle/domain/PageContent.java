@@ -117,6 +117,7 @@ public class PageContent {
 
     public static final class Block {
 
+        private Long id;
         private String type;
         private Map value;
 
@@ -126,6 +127,14 @@ public class PageContent {
         public Block(String type, Map value) {
             this.type = type;
             this.value = value;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
         }
 
         public String getType() {

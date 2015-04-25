@@ -14,15 +14,14 @@
 
 package com.goodhuddle.huddle.service.impl;
 
-import com.goodhuddle.huddle.domain.Huddle;
-import com.goodhuddle.huddle.domain.Member;
-import com.goodhuddle.huddle.domain.SecurityGroup;
+import com.goodhuddle.huddle.domain.*;
 import com.goodhuddle.huddle.repository.MemberRepository;
 import com.goodhuddle.huddle.repository.MemberSpecification;
 import com.goodhuddle.huddle.repository.SecurityGroupRepository;
 import com.goodhuddle.huddle.repository.TagRepository;
 import com.goodhuddle.huddle.service.HuddleService;
 import com.goodhuddle.huddle.service.MemberService;
+import com.goodhuddle.huddle.service.PageService;
 import com.goodhuddle.huddle.service.exception.*;
 import com.goodhuddle.huddle.service.impl.mail.EmailSender;
 import com.goodhuddle.huddle.service.impl.security.SecurityHelper;
@@ -40,9 +39,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -56,6 +53,7 @@ public class MemberServiceImpl implements MemberService {
     private final SecurityHelper securityHelper;
     private final EmailSender emailSender;
     private final HuddleService huddleService;
+    private final PageService pageService;
 
     @Autowired
     public MemberServiceImpl(MemberRepository memberRepository,
@@ -64,7 +62,8 @@ public class MemberServiceImpl implements MemberService {
                              PasswordEncoder passwordEncoder,
                              SecurityHelper securityHelper,
                              EmailSender emailSender,
-                             HuddleService huddleService) {
+                             HuddleService huddleService,
+                             PageService pageService) {
 
         this.memberRepository = memberRepository;
         this.tagRepository = tagRepository;
@@ -73,6 +72,7 @@ public class MemberServiceImpl implements MemberService {
         this.securityHelper = securityHelper;
         this.emailSender = emailSender;
         this.huddleService = huddleService;
+        this.pageService = pageService;
     }
 
     @Override
@@ -96,7 +96,7 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberRepository.findByHuddleAndEmailIgnoreCase(huddleService.getHuddle(), email);
         if (member == null) {
             try {
-                member = createMember(new CreateMemberRequest(null, null, null, email, null, null));
+                member = createMember(new CreateMemberRequest(null, null, null, email, null, null, null));
                 log.info("New member created with ID {} for email address '{}'", member.getId(), member.getEmail());
             } catch (UsernameExistsException | EmailExistsException e) {
                 log.error("An impossible error occurred while creating a new member for email: " + email, e);
@@ -149,7 +149,8 @@ public class MemberServiceImpl implements MemberService {
         Member member = new Member(
                 huddleService.getHuddle(),
                 request.getUsername(), request.getFirstName(),
-                request.getLastName(), request.getEmail(), securityGroup, encodedPassword
+                request.getLastName(), request.getEmail(), request.getPostCode(),
+                securityGroup, encodedPassword
         );
         member = memberRepository.save(member);
         return member;
@@ -166,9 +167,63 @@ public class MemberServiceImpl implements MemberService {
         }
 
         log.info("Adding email {} to mailing list", request.getEmail());
-        Member member = new Member(huddleService.getHuddle(), null, request.getEmail(), null, null);
+        Member member = new Member(huddleService.getHuddle(), null, request.getEmail(), null, null, null);
         member = memberRepository.save(member);
         return member;
+    }
+
+    @Override
+    public SignUpResult signUpMember(SignUpMemberRequest request) throws NoSuchBlockException {
+
+        Huddle huddle = huddleService.getHuddle();
+
+        SignUpResult result = new SignUpResult("/signup-success");
+        List<Tag> tags = new ArrayList<>();
+        if (request.getBlockId() != null) {
+            PageContent.Block block = pageService.getBlock(request.getBlockId());
+            if (block != null) {
+                Map value = block.getValue();
+                if (value != null) {
+                    Object successUrl = value.get("successUrl");
+                    if (successUrl != null) {
+                        result.setSuccessUrl(String.valueOf(successUrl));
+                    }
+
+                    Object tagIds = value.get("tagIds");
+                    if (tagIds instanceof List) {
+                        for (Object tagIdObj : (List) tagIds) {
+                            long tagId = Long.valueOf(String.valueOf(tagIdObj));
+                            Tag tag = tagRepository.findByHuddleAndId(huddle, tagId);
+                            if (tag != null) {
+                                tags.add(tag);
+                            }
+                        }
+                    }
+                }
+            } else {
+                throw new NoSuchBlockException("No block found for ID: " + request.getBlockId());
+            }
+        }
+
+        Member member = memberRepository.findByHuddleAndEmailIgnoreCase(huddleService.getHuddle(), request.getEmail());
+        if (member != null) {
+            log.debug("Member already exists for: {}", request.getEmail());
+            result.setMember(member);
+        } else {
+            log.info("Signing up new member, email = {}", request.getEmail());
+            member = new Member(huddleService.getHuddle(), null,
+                    request.getFirstName(), request.getLastName(), request.getEmail(), request.getPostCode(),
+                    null, null);
+            member.setPostCode(request.getPostCode());
+        }
+
+        for (Tag tag : tags) {
+            member.addTag(tag);
+        }
+
+        result.setMember(memberRepository.save(member));
+
+        return result;
     }
 
     @Override
@@ -200,6 +255,7 @@ public class MemberServiceImpl implements MemberService {
                 request.getFirstName(),
                 request.getLastName(),
                 request.getEmail(),
+                request.getPostCode(),
                 securityGroup);
 
         if (securityGroup != null) {

@@ -24,8 +24,8 @@ public class CreateMemberRequest extends AbstractMemberDetailRequest {
     }
 
     public CreateMemberRequest(String username, String firstName, String lastName,
-                               String email, Long securityGroupId, String password) {
-        super(firstName, lastName, email, securityGroupId);
+                               String email, String postCode, Long securityGroupId, String password) {
+        super(firstName, lastName, email, postCode, securityGroupId);
         this.username = username;
         this.password = password;
     }

@@ -19,16 +19,26 @@ import org.joda.time.DateTime;
 
 public class MemberRow extends MemberRef {
 
+    private String postCode;
     private HuddleRef huddle;
     private DateTime lastLogin;
     private SecurityGroupRef securityGroup;
 
-    public MemberRow(long id, String username, String displayName, String email,
+    public MemberRow(long id, String username, String displayName, String email, String postCode,
                      HuddleRef huddle, DateTime lastLogin, SecurityGroupRef securityGroup) {
         super(id, username, displayName, email);
+        this.postCode = postCode;
         this.huddle = huddle;
         this.lastLogin = lastLogin;
         this.securityGroup = securityGroup;
+    }
+
+    public String getPostCode() {
+        return postCode;
+    }
+
+    public void setPostCode(String postCode) {
+        this.postCode = postCode;
     }
 
     public HuddleRef getHuddle() {

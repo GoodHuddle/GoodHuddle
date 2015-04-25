@@ -15,6 +15,7 @@
 package com.goodhuddle.huddle.service;
 
 import com.goodhuddle.huddle.domain.Page;
+import com.goodhuddle.huddle.domain.PageContent;
 import com.goodhuddle.huddle.service.exception.PageSlugExistsException;
 import com.goodhuddle.huddle.service.request.page.CreatePageRequest;
 import com.goodhuddle.huddle.service.request.page.UpdatePageRequest;
@@ -41,4 +42,5 @@ public interface PageService {
 
     File getAttachment(long pageId, String fileName) throws IOException;
 
+    PageContent.Block getBlock(long blockId);
 }

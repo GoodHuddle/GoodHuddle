@@ -43,6 +43,7 @@ public class MemberDetailBuilder extends AbstractDTOBuilder<MemberDetail, Member
                 entity.getEmail(),
                 entity.getFirstName(),
                 entity.getLastName(),
+                entity.getPostCode(),
                 entity.getLastLogin(),
                 securityGroupRefBuilder.build(entity.getSecurityGroup()),
                 tagRefBuilder.build(entity.getTags()));

@@ -23,16 +23,18 @@ public class MemberDetail extends MemberRef {
 
     private String firstName;
     private String lastName;
+    private String postCode;
     private DateTime lastLogin;
     private SecurityGroupRef securityGroup;
     private List<TagRef> tags;
 
     public MemberDetail(long id, String username, String displayName, String email,
-                        String firstName, String lastName, DateTime lastLogin,
+                        String firstName, String lastName, String postCode, DateTime lastLogin,
                         SecurityGroupRef securityGroup, List<TagRef> tags) {
         super(id, username, displayName, email);
         this.firstName = firstName;
         this.lastName = lastName;
+        this.postCode = postCode;
         this.lastLogin = lastLogin;
         this.securityGroup = securityGroup;
         this.tags = tags;
@@ -44,6 +46,14 @@ public class MemberDetail extends MemberRef {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public String getPostCode() {
+        return postCode;
+    }
+
+    public void setPostCode(String postCode) {
+        this.postCode = postCode;
     }
 
     public DateTime getLastLogin() {

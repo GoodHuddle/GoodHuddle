@@ -162,6 +162,7 @@ public class HuddleServiceImpl implements HuddleService {
                 request.getAdminFirstName(),
                 request.getAdminLastName(),
                 request.getAdminEmail(),
+                null,
                 adminSecurityGroup,
                 passwordEncoder.encode(request.getAdminPassword()));
         admin.setHuddleOwner(true);

@@ -335,6 +335,11 @@ angular
                 url: "/payment",
                 templateUrl: "components/settings/payment/payment-settings.html"
             })
+
+            .state('settings.tags', {
+                url: "/tags",
+                templateUrl: "components/settings/tags/tag-settings.html"
+            })
         ;
 
 

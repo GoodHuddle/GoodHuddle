@@ -1,0 +1,43 @@
+<div class="gh-sign-up">
+
+    <form class="gh-sign-up-form">
+
+        <span data-gh-sign-up-error="general" class="has-error"></span>
+
+        <div class="form-group">
+            <input data-gh-sign-up-name="firstName" class="form-control" placeholder="First name"/>
+            <span data-gh-sign-up-error="firstName" class="has-error"></span>
+        </div>
+
+        <div class="form-group">
+            <input data-gh-sign-up-name="lastName" class="form-control" placeholder="Last name"/>
+            <span data-gh-sign-up-error="lastName" class="has-error"></span>
+        </div>
+
+        <div class="form-group">
+            <input data-gh-sign-up-name="postCode" class="form-control" placeholder="Postcode"/>
+            <span data-gh-sign-up-error="postCode" class="has-error"></span>
+        </div>
+
+        <div class="form-group">
+            <input data-gh-sign-up-name="email" class="form-control" placeholder="Email"/>
+            <span data-gh-sign-up-error="email" class="has-error"></span>
+        </div>
+
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit">{{value.buttonLabel}}</button>
+        </div>
+
+    </form>
+</div>
+
+{{#append "scripts" addOnlyOnce="ghsignup"}}
+
+    <script src="/js/goodhuddle-sign-up.js"></script>
+
+    <script type="text/javascript">
+        goodHuddleSignUp.init();
+    </script>
+
+{{/append}}
+

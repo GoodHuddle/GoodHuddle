@@ -41,6 +41,7 @@ public class MemberRowBuilder extends AbstractDTOBuilder<MemberRow, Member> {
                 entity.getUsername(),
                 entity.getDisplayName(),
                 entity.getEmail(),
+                entity.getPostCode(),
                 huddleRefBuilder.build(entity.getHuddle()),
                 entity.getLastLogin(),
                 securityGroupRefBuilder.build(entity.getSecurityGroup()));

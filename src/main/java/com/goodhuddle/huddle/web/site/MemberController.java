@@ -16,17 +16,17 @@ package com.goodhuddle.huddle.web.site;
 
 import com.goodhuddle.huddle.domain.Member;
 import com.goodhuddle.huddle.domain.Menu;
+import com.goodhuddle.huddle.domain.SignUpResult;
 import com.goodhuddle.huddle.service.MemberService;
 import com.goodhuddle.huddle.service.MenuService;
 import com.goodhuddle.huddle.service.exception.EmailExistsException;
+import com.goodhuddle.huddle.service.exception.NoSuchBlockException;
 import com.goodhuddle.huddle.service.exception.PaymentFailedException;
 import com.goodhuddle.huddle.service.exception.PaymentsNotSetupException;
-import com.goodhuddle.huddle.service.exception.UsernameExistsException;
 import com.goodhuddle.huddle.service.request.member.ContactUsRequest;
-import com.goodhuddle.huddle.service.request.member.CreateMemberRequest;
 import com.goodhuddle.huddle.service.request.member.JoinMailingListRequest;
+import com.goodhuddle.huddle.service.request.member.SignUpMemberRequest;
 import com.goodhuddle.huddle.web.builder.member.MemberDetailBuilder;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,46 +79,6 @@ public class MemberController {
         return "site/member/profile";
     }
 
-    @RequestMapping(value = "signup", method = RequestMethod.GET)
-    public String showMemberSignUpPage(Model model) {
-        Menu menu = menuService.getMainMenu();
-        model.addAttribute("menu", menu);
-        model.addAttribute("form", new MemberSignUpForm());
-        return "site/member/sign-up";
-    }
-
-    @RequestMapping(value = "signup", method = RequestMethod.POST)
-    public String signUpMember(@Valid @ModelAttribute("request") MemberSignUpForm form, BindingResult result, Model model) {
-
-        Menu menu = menuService.getMainMenu();
-        model.addAttribute("menu", menu);
-
-        try {
-
-            if (!StringUtils.equals(form.getPassword(), form.getConfirmPassword())) {
-                result.addError(new FieldError("form", "confirmPassword", "Passwords do not match"));
-            }
-
-            if (result.hasErrors()) {
-                return "site/member/sign-up";
-            }
-
-            log.info("Signing up new member: {}", form.getEmail());
-            Member member = memberService.createMember(new CreateMemberRequest(
-                    null, form.getFirstName(), form.getLastName(), form.getEmail(), null, form.getPassword()
-            ));
-            model.addAttribute("member", member);
-            return "site/member/sign-up-success";
-
-        } catch (UsernameExistsException e) {
-            result.addError(new FieldError("form", "username", "That username is already taken"));
-            return "site/member/sign-up";
-        } catch (EmailExistsException e) {
-            result.addError(new FieldError("form", "email", "An account already exists for this email address"));
-            return "site/member/sign-up";
-        }
-    }
-
     @RequestMapping(value = "join", method = RequestMethod.GET)
     public String showJoinMailingListPage(Model model) {
         Menu menu = menuService.getMainMenu();
@@ -160,6 +120,18 @@ public class MemberController {
         return new ContactUsResponse();
     }
 
+
+    @RequestMapping(value = "signup.do", method = RequestMethod.POST)
+    @ResponseBody
+    public SignUpResponse signUpMember(@Valid @RequestBody SignUpMemberRequest request)
+            throws NoSuchBlockException {
+
+        log.debug("Signing up new member: {}", request.getEmail());
+        SignUpResult result = memberService.signUpMember(request);
+        return new SignUpResponse(result.getSuccessUrl());
+    }
+
+
     //-------------------------------------------------------------------------
 
     public static final class ContactUsResponse {
@@ -175,6 +147,21 @@ public class MemberController {
 
         public void setSent(boolean sent) {
             this.sent = sent;
+        }
+    }
+
+    //-------------------------------------------------------------------------
+
+    public static final class SignUpResponse {
+
+        private String successUrl;
+
+        public SignUpResponse(String successUrl) {
+            this.successUrl = successUrl;
+        }
+
+        public String getSuccessUrl() {
+            return successUrl;
         }
     }
 }

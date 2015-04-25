@@ -12,27 +12,30 @@
  * Lesser General Public License for more details.
  */
 
-'use strict';
+package com.goodhuddle.huddle.domain;
 
-angular.module('huddleAdmin')
+public class SignUpResult {
 
-    .controller('MemberSignUpBlock', ['$scope', function ($scope) {
+    private Member member;
+    private String successUrl;
 
-    }])
+    public SignUpResult(String successUrl) {
+        this.successUrl = successUrl;
+    }
 
+    public Member getMember() {
+        return member;
+    }
 
-    .controller('MemberSignUpTool', ['$scope', function ($scope) {
+    public void setMember(Member member) {
+        this.member = member;
+    }
 
-        $scope.blockFactory.getLabel = function (type) {
-            return "Member sign-up form"
-        };
+    public String getSuccessUrl() {
+        return successUrl;
+    }
 
-        $scope.blockFactory.createBlock = function (type) {
-            return {
-                type: type,
-                value: {
-                }
-            }
-        };
-
-    }]);
+    public void setSuccessUrl(String successUrl) {
+        this.successUrl = successUrl;
+    }
+}

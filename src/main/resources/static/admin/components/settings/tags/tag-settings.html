@@ -1,0 +1,56 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div id="tag-settings" ng-controller="TagSettingsController">
+
+    <div class="header-bar">
+        <div class="pull-right">
+            <button class="btn btn-default" ng-click="addTag()">Add Tag</button>
+        </div>
+
+        <h1>Tags</h1>
+    </div>
+
+    <div class="col-md-12">
+
+        <div ng-if="loading">
+            Loading...
+        </div>
+
+        <div ng-if="!loading">
+
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Description</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="tag in tags.content">
+                    <td>
+                        {{tag.name}}
+                    </td>
+                    <td>
+                        {{tag.description}}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+</div>

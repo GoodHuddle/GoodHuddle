@@ -1,0 +1,44 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div>
+    <div class="modal-header">
+        <h3 class="modal-title">Add Tag</h3>
+    </div>
+
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label for="name" class="col-sm-3 control-label">Tag</label>
+
+                <div class="col-sm-9">
+                    <input id="name" class="form-control" ng-model="tag.name"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="description" class="col-sm-3 control-label">Description</label>
+
+                <div class="col-sm-9">
+                    <input id="description" class="form-control" ng-model="tag.description"/>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <div class="modal-footer">
+        <img ng-show="cancelling" src="images/loading.gif">
+        <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+        <button class="btn btn-primary" ng-click="ok()">Ok</button>
+    </div>
+</div>

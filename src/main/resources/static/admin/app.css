@@ -1022,7 +1022,7 @@ body {
     Dashboard styles
 */
 
-.dashboard-item {
+.dashboard-item.fa {
     color: #d8a96f;
     font-size: 80px;
     margin-bottom: 30px;

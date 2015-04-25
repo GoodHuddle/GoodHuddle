@@ -15,6 +15,7 @@
 package com.goodhuddle.huddle.service.impl;
 
 import com.goodhuddle.huddle.domain.*;
+import com.goodhuddle.huddle.repository.BlockIdMappingRepository;
 import com.goodhuddle.huddle.repository.PageRepository;
 import com.goodhuddle.huddle.repository.PageRevisionRepository;
 import com.goodhuddle.huddle.service.HuddleService;
@@ -45,6 +46,7 @@ public class PageServiceImpl implements PageService {
     private final SecurityHelper securityHelper;
     private final PageRepository pageRepository;
     private final PageRevisionRepository pageRevisionRepository;
+    private final BlockIdMappingRepository blockIdMappingRepository;
     private final MenuService menuService;
     private final FileStore fileStore;
 
@@ -53,12 +55,14 @@ public class PageServiceImpl implements PageService {
                            SecurityHelper securityHelper,
                            PageRepository pageRepository,
                            PageRevisionRepository pageRevisionRepository,
+                           BlockIdMappingRepository blockIdMappingRepository,
                            MenuService menuService,
                            FileStore fileStore) {
         this.huddleService = huddleService;
         this.securityHelper = securityHelper;
         this.pageRepository = pageRepository;
         this.pageRevisionRepository = pageRevisionRepository;
+        this.blockIdMappingRepository = blockIdMappingRepository;
         this.menuService = menuService;
         this.fileStore = fileStore;
     }
@@ -94,6 +98,8 @@ public class PageServiceImpl implements PageService {
         Page page = pageRepository.save(new Page(huddleService.getHuddle(),
                 request.getTitle(), request.getSlug(), request.getLayout(), content));
 
+        updateBlockIds(page);
+
         MenuItem menuItem = menuService.createMenuItem(
                 request.getTitle(), request.getMenuId(), request.getParentItemId(), request.getPosition(),
                 MenuItem.Type.page, page.getId(), page.getUrl());
@@ -116,6 +122,7 @@ public class PageServiceImpl implements PageService {
 
         Page page = pageRepository.findByHuddleAndId(huddleService.getHuddle(), request.getId());
         page.update(request.getTitle(), request.getSlug(), request.getLayout(), request.getContent());
+        updateBlockIds(page);
         page = pageRepository.save(page);
 
         Member currentMember = securityHelper.getCurrentMember();
@@ -153,7 +160,46 @@ public class PageServiceImpl implements PageService {
         return fileStore.getFile(path);
     }
 
+    @Override
+    public PageContent.Block getBlock(long blockId) {
+        BlockIdMapping mapping = blockIdMappingRepository.findOne(blockId);
+        if (mapping != null) {
+            PageContent content = mapping.getPage().getContent();
+            if (content != null) {
+                for (PageContent.Row row : content.getRows()) {
+                    for (PageContent.Cell cell : row.getCells()) {
+                        for (PageContent.Block block : cell.getBlocks()) {
+                            if (block.getId() != null && block.getId().equals(blockId)) {
+                                return block;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
     private String getAttachmentPath(long pageId, String fileName) {
         return "/attachments/page/" + pageId + "/" + fileName;
+    }
+
+    private void updateBlockIds(Page page) {
+
+        // delete old mapping
+        blockIdMappingRepository.deleteByPage(page);
+
+        // create new mappings
+        PageContent content = page.getContent();
+        if (content != null) {
+            for (PageContent.Row row : content.getRows()) {
+                for (PageContent.Cell cell : row.getCells()) {
+                    for (PageContent.Block block : cell.getBlocks()) {
+                        BlockIdMapping idMapping = blockIdMappingRepository.save(new BlockIdMapping(page));
+                        block.setId(idMapping.getId());
+                    }
+                }
+            }
+        }
     }
 }
