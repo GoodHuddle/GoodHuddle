@@ -18,11 +18,14 @@ public class HuddleDetail extends HuddleRef {
 
     private String description;
     private boolean setupWizardComplete;
+    private boolean comingSoon;
 
-    public HuddleDetail(long id, String slug, String name, String baseUrl, String description, boolean setupWizardComplete) {
+    public HuddleDetail(long id, String slug, String name, String baseUrl, String description,
+                        boolean setupWizardComplete, boolean comingSoon) {
         super(id, slug, name, baseUrl);
         this.description = description;
         this.setupWizardComplete = setupWizardComplete;
+        this.comingSoon = comingSoon;
     }
 
     public String getDescription() {
@@ -31,6 +34,10 @@ public class HuddleDetail extends HuddleRef {
 
     public boolean isSetupWizardComplete() {
         return setupWizardComplete;
+    }
+
+    public boolean isComingSoon() {
+        return comingSoon;
     }
 }
 

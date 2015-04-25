@@ -23,6 +23,9 @@ public class UpdateHuddleRequest {
 
     private String description;
 
+    private boolean comingSoon;
+
+
     public String getName() {
         return name;
     }
@@ -37,5 +40,13 @@ public class UpdateHuddleRequest {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isComingSoon() {
+        return comingSoon;
+    }
+
+    public void setComingSoon(boolean comingSoon) {
+        this.comingSoon = comingSoon;
     }
 }

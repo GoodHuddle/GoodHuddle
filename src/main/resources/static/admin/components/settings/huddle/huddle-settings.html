@@ -49,6 +49,16 @@
             </div>
 
             <div class="form-group">
+                <label for="comingSoon" class="col-sm-2 control-label">Coming soon</label>
+                <div class="col-sm-6">
+                    <input id="comingSoon"
+                           ng-model="huddle.comingSoon"
+                           class="form-control" type="checkbox"/>
+                    <p class="help-block error-message"></p>
+                </div>
+            </div>
+
+            <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-6">
                     <span ng-show="modified" class="save-buttons">
                         <a class="btn btn-primary" ng-click="save()" ng-disabled="saving">Save</a>

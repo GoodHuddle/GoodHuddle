@@ -46,6 +46,9 @@ public class Huddle extends AbstractDomainObject<Long> {
     @Column(name = "setup_wizard_complete")
     private boolean setupWizardComplete;
 
+    @Column(name = "coming_soon")
+    private boolean comingSoon;
+
     public Huddle() {
     }
 
@@ -57,9 +60,10 @@ public class Huddle extends AbstractDomainObject<Long> {
         this.createdOn = new DateTime();
     }
 
-    public void update(String name, String description) {
+    public void update(String name, String description, boolean comingSoon) {
         this.name = name;
         this.description = description;
+        this.comingSoon = comingSoon;
     }
 
     public String getSlug() {
@@ -88,5 +92,13 @@ public class Huddle extends AbstractDomainObject<Long> {
 
     public void setSetupWizardComplete(boolean setupWizardComplete) {
         this.setupWizardComplete = setupWizardComplete;
+    }
+
+    public boolean isComingSoon() {
+        return comingSoon;
+    }
+
+    public void setComingSoon(boolean comingSoon) {
+        this.comingSoon = comingSoon;
     }
 }

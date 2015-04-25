@@ -175,7 +175,7 @@ public class HuddleServiceImpl implements HuddleService {
     @Override
     public Huddle updateHuddle(UpdateHuddleRequest request) {
         Huddle huddle = getHuddle();
-        huddle.update(request.getName(), request.getDescription());
+        huddle.update(request.getName(), request.getDescription(), request.isComingSoon());
         huddleRepository.save(huddle);
         log.info("Huddle details updated");
         return huddle;

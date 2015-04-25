@@ -16,11 +16,15 @@ package com.goodhuddle.huddle.web;
 
 import com.goodhuddle.huddle.domain.Huddle;
 import com.goodhuddle.huddle.domain.Member;
+import com.goodhuddle.huddle.domain.Permissions;
 import com.goodhuddle.huddle.service.HuddleService;
 import com.goodhuddle.huddle.service.impl.security.SecurityHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -69,6 +73,32 @@ public class HuddleGlobalInterceptor extends HandlerInterceptorAdapter {
                 return true;
             } else {
                 response.sendRedirect("/not-setup");
+                return false;
+            }
+        }
+
+        // check if in coming soon mode
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAdmin = false;
+        if (auth != null) {
+            for (GrantedAuthority grantedAuthority : auth.getAuthorities()) {
+                if (Permissions.Admin.access.equals(grantedAuthority.getAuthority())) {
+                    isAdmin = true;
+                    break;
+                }
+            }
+        }
+
+        if (huddle.isComingSoon() && !isAdmin) {
+            if (StringUtils.isNotBlank(request.getRequestURI())
+                    && (request.getRequestURI().endsWith("/not-setup")
+                    || request.getRequestURI().startsWith("/coming-soon")
+                    || request.getRequestURI().startsWith("/admin")
+                    || request.getRequestURI().startsWith("/error")
+                    || request.getRequestURI().startsWith("/api"))) {
+                return true;
+            } else {
+                response.sendRedirect("/coming-soon");
                 return false;
             }
         }

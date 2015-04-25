@@ -30,6 +30,7 @@ public class HuddleDetailBuilder extends AbstractDTOBuilder<HuddleDetail, Huddle
                 entity.getName(),
                 entity.getBaseUrl(),
                 entity.getDescription(),
-                entity.isSetupWizardComplete());
+                entity.isSetupWizardComplete(),
+                entity.isComingSoon());
     }
 }
