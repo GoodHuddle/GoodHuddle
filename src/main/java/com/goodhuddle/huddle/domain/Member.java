@@ -43,6 +43,9 @@ public class Member extends AbstractHuddleObject<Long> implements Taggable {
     @Column(name = "post_code")
     private String postCode;
 
+    @Column(name = "phone")
+    private String phone;
+
     @ManyToOne
     @JoinColumn(name="security_group_id")
     private SecurityGroup securityGroup;
@@ -79,33 +82,37 @@ public class Member extends AbstractHuddleObject<Long> implements Taggable {
     public Member() {
     }
 
-    public Member(Huddle huddle, String username, String email, String postCode,
+    public Member(Huddle huddle, String username, String email, String postCode, String phone,
                   SecurityGroup securityGroup, String encodedPassword) {
         super(huddle);
         this.username = username;
         this.email = email;
         this.postCode = postCode;
+        this.phone = phone;
         this.securityGroup = securityGroup;
         this.encodedPassword = encodedPassword;
     }
 
-    public Member(Huddle huddle, String username, String firstName, String lastName, String email, String postCode,
-                  SecurityGroup securityGroup, String encodedPassword) {
+    public Member(Huddle huddle, String username, String firstName, String lastName, String email,
+                  String postCode, String phone, SecurityGroup securityGroup, String encodedPassword) {
         super(huddle);
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.postCode = postCode;
+        this.phone = phone;
         this.securityGroup = securityGroup;
         this.encodedPassword = encodedPassword;
     }
 
-    public void update(String firstName, String lastName, String email, String postCode, SecurityGroup securityGroup) {
+    public void update(String firstName, String lastName, String email,
+                       String postCode, String phone, SecurityGroup securityGroup) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.postCode = postCode;
+        this.phone = phone;
         this.securityGroup = securityGroup;
     }
 
@@ -147,6 +154,14 @@ public class Member extends AbstractHuddleObject<Long> implements Taggable {
 
     public void setPostCode(String postCode) {
         this.postCode = postCode;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public SecurityGroup getSecurityGroup() {

@@ -96,7 +96,7 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberRepository.findByHuddleAndEmailIgnoreCase(huddleService.getHuddle(), email);
         if (member == null) {
             try {
-                member = createMember(new CreateMemberRequest(null, null, null, email, null, null, null));
+                member = createMember(new CreateMemberRequest(null, null, null, email, null, null, null, null));
                 log.info("New member created with ID {} for email address '{}'", member.getId(), member.getEmail());
             } catch (UsernameExistsException | EmailExistsException e) {
                 log.error("An impossible error occurred while creating a new member for email: " + email, e);
@@ -149,7 +149,8 @@ public class MemberServiceImpl implements MemberService {
         Member member = new Member(
                 huddleService.getHuddle(),
                 request.getUsername(), request.getFirstName(),
-                request.getLastName(), request.getEmail(), request.getPostCode(),
+                request.getLastName(), request.getEmail(),
+                request.getPostCode(), request.getPhone(),
                 securityGroup, encodedPassword
         );
         member = memberRepository.save(member);
@@ -167,7 +168,7 @@ public class MemberServiceImpl implements MemberService {
         }
 
         log.info("Adding email {} to mailing list", request.getEmail());
-        Member member = new Member(huddleService.getHuddle(), null, request.getEmail(), null, null, null);
+        Member member = new Member(huddleService.getHuddle(), null, request.getEmail(), null, null, null, null);
         member = memberRepository.save(member);
         return member;
     }
@@ -212,8 +213,8 @@ public class MemberServiceImpl implements MemberService {
         } else {
             log.info("Signing up new member, email = {}", request.getEmail());
             member = new Member(huddleService.getHuddle(), null,
-                    request.getFirstName(), request.getLastName(), request.getEmail(), request.getPostCode(),
-                    null, null);
+                    request.getFirstName(), request.getLastName(), request.getEmail(),
+                    request.getPostCode(), request.getPhone(), null, null);
             member.setPostCode(request.getPostCode());
         }
 
@@ -256,6 +257,7 @@ public class MemberServiceImpl implements MemberService {
                 request.getLastName(),
                 request.getEmail(),
                 request.getPostCode(),
+                request.getPhone(),
                 securityGroup);
 
         if (securityGroup != null) {

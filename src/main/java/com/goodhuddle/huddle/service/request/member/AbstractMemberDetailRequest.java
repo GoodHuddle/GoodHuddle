@@ -24,6 +24,8 @@ public abstract class AbstractMemberDetailRequest {
 
     private String postCode;
 
+    private String phone;
+
     @NotBlank(message = "Please provide an email address")
     private String email;
 
@@ -32,11 +34,13 @@ public abstract class AbstractMemberDetailRequest {
     protected AbstractMemberDetailRequest() {
     }
 
-    protected AbstractMemberDetailRequest(String firstName, String lastName, String email, String postCode, Long securityGroupId) {
+    protected AbstractMemberDetailRequest(String firstName, String lastName, String email,
+                                          String postCode, String phone, Long securityGroupId) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.postCode = postCode;
+        this.phone = phone;
         this.securityGroupId = securityGroupId;
     }
 
@@ -70,6 +74,14 @@ public abstract class AbstractMemberDetailRequest {
 
     public void setPostCode(String postCode) {
         this.postCode = postCode;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public Long getSecurityGroupId() {

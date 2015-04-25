@@ -43,12 +43,14 @@ var goodHuddleSignUp = (function () {
                 var lastNameField = $form.find('[data-gh-sign-up-name="lastName"]');
                 var emailField = $form.find('[data-gh-sign-up-name="email"]');
                 var postCodeField = $form.find('[data-gh-sign-up-name="postCode"]');
+                var phoneField = $form.find('[data-gh-sign-up-name="phone"]');
                 var submitButton = $form.find('button[type=submit]');
 
                 var firstName = firstNameField.val();
                 var lastName = lastNameField.val();
                 var email = emailField.val();
                 var postCode = postCodeField.val();
+                var phone = phoneField.val();
 
                 submitButton.attr('disabled', 'disabled');
                 $.ajax({
@@ -59,7 +61,8 @@ var goodHuddleSignUp = (function () {
                         firstName: firstName,
                         lastName: lastName,
                         email: email,
-                        postCode: postCode
+                        postCode: postCode,
+                        phone: phone
                     }),
                     success: function (result) {
 

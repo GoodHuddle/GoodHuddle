@@ -26,7 +26,7 @@ angular.module('huddleAdmin')
                     slideArray = angular.copy(block.value.slides);
 
                 } else {
-                    slideArray = [{imageUrl:null, href:null, caption:null, active: true }]
+                    slideArray = [{imageUrl:null, href:null, leadText:null, subText:null, active: true }]
                 }
                 $scope.details = {
                     slideInterval : block.value.slideInterval ? block.value.slideInterval : 5000,
@@ -37,7 +37,8 @@ angular.module('huddleAdmin')
                     $scope.details.slides.push({
                         imageUrl : null,
                         href : null,
-                        caption: null,
+                        leadText: null,
+                        subText: null,
                         active: true
                     });
                 };

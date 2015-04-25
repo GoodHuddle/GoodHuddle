@@ -98,6 +98,50 @@
     margin:0 auto; /* center your carousel if other than 100% */
 }
 
+.block .carousel .carousel-image {
+    position: relative;
+}
+
+.block .carousel .carousel-lead-text {
+    position: absolute;
+    left: 80px;
+    bottom: 100px;
+}
+
+
+.block .carousel .carousel-lead-text p {
+    color: white;
+    font-size: 54px;
+}
+
+.block .carousel .carousel-tagline .subtext {
+    margin: 10px 120px;
+}
+
+@media (max-width: 480px) {
+
+    .block .carousel .carousel-lead-text {
+        position: absolute;
+        left: 40px;
+        bottom: 60px;
+    }
+
+    .block .carousel .carousel-lead-text p {
+        font-size: 28px;
+    }
+
+    .block .carousel .carousel-tagline .subtext {
+        margin: 10px 40px;
+    }
+
+    .block .carousel .carousel-control {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+
+
 /* Twitter Block */
 
 .block iframe[id^='twitter-widget-'] {

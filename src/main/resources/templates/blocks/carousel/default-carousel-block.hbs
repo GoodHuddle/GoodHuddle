@@ -12,17 +12,15 @@
       <div class=" item {{#if @first}}active{{/if}} slide{{@index}}">
         <!--{{#if href}}<a href="{{href}}">{{/if}}-->
           <div style="background:url({{imageUrl}}) center center;
-                    background-size:cover;" class="slider-size">
+                    background-size:cover;" class="carousel-image slider-size">
             {{!-- <img src="{{value.url}}" alt="..."> --}}
-            <!--
-            <div class="carousel-caption">
-              <p>{{caption}}</p>
+            <div class="carousel-lead-text">
+              <p>{{{leadText}}}</p>
             </div>
-            -->
           </div>
 
           <div class="carousel-tagline">
-              <p>{{caption}}</p>
+              <p class="subtext">{{subText}}</p>
               <!-- Controls -->
               <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
                   <span class="fa fa-angle-left"></span>

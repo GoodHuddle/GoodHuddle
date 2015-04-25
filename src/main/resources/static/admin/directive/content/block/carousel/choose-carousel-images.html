@@ -28,31 +28,46 @@
         <tabset>
 
             <tab heading="Slide {{$index + 1}}"  active="slide.active" ng-repeat="slide in details.slides" >
-               <div class="tab-body">
-                    <div class="form-group">
-                        <label for="imageUrl" class="col-sm-3 control-label">Image Url</label>
-                        <div class="col-sm-9">
-                            <input id="imageUrl" class="form-control" ng-model="slide.imageUrl" required/>
-                        </div>
-                    </div>
+               <div class="tab-body" style="margin-top: 20px">
 
-                    <div class="form-group">
-                        <label for="href" class="col-sm-3 control-label">Slide Link (optional)</label>
-                        <div class="col-sm-9">
-                            <input id="href" class="form-control" ng-model="slide.href"/>
-                        </div>
-                    </div>
+                   <form class="form-horizontal">
+                       <div class="form-group">
+                           <label for="imageUrl" class="col-sm-3 control-label">Image Url</label>
 
-                    <div class="form-group">
-                        <label for="caption" class="col-sm-3 control-label">Caption (optional)</label>
-                        <div class="col-sm-9">
-                            <input id="caption" class="form-control" ng-model="slide.caption"/>
-                        </div>
-                    </div>
+                           <div class="col-sm-9">
+                               <input id="imageUrl" class="form-control" ng-model="slide.imageUrl" required/>
+                           </div>
+                       </div>
 
-                    <div class="form-group">
-                        <button type="button" class="btn btn-default" ng-click="deleteSlide(slide)">Delete Slide</button>
-                    </div>
+                       <div class="form-group">
+                           <label for="href" class="col-sm-3 control-label">Slide Link (optional)</label>
+
+                           <div class="col-sm-9">
+                               <input id="href" class="form-control" ng-model="slide.href"/>
+                           </div>
+                       </div>
+
+                       <div class="form-group">
+                           <label for="caption" class="col-sm-3 control-label">Lead text (optional)</label>
+
+                           <div class="col-sm-9">
+                               <textarea id="caption" class="form-control" ng-model="slide.leadText"></textarea>
+                           </div>
+                       </div>
+
+                       <div class="form-group">
+                           <label for="subText" class="col-sm-3 control-label">Sub-text (optional)</label>
+
+                           <div class="col-sm-9">
+                               <textarea id="subText" class="form-control" ng-model="slide.subText"></textarea>
+                           </div>
+                       </div>
+
+                       <div class="form-group">
+                           <button type="button" class="btn btn-default" ng-click="deleteSlide(slide)">Delete Slide
+                           </button>
+                       </div>
+                   </form>
                </div>
             </tab>
 
