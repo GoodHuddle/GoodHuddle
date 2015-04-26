@@ -22,13 +22,15 @@ CKEDITOR.editorConfig = function( config ) {
 	// For the complete reference:
 	// http://docs.ckeditor.com/#!/api/CKEDITOR.config
 
-	config.extraPlugins = 'ghlink,font,fontawesome';
+	config.extraPlugins = 'ghlink,font,fontawesome,colorbutton';
 
     //config.contentsCss = 'path/to/your/font-awesome.css';
     config.allowedContent = true;
 
+    config.colorButton_colors = 'F59A2A,0BABC0,4A5760,BB3F37,C7C6C5,000,CF5D4E,454545,FFF,CCC,DDD,CCEAEE,66AB16';
+
     // The toolbar groups arrangement, optimized for two toolbar rows.
-    	config.toolbarGroups = [
+    config.toolbarGroups = [
 		{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
 		{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
 		{ name: 'links' },
