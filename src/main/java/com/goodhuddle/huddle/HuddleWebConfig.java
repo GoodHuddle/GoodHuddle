@@ -22,8 +22,6 @@ import com.goodhuddle.huddle.service.impl.security.SecurityHelper;
 import com.goodhuddle.huddle.web.HuddleGlobalInterceptor;
 import com.goodhuddle.huddle.web.site.handlebars.HuddleViewResolver;
 import org.apache.catalina.Context;
-import org.apache.catalina.deploy.SecurityCollection;
-import org.apache.catalina.deploy.SecurityConstraint;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,16 +65,16 @@ public class HuddleWebConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public TomcatEmbeddedServletContainerFactory get() {
+    public TomcatEmbeddedServletContainerFactory getTomcatEmbeddedServletContainerFactory() {
         return new TomcatEmbeddedServletContainerFactory() {
             @Override
             protected void postProcessContext(Context context) {
-                SecurityConstraint securityConstraint = new SecurityConstraint();
-                securityConstraint.setUserConstraint("CONFIDENTIAL");
-                SecurityCollection collection = new SecurityCollection();
-                collection.addPattern("/*");
-                securityConstraint.addCollection(collection);
-                context.addConstraint(securityConstraint);
+//                SecurityConstraint securityConstraint = new SecurityConstraint();
+//                securityConstraint.setUserConstraint("CONFIDENTIAL");
+//                SecurityCollection collection = new SecurityCollection();
+//                collection.addPattern("/*");
+//                securityConstraint.addCollection(collection);
+//                context.addConstraint(securityConstraint);
             }
         };
     }
