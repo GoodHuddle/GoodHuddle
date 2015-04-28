@@ -21,14 +21,12 @@ import com.goodhuddle.huddle.service.HuddleService;
 import com.goodhuddle.huddle.service.impl.security.SecurityHelper;
 import com.goodhuddle.huddle.web.HuddleGlobalInterceptor;
 import com.goodhuddle.huddle.web.site.handlebars.HuddleViewResolver;
-import org.apache.catalina.Context;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.MultipartConfigFactory;
-import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -62,21 +60,6 @@ public class HuddleWebConfig extends WebMvcConfigurerAdapter {
     @Bean
     public ViewResolver viewResolver() {
         return huddleViewResolver;
-    }
-
-    @Bean
-    public TomcatEmbeddedServletContainerFactory getTomcatEmbeddedServletContainerFactory() {
-        return new TomcatEmbeddedServletContainerFactory() {
-            @Override
-            protected void postProcessContext(Context context) {
-//                SecurityConstraint securityConstraint = new SecurityConstraint();
-//                securityConstraint.setUserConstraint("CONFIDENTIAL");
-//                SecurityCollection collection = new SecurityCollection();
-//                collection.addPattern("/*");
-//                securityConstraint.addCollection(collection);
-//                context.addConstraint(securityConstraint);
-            }
-        };
     }
 
     @Bean

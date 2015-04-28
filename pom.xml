@@ -82,13 +82,6 @@
             </exclusions>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-catalina</artifactId>
-            <version>7.0.55</version>
-            <scope>provided</scope>
-        </dependency>
-
         <!-- Spring Jetty support -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
