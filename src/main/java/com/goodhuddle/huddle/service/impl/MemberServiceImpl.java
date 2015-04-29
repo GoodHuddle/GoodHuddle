@@ -193,10 +193,12 @@ public class MemberServiceImpl implements MemberService {
                     Object tagIds = value.get("tagIds");
                     if (tagIds instanceof List) {
                         for (Object tagIdObj : (List) tagIds) {
-                            long tagId = Long.valueOf(String.valueOf(tagIdObj));
-                            Tag tag = tagRepository.findByHuddleAndId(huddle, tagId);
-                            if (tag != null) {
-                                tags.add(tag);
+                            if (tagIdObj != null) {
+                                long tagId = Long.valueOf(String.valueOf(tagIdObj));
+                                Tag tag = tagRepository.findByHuddleAndId(huddle, tagId);
+                                if (tag != null) {
+                                    tags.add(tag);
+                                }
                             }
                         }
                     }
