@@ -18,15 +18,18 @@ import org.hibernate.validator.constraints.NotBlank;
 
 public abstract class AbstractMemberDetailRequest {
 
+    @NotBlank(message = "Please provide your first name")
     private String firstName;
 
+    @NotBlank(message = "Please provide your last name")
     private String lastName;
 
+    @NotBlank(message = "Please provide your postcode")
     private String postCode;
 
     private String phone;
 
-    @NotBlank(message = "Please provide an email address")
+    @NotBlank(message = "Please provide your email address")
     private String email;
 
     private Long securityGroupId;
