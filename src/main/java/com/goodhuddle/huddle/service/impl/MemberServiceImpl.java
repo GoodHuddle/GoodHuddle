@@ -387,4 +387,17 @@ public class MemberServiceImpl implements MemberService {
         }
         return member;
     }
+
+    @Override
+    public int countActiveMembers() {
+        Huddle huddle = huddleService.getHuddle();
+        return memberRepository.countByHuddle(huddle);
+    }
+
+    @Override
+    public int countActiveMembers(long tagId) {
+        Huddle huddle = huddleService.getHuddle();
+        Tag tag = tagRepository.findByHuddleAndId(huddle, tagId);
+        return memberRepository.countByHuddleAndTags(huddle, tag);
+    }
 }

@@ -16,6 +16,7 @@ package com.goodhuddle.huddle.repository;
 
 import com.goodhuddle.huddle.domain.Huddle;
 import com.goodhuddle.huddle.domain.Member;
+import com.goodhuddle.huddle.domain.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -40,4 +41,8 @@ public interface MemberRepository extends JpaRepository<Member, Long>, JpaSpecif
     List<Member> findByHuddleAndHuddleOwnerIsTrue(Huddle huddle);
 
     Member findByHuddleAndPasswordResetCode(Huddle huddle, String resetCode);
+
+    int countByHuddle(Huddle huddle);
+
+    int countByHuddleAndTags(Huddle huddle, Tag tag);
 }

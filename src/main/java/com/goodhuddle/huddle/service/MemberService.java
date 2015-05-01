@@ -60,4 +60,7 @@ public interface MemberService {
     Member resetPassword(ResetPasswordRequest request);
 
 
+    int countActiveMembers();
+
+    int countActiveMembers(long tagId);
 }
