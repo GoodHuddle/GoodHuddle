@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 
@@ -44,13 +45,16 @@ public class ThemeResourcesController {
 
     @RequestMapping(value = "/resources/**", method = RequestMethod.GET)
     @ResponseBody
-    public FileSystemResource downloadFile(HttpServletRequest request)
+    public FileSystemResource downloadFile(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
         String url = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
         log.trace("Retrieving theme file with path: {}", url);
         File file = themeService.getActiveThemeFile(url);
         if (file != null) {
+            if (file.getName().endsWith(".pdf")) {
+                response.setContentType("application/pdf");
+            }
             return new FileSystemResource(file);
         } else {
             throw new ResourceNotFoundException("No theme file found for: " + url);
