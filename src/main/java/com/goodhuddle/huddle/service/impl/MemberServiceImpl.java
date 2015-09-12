@@ -14,6 +14,7 @@
 
 package com.goodhuddle.huddle.service.impl;
 
+import au.com.bytecode.opencsv.CSVReader;
 import com.goodhuddle.huddle.domain.*;
 import com.goodhuddle.huddle.repository.MemberRepository;
 import com.goodhuddle.huddle.repository.MemberSpecification;
@@ -23,6 +24,7 @@ import com.goodhuddle.huddle.service.HuddleService;
 import com.goodhuddle.huddle.service.MemberService;
 import com.goodhuddle.huddle.service.PageService;
 import com.goodhuddle.huddle.service.exception.*;
+import com.goodhuddle.huddle.service.impl.file.FileStore;
 import com.goodhuddle.huddle.service.impl.mail.EmailSender;
 import com.goodhuddle.huddle.service.impl.security.SecurityHelper;
 import com.goodhuddle.huddle.service.request.member.*;
@@ -36,8 +38,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
@@ -54,6 +64,9 @@ public class MemberServiceImpl implements MemberService {
     private final EmailSender emailSender;
     private final HuddleService huddleService;
     private final PageService pageService;
+    private final FileStore fileStore;
+    private final PlatformTransactionManager txManager;
+
 
     @Autowired
     public MemberServiceImpl(MemberRepository memberRepository,
@@ -63,7 +76,9 @@ public class MemberServiceImpl implements MemberService {
                              SecurityHelper securityHelper,
                              EmailSender emailSender,
                              HuddleService huddleService,
-                             PageService pageService) {
+                             PageService pageService,
+                             FileStore fileStore,
+                             PlatformTransactionManager txManager) {
 
         this.memberRepository = memberRepository;
         this.tagRepository = tagRepository;
@@ -73,6 +88,8 @@ public class MemberServiceImpl implements MemberService {
         this.emailSender = emailSender;
         this.huddleService = huddleService;
         this.pageService = pageService;
+        this.fileStore = fileStore;
+        this.txManager = txManager;
     }
 
     @Override
@@ -400,4 +417,113 @@ public class MemberServiceImpl implements MemberService {
         Tag tag = tagRepository.findByHuddleAndId(huddle, tagId);
         return memberRepository.countByHuddleAndTags(huddle, tag);
     }
+
+    @Override
+    public ImportMembersResults importMembers(MultipartFile multipartFile, Long[] tagIds) {
+        final ImportMembersResults results = new ImportMembersResults();
+        results.setSuccess(true);
+
+        try {
+            final Huddle huddle = huddleService.getHuddle();
+
+
+            if (!multipartFile.isEmpty()) {
+
+                File file = fileStore.getTempFile(fileStore.createTempFile(multipartFile.getBytes()));
+
+                final CSVReader reader = new CSVReader(new FileReader(file));
+                if (reader.readNext() != null) {
+                    // skipped header row
+
+                    final List<Tag> tags = new ArrayList<>();
+                    if (tagIds != null) {
+                        for (Long tagId : tagIds) {
+                            tags.add(tagRepository.findByHuddleAndId(huddle, tagId));
+                        }
+                    }
+
+                    boolean done = false;
+                    while (!done) {
+                    TransactionTemplate txTemplate = new TransactionTemplate(txManager);
+                    txTemplate.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+                    done = txTemplate.execute(new TransactionCallback<Boolean>() {
+
+                            @Override
+                            public Boolean doInTransaction(TransactionStatus status) {
+                                try {
+                                    int i = 0;
+                                    String [] nextLine;
+                                    while ((nextLine = reader.readNext()) != null) {
+                                        String email = nextLine[0];
+                                        String firstName = nextLine[1];
+                                        String lastName = nextLine[2];
+                                        String postCode = nextLine[3];
+                                        String phone = nextLine[4];
+
+                                        Member member = memberRepository.findByHuddleAndEmailIgnoreCase(huddle, email);
+                                        if (member != null) {
+                                            member.setFirstName(firstName);
+                                            member.setLastName(lastName);
+                                            member.setPostCode(postCode);
+                                            member.setPhone(phone);
+                                            List<Tag> memberTags = member.getTags();
+                                            if (memberTags == null) {
+                                                memberTags = new ArrayList<>();
+                                            }
+                                            outer: for (Tag tag : tags) {
+                                                for (Tag memberTag : memberTags) {
+                                                    if (memberTag.getId() == member.getId()) {
+                                                        break outer;
+                                                    }
+                                                }
+                                                memberTags.add(tag);
+                                            }
+                                            member.setTags(memberTags);
+                                            memberRepository.save(member);
+                                            results.setNumUpdated(results.getNumUpdated() + 1);
+                                        } else {
+                                            member = new Member();
+                                            member.setHuddle(huddle);
+                                            member.setEmail(email);
+                                            member.setFirstName(firstName);
+                                            member.setLastName(lastName);
+                                            member.setPostCode(postCode);
+                                            member.setPhone(phone);
+                                            member.setTags(tags);
+                                            memberRepository.save(member);
+                                            results.setNumImported(results.getNumImported() + 1);
+                                        }
+
+                                        if (i++ > 30) {
+                                            return false;
+                                        }
+                                    }
+                                    return true;
+                                } catch (IOException e) {
+                                    log.error("Error importing file: " + e, e);
+                                    results.setSuccess(false);
+                                    results.setErrorMessage("Error importing file: " + e);
+                                    return true;
+                                }
+                            }
+                        });
+                    }
+
+                }
+
+            } else {
+                log.info("Empty file was uploaded");
+                results.setSuccess(false);
+                results.setErrorMessage("Empty file was uploaded");
+            }
+        } catch (IOException e) {
+            results.setSuccess(false);
+            results.setErrorMessage("Error uploading file: " + e);
+        }
+
+        return results;
+    }
+
+
 }
+

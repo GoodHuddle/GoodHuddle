@@ -271,6 +271,11 @@ angular
                 templateUrl: "components/member/bulk/bulk-export-members.html"
             })
 
+            .state('member.import', {
+                url: "/import",
+                templateUrl: "components/member/importer/import-members.html"
+            })
+
             // Email states
 
             .state('member.mailout.email', {

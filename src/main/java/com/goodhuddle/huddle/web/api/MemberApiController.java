@@ -14,6 +14,7 @@
 
 package com.goodhuddle.huddle.web.api;
 
+import com.goodhuddle.huddle.domain.ImportMembersResults;
 import com.goodhuddle.huddle.service.MemberService;
 import com.goodhuddle.huddle.service.exception.EmailExistsException;
 import com.goodhuddle.huddle.service.exception.UsernameExistsException;
@@ -31,8 +32,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/member")
@@ -93,5 +96,20 @@ public class MemberApiController {
         log.info("Updating member password for member with ID '{}'", id);
         memberService.updatePassword(id, password);
     }
+
+    @RequestMapping(value = "/import", method = RequestMethod.POST)
+    public ImportMembersResults importMembers(@ModelAttribute("file") MultipartFile file,
+                              @ModelAttribute("tags") Long[] tagIds)
+            throws IOException{
+
+        // hack to get around weird null IDs problem
+        if (tagIds != null && tagIds.length == 1 && tagIds[0] == -1) {
+            tagIds = null;
+        }
+
+        log.debug("Importing members from file '{}' with tags '{}'", file.getOriginalFilename(), tagIds);
+        return memberService.importMembers(file, tagIds);
+    }
+
 
 }

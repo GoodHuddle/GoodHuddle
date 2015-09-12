@@ -1,0 +1,99 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div ng-controller="ImportMembersController">
+
+    <div id="breadcrumb-bar">
+        <i class="fa fa-user"></i>
+        <a ui-sref="member.list">members</a>
+        / <a class="active">import</a>
+    </div>
+
+
+    <div class="inner">
+
+        <div class="header-bar">
+            <h1>Import members</h1>
+        </div>
+
+        <div>
+
+            <div ng-if="result">
+                <div ng-if="result.success">
+                    <div>Done!</div>
+                    <div>Number Imported: {{result.numImported}}</div>
+                    <div>Number Updated: {{result.numUpdated}}</div>
+                </div>
+                <div ng-if="!result.success">
+                    <div>Something went wrong!</div>
+                    <div>{{result.errorMessage}}</div>
+                    <div>Number Imported: {{result.numImported}}</div>
+                    <div>Number Updated: {{result.numUpdated}}</div>
+                </div>
+            </div>
+
+            <form role="form" class="upload-theme-form" ng-if="!result">
+
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="upload-field">Import from file (.csv)</label>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <input id="upload-field" class="form-control" type="file" nv-file-select uploader="uploader"/>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="tags">Tag members as</label>
+                    </div>
+                    <div class="col-md-8">
+                        <ui-select multiple ng-model="request.tags" theme="bootstrap">
+                            <ui-select-match placeholder="Select tags...">{{$item.name}}</ui-select-match>
+                            <ui-select-choices repeat="tag in availableTags.content">
+                                {{tag.name}}
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-offset-3">
+                        <button ng-click="upload()" class="btn btn-primary" ng-disabled="uploader.isUploading">Upload</button>
+                        <a class="btn btn-default" ui-sref="member.list" ng-disabled="uploader.isUploading">Cancel</a>
+
+                        <!-- upload progress -->
+                        <div ng-show="uploader.isUploading">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                Uploading:
+                                <div class="progress" style="max-width: 800px">
+                                    <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

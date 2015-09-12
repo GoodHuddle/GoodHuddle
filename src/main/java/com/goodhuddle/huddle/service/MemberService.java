@@ -14,13 +14,16 @@
 
 package com.goodhuddle.huddle.service;
 
+import com.goodhuddle.huddle.domain.ImportMembersResults;
 import com.goodhuddle.huddle.domain.Member;
 import com.goodhuddle.huddle.domain.SecurityGroup;
 import com.goodhuddle.huddle.domain.SignUpResult;
 import com.goodhuddle.huddle.service.exception.*;
 import com.goodhuddle.huddle.service.request.member.*;
 import org.springframework.data.domain.Page;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface MemberService {
@@ -63,4 +66,6 @@ public interface MemberService {
     int countActiveMembers();
 
     int countActiveMembers(long tagId);
+
+    ImportMembersResults importMembers(MultipartFile multipartFile, Long[] tagIds) throws IOException;
 }
