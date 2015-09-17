@@ -14,6 +14,7 @@
 
 package com.goodhuddle.huddle;
 
+import com.ecwid.mailchimp.MailChimpClient;
 import com.goodhuddle.huddle.service.impl.mail.EmailQueueProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,6 +67,11 @@ public class HuddleApplication {
         container.setConnectionFactory(connectionFactory);
         container.setDestinationName(EmailQueueProcessor.QUEUE_NAME);
         return container;
+    }
+
+    @Bean
+    public MailChimpClient mailChimpClient() {
+        return new MailChimpClient();
     }
 
 }

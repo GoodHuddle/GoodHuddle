@@ -16,10 +16,7 @@ package com.goodhuddle.huddle.service.impl;
 
 import au.com.bytecode.opencsv.CSVReader;
 import com.goodhuddle.huddle.domain.*;
-import com.goodhuddle.huddle.repository.MemberRepository;
-import com.goodhuddle.huddle.repository.MemberSpecification;
-import com.goodhuddle.huddle.repository.SecurityGroupRepository;
-import com.goodhuddle.huddle.repository.TagRepository;
+import com.goodhuddle.huddle.repository.*;
 import com.goodhuddle.huddle.service.HuddleService;
 import com.goodhuddle.huddle.service.MemberService;
 import com.goodhuddle.huddle.service.PageService;
@@ -66,6 +63,7 @@ public class MemberServiceImpl implements MemberService {
     private final PageService pageService;
     private final FileStore fileStore;
     private final PlatformTransactionManager txManager;
+    private final EmailSettingsRepository emailSettingsRepository;
 
 
     @Autowired
@@ -78,7 +76,8 @@ public class MemberServiceImpl implements MemberService {
                              HuddleService huddleService,
                              PageService pageService,
                              FileStore fileStore,
-                             PlatformTransactionManager txManager) {
+                             PlatformTransactionManager txManager,
+                             EmailSettingsRepository emailSettingsRepository) {
 
         this.memberRepository = memberRepository;
         this.tagRepository = tagRepository;
@@ -90,6 +89,7 @@ public class MemberServiceImpl implements MemberService {
         this.pageService = pageService;
         this.fileStore = fileStore;
         this.txManager = txManager;
+        this.emailSettingsRepository = emailSettingsRepository;
     }
 
     @Override
@@ -523,7 +523,6 @@ public class MemberServiceImpl implements MemberService {
 
         return results;
     }
-
 
 }
 

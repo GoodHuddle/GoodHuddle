@@ -18,7 +18,7 @@ public class UpdateEmailSettingsRequest {
 
     private String sendFromAddress;
     private String sendFromName;
-    private String mandrillApiKey;
+    private String mailChimpApiKey;
 
     public String getSendFromAddress() {
         return sendFromAddress;
@@ -36,12 +36,13 @@ public class UpdateEmailSettingsRequest {
         this.sendFromName = sendFromName;
     }
 
-    public String getMandrillApiKey() {
-        return mandrillApiKey;
+
+    public String getMailChimpApiKey() {
+        return mailChimpApiKey;
     }
 
-    public void setMandrillApiKey(String mandrillApiKey) {
-        this.mandrillApiKey = mandrillApiKey;
+    public void setMailChimpApiKey(String mailChimpApiKey) {
+        this.mailChimpApiKey = mailChimpApiKey;
     }
 }
 

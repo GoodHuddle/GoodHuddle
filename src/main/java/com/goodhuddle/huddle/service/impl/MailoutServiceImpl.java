@@ -14,15 +14,20 @@
 
 package com.goodhuddle.huddle.service.impl;
 
-import com.goodhuddle.huddle.domain.Email;
-import com.goodhuddle.huddle.domain.EmailSettings;
-import com.goodhuddle.huddle.domain.Mailout;
-import com.goodhuddle.huddle.domain.Member;
+import com.ecwid.mailchimp.MailChimpClient;
+import com.ecwid.mailchimp.MailChimpException;
+import com.ecwid.mailchimp.MailChimpObject;
+import com.ecwid.mailchimp.method.v2_0.lists.BatchSubscribeInfo;
+import com.ecwid.mailchimp.method.v2_0.lists.BatchSubscribeMethod;
+import com.ecwid.mailchimp.method.v2_0.lists.ListMethod;
+import com.ecwid.mailchimp.method.v2_0.lists.ListMethodResult;
+import com.goodhuddle.huddle.domain.*;
 import com.goodhuddle.huddle.repository.*;
 import com.goodhuddle.huddle.service.HuddleService;
 import com.goodhuddle.huddle.service.MailoutService;
 import com.goodhuddle.huddle.service.exception.EmailsAlreadySentException;
 import com.goodhuddle.huddle.service.exception.EmailsNotGeneratedException;
+import com.goodhuddle.huddle.service.exception.MailChimpErrorException;
 import com.goodhuddle.huddle.service.impl.mail.EmailQueueProcessor;
 import com.goodhuddle.huddle.service.impl.security.SecurityHelper;
 import com.goodhuddle.huddle.service.request.mailout.CreateMailoutRequest;
@@ -30,6 +35,7 @@ import com.goodhuddle.huddle.service.request.mailout.QueuedMailoutRequest;
 import com.goodhuddle.huddle.service.request.mailout.SearchEmailsRequest;
 import com.goodhuddle.huddle.service.request.mailout.SearchMailoutsRequest;
 import com.goodhuddle.huddle.service.request.mailout.settings.UpdateEmailSettingsRequest;
+import com.goodhuddle.huddle.service.request.member.MailChimpSyncMemberRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +50,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Session;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -57,6 +65,7 @@ public class MailoutServiceImpl implements MailoutService {
     private final MemberRepository memberRepository;
     private final SecurityHelper securityHelper;
     private final JmsTemplate jmsTemplate;
+    private final MailChimpClient mailChimpClient;
     private final HuddleService huddleService;
 
     @Autowired
@@ -66,6 +75,7 @@ public class MailoutServiceImpl implements MailoutService {
                               MemberRepository memberRepository,
                               SecurityHelper securityHelper,
                               JmsTemplate jmsTemplate,
+                              MailChimpClient mailChimpClient,
                               HuddleService huddleService) {
 
         this.emailSettingsRepository = emailSettingsRepository;
@@ -74,6 +84,7 @@ public class MailoutServiceImpl implements MailoutService {
         this.memberRepository = memberRepository;
         this.securityHelper = securityHelper;
         this.jmsTemplate = jmsTemplate;
+        this.mailChimpClient = mailChimpClient;
         this.huddleService = huddleService;
     }
 
@@ -89,7 +100,7 @@ public class MailoutServiceImpl implements MailoutService {
         EmailSettings settings = getEmailSettings();
         settings.setSendFromAddress(request.getSendFromAddress());
         settings.setSendFromName(request.getSendFromName());
-        settings.setMandrillApiKey(request.getMandrillApiKey());
+        settings.setMailChimpApiKey(request.getMailChimpApiKey());
         emailSettingsRepository.save(settings);
         return settings;
     }
@@ -201,4 +212,86 @@ public class MailoutServiceImpl implements MailoutService {
                 EmailSpecification.search(huddleService.getHuddle(), request),
                 new PageRequest(request.getPage(), request.getSize()));
     }
+
+    @Override
+    public List<MailChimpList> getMailChimpLists() throws MailChimpErrorException {
+        try {
+
+            log.info("Retrieving MailChimp Lists");
+
+            EmailSettings emailSettings = getEmailSettings();
+            List<MailChimpList> result = new ArrayList<>();
+
+            ListMethod mailChimpRequest = new ListMethod();
+            mailChimpRequest.apikey = emailSettings.getMailChimpApiKey();
+            ListMethodResult mailChimpResult = mailChimpClient.execute(mailChimpRequest);
+
+            for (ListMethodResult.Data data : mailChimpResult.data) {
+                result.add(new MailChimpList(data.id, data.name));
+            }
+
+            return result;
+
+        } catch (IOException | MailChimpException e) {
+            log.error("Error looking up MailChimp lists", e);
+            throw new MailChimpErrorException("Error looking up MailChimp lists", e);
+        }
+    }
+
+    @Override
+    public void mailChimpSyncMembers(MailChimpSyncMemberRequest request) throws MailChimpErrorException {
+
+        try {
+
+            log.info("Synchronizing members with MailChimp");
+            Huddle huddle = huddleService.getHuddle();
+
+            EmailSettings emailSettings = getEmailSettings();
+
+            BatchSubscribeMethod batchSubscribeMethod = new BatchSubscribeMethod();
+            batchSubscribeMethod.apikey = emailSettings.getMailChimpApiKey();
+            batchSubscribeMethod.double_optin = false;
+            batchSubscribeMethod.update_existing = false;
+            batchSubscribeMethod.replace_interests = false;
+            batchSubscribeMethod.id = request.getListId();
+
+            batchSubscribeMethod.batch = new ArrayList<>();
+
+            List<Member> members = memberRepository.findByHuddle(huddle);
+            for (Member member : members) {
+                BatchSubscribeInfo info = new BatchSubscribeInfo();
+
+                info.email = new com.ecwid.mailchimp.method.v2_0.lists.Email();
+                info.email.email = member.getEmail();
+                info.merge_vars = new MailChimpMember(member);
+
+                batchSubscribeMethod.batch.add(info);
+            }
+
+            mailChimpClient.execute(batchSubscribeMethod);
+
+        } catch (IOException | MailChimpException e) {
+            log.error("Error synchronizing member list with MailChimp", e);
+            throw new MailChimpErrorException("Error synchronizing member list with MailChimp", e);
+        }
+    }
+
+    //-------------------------------------------------------------------------
+
+
+    public static class MailChimpMember extends MailChimpObject {
+
+        @Field
+        public String EMAIL, FNAME, LNAME;
+
+        public MailChimpMember() {
+        }
+
+        public MailChimpMember(Member member) {
+            this.EMAIL = member.getEmail();
+            this.FNAME = member.getFirstName();
+            this.LNAME = member.getLastName();
+        }
+    }
+
 }

@@ -16,14 +16,19 @@ package com.goodhuddle.huddle.service;
 
 import com.goodhuddle.huddle.domain.Email;
 import com.goodhuddle.huddle.domain.EmailSettings;
+import com.goodhuddle.huddle.domain.MailChimpList;
 import com.goodhuddle.huddle.domain.Mailout;
 import com.goodhuddle.huddle.service.exception.EmailsAlreadySentException;
 import com.goodhuddle.huddle.service.exception.EmailsNotGeneratedException;
+import com.goodhuddle.huddle.service.exception.MailChimpErrorException;
 import com.goodhuddle.huddle.service.request.mailout.CreateMailoutRequest;
 import com.goodhuddle.huddle.service.request.mailout.SearchEmailsRequest;
 import com.goodhuddle.huddle.service.request.mailout.SearchMailoutsRequest;
 import com.goodhuddle.huddle.service.request.mailout.settings.UpdateEmailSettingsRequest;
+import com.goodhuddle.huddle.service.request.member.MailChimpSyncMemberRequest;
 import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 public interface MailoutService {
 
@@ -46,5 +51,9 @@ public interface MailoutService {
     Email getEmail(long emailId);
 
     Page<? extends Email> searchEmails(SearchEmailsRequest request);
+
+    List<MailChimpList> getMailChimpLists() throws MailChimpErrorException;
+
+    void mailChimpSyncMembers(MailChimpSyncMemberRequest request) throws MailChimpErrorException;
 
 }

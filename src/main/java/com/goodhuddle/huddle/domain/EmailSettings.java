@@ -34,6 +34,9 @@ public class EmailSettings extends AbstractHuddleObject<Long> {
     @Column(name = "mandrill_api_key")
     private String mandrillApiKey;
 
+    @Column(name = "mail_chimp_api_key")
+    private String mailChimpApiKey;
+
     public EmailSettings() {
     }
 
@@ -63,5 +66,13 @@ public class EmailSettings extends AbstractHuddleObject<Long> {
 
     public void setMandrillApiKey(String mandrillApiKey) {
         this.mandrillApiKey = mandrillApiKey;
+    }
+
+    public String getMailChimpApiKey() {
+        return mailChimpApiKey;
+    }
+
+    public void setMailChimpApiKey(String mailChimpApiKey) {
+        this.mailChimpApiKey = mailChimpApiKey;
     }
 }

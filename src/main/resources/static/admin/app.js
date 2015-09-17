@@ -47,6 +47,7 @@ angular
             "huddleAdmin.service.member",
             "huddleAdmin.service.memberBulk",
             "huddleAdmin.service.export",
+            "huddleAdmin.service.mailChimp",
             "huddleAdmin.service.tag",
             "huddleAdmin.service.mailout",
             "huddleAdmin.service.email",
@@ -274,6 +275,11 @@ angular
             .state('member.import', {
                 url: "/import",
                 templateUrl: "components/member/importer/import-members.html"
+            })
+
+            .state('member.mailChimpSync', {
+                url: "/mailchimp/sync",
+                templateUrl: "components/member/mailchimp/mail-chimp-sync-members.html"
             })
 
             // Email states
