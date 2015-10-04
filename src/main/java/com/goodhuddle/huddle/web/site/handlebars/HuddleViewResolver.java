@@ -40,6 +40,7 @@ public class HuddleViewResolver extends HandlebarsViewResolver {
                               FormHelper formHelper,
                               PaymentHelper paymentHelper,
                               SignUpCountHelper signUpCountHelper,
+                              PetitionHelper petitionHelper,
                               HuddleContext huddleContext) {
 
         this.themeService = themeService;
@@ -53,6 +54,7 @@ public class HuddleViewResolver extends HandlebarsViewResolver {
         registerHelpers(formHelper);
         registerHelpers(paymentHelper);
         registerHelpers(signUpCountHelper);
+        registerHelpers(petitionHelper);
 
         registerHelper("assign", new AssignHelper());
 

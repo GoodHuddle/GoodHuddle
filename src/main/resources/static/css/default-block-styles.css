@@ -148,3 +148,11 @@
     width:100% !important;
 }
 
+/* Petition */
+
+.block .petition-area {
+    border: 1px solid #d3d3d3;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+

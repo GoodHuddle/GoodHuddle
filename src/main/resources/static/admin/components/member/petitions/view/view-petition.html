@@ -1,0 +1,144 @@
+<!--
+  ~ (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and others.
+  ~
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Lesser General Public License
+  ~ (LGPL) version 2.1 which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/lgpl-2.1.html
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  -->
+
+<div ng-controller="ViewPetitionController">
+
+    <div id="breadcrumb-bar">
+        <i class="fa fa-envelope"></i>
+        <a ui-sref="member.petition.list">petitions</a>
+        / <a ui-sref="member.petition.view({petitionId: petition.id})" class="active">{{petition.name}}</a>
+    </div>
+
+
+    <div class="inner">
+
+        <div class="header-bar">
+            <div class="pull-right">
+                <button class="btn btn-default" ng-click="edit()">Edit</button>
+                <button class="btn btn-default" ng-click="delete()">Delete</button>
+            </div>
+            <h1>{{petition.name}}</h1>
+        </div>
+
+        <tabset class="small-tabs">
+
+            <tab>
+
+                <tab-heading><i class="fa fa-pencil" title="Signatures"></i> Signatures</tab-heading>
+
+                <div class="petition-signatures general-tab">
+
+                    <div>
+
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <td>Email address</td>
+                                <td>Date</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="signature in signatures.content">
+                                <td>
+                                    <a ng-click="viewMember(signature.member)">{{signature.member.email}}</a>
+                                </td>
+                                <td>
+                                    {{signature.createdOn | date:'dd-MMM-yyyy'}}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div>
+                        <div class="pull-right">
+                            page {{signatures.number + 1}} of {{signatures.totalPages}}
+                            <button class="prev-btn btn btn-default btn-xs" ng-disabled="signatures.first" ng-click="prevPage()">
+                                &lt;</button>
+                            <button class="next-btn btn btn-default btn-xs" ng-disabled="signatures.last" ng-click="nextPage()">
+                                &gt;</button>
+                        </div>
+                    </div>
+                </div>
+
+            </tab>
+
+            <tab>
+                <tab-heading><i class="fa fa-file-text-o" title="Details"></i> Details</tab-heading>
+
+                <div class="general-tab">
+
+                    <div class="form-horizontal">
+
+                        <!-- description -->
+                        <div class="row form-group">
+                            <label class="col-sm-3 control-label">Description</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static">{{petition.description}}</p>
+                            </div>
+                        </div>
+
+                        <!-- Thankyou Email Template -->
+                        <div class="row form-group">
+                            <label class="col-sm-3 control-label">Thank you email template</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static">{{petition.thankyouEmailTemplate}}</p>
+                            </div>
+                        </div>
+
+                        <!-- Admin Email Addresses -->
+                        <div class="row form-group">
+                            <label class="col-sm-3 control-label">Admins to be notified </label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static">{{petition.adminEmailAddresses}}</p>
+                            </div>
+                        </div>
+
+                        <!-- Admin Email Template -->
+                        <div class="row form-group">
+                            <label class="col-sm-3 control-label">Admin email template</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static">{{petition.adminEmailTemplate}}</p>
+                            </div>
+                        </div>
+
+                        <!-- subject -->
+                        <div class="row form-group">
+                            <label class="col-sm-3 control-label">Subject</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static">{{petition.subject}}</p>
+                            </div>
+                        </div>
+
+                        <!-- message -->
+                        <div class="row form-group">
+                            <label class="col-sm-3 control-label">Content</label>
+                            <div class="col-sm-3">
+                                <iframe id="content-iframe">
+                                </iframe>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </tab>
+
+        </tabset>
+
+
+    </div>
+
+</div>

@@ -100,7 +100,12 @@ public class MailoutServiceImpl implements MailoutService {
         EmailSettings settings = getEmailSettings();
         settings.setSendFromAddress(request.getSendFromAddress());
         settings.setSendFromName(request.getSendFromName());
-        settings.setMailChimpApiKey(request.getMailChimpApiKey());
+        if (request.isUpdateMailChimpApiKey()) {
+            settings.setMailChimpApiKey(request.getMailChimpApiKey());
+        }
+        if (request.isUpdateMandrillApiKey()) {
+            settings.setMandrillApiKey(request.getMandrillApiKey());
+        }
         emailSettingsRepository.save(settings);
         return settings;
     }
@@ -275,6 +280,10 @@ public class MailoutServiceImpl implements MailoutService {
             throw new MailChimpErrorException("Error synchronizing member list with MailChimp", e);
         }
     }
+
+
+
+
 
     //-------------------------------------------------------------------------
 

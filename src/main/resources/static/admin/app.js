@@ -49,6 +49,8 @@ angular
             "huddleAdmin.service.export",
             "huddleAdmin.service.mailChimp",
             "huddleAdmin.service.tag",
+            "huddleAdmin.service.petition",
+            "huddleAdmin.service.petitionSignature",
             "huddleAdmin.service.mailout",
             "huddleAdmin.service.email",
             "huddleAdmin.service.payment",
@@ -281,6 +283,32 @@ angular
                 url: "/mailchimp/sync",
                 templateUrl: "components/member/mailchimp/mail-chimp-sync-members.html"
             })
+
+            .state('member.petition', {
+                url: "/petition",
+                template: "<ui-view/>"
+            })
+
+            .state('member.petition.list', {
+                url: "/list",
+                templateUrl: "components/member/petitions/petitions.html"
+            })
+
+            .state('member.petition.create', {
+                url: "/create",
+                templateUrl: "components/member/petitions/create/create-petition.html"
+            })
+
+            .state('member.petition.view', {
+                url: "/view/{petitionId}",
+                templateUrl: "components/member/petitions/view/view-petition.html"
+            })
+
+            .state('member.petition.edit', {
+                url: "/edit/{petitionId}",
+                templateUrl: "components/member/petitions/edit/edit-petition.html"
+            })
+
 
             // Email states
 

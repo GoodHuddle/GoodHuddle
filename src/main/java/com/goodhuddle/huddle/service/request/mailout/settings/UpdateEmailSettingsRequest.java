@@ -18,7 +18,10 @@ public class UpdateEmailSettingsRequest {
 
     private String sendFromAddress;
     private String sendFromName;
+    private boolean updateMailChimpApiKey;
     private String mailChimpApiKey;
+    private boolean updateMandrillApiKey;
+    private String mandrillApiKey;
 
     public String getSendFromAddress() {
         return sendFromAddress;
@@ -36,6 +39,21 @@ public class UpdateEmailSettingsRequest {
         this.sendFromName = sendFromName;
     }
 
+    public boolean isUpdateMailChimpApiKey() {
+        return updateMailChimpApiKey;
+    }
+
+    public void setUpdateMailChimpApiKey(boolean updateMailChimpApiKey) {
+        this.updateMailChimpApiKey = updateMailChimpApiKey;
+    }
+
+    public boolean isUpdateMandrillApiKey() {
+        return updateMandrillApiKey;
+    }
+
+    public void setUpdateMandrillApiKey(boolean updateMandrillApiKey) {
+        this.updateMandrillApiKey = updateMandrillApiKey;
+    }
 
     public String getMailChimpApiKey() {
         return mailChimpApiKey;
@@ -43,6 +61,14 @@ public class UpdateEmailSettingsRequest {
 
     public void setMailChimpApiKey(String mailChimpApiKey) {
         this.mailChimpApiKey = mailChimpApiKey;
+    }
+
+    public String getMandrillApiKey() {
+        return mandrillApiKey;
+    }
+
+    public void setMandrillApiKey(String mandrillApiKey) {
+        this.mandrillApiKey = mandrillApiKey;
     }
 }
 

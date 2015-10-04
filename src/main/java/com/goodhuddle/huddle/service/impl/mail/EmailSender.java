@@ -32,9 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class EmailSender {
@@ -126,9 +124,8 @@ public class EmailSender {
                                            String fromEmail, String fromName, List<String> tags)
             throws IOException, MandrillApiError, EmailsNotSetupException {
 
-        EmailSettings settings = getEmailSettings();
 
-        MandrillApi mandrillApi = new MandrillApi(settings.getMandrillApiKey());
+        MandrillApi mandrillApi = getMandrillApi();
 
         // create message
         MandrillMessage message = new MandrillMessage();
@@ -162,6 +159,75 @@ public class EmailSender {
         }
         return allSettings.get(0);
     }
+
+
+    public MandrillMessageStatus sendEmailWithTemplate(String templateName,
+                                                       Map<String, String> parameters,
+                                                       String toName,
+                                                       String toEmail,
+                                                       String subject) throws IOException, MandrillApiError, EmailsNotSetupException {
+
+        return sendEmailWithTemplate(templateName, parameters,
+                Arrays.asList(new MailRecipient(toName, toEmail)), subject);
+    }
+
+    public MandrillMessageStatus sendEmailWithTemplate(String templateName,
+                                                       Map<String, String> parameters,
+                                                       String[] emailAddresses,
+                                                       String subject) throws IOException, MandrillApiError, EmailsNotSetupException {
+
+        List<MailRecipient> recipients = new ArrayList<>();
+        for (String emailAddress : emailAddresses) {
+            recipients.add(new MailRecipient(emailAddress, emailAddress));
+        }
+        return sendEmailWithTemplate(templateName, parameters, recipients, subject);
+    }
+
+    public MandrillMessageStatus sendEmailWithTemplate(String templateName,
+                                                       Map<String, String> parameters,
+                                                       List<MailRecipient> mailRecipients,
+                                                       String subject)
+            throws IOException, MandrillApiError, EmailsNotSetupException {
+
+        MandrillApi mandrillApi = getMandrillApi();
+        EmailSettings settings = getEmailSettings();
+
+        // create message
+        MandrillMessage message = new MandrillMessage();
+        message.setSubject(subject);
+        message.setAutoText(true);
+        message.setFromEmail(settings.getSendFromAddress());
+        message.setFromName(settings.getSendFromName());
+
+        // add recipient
+        List<MandrillMessage.Recipient> recipients = new ArrayList<>();
+        for (MailRecipient mailRecipient : mailRecipients) {
+            log.info("Sending email to {}: {}", mailRecipient.getEmail(), subject);
+            MandrillMessage.Recipient mandrillRecipient = new MandrillMessage.Recipient();
+            mandrillRecipient.setEmail(mailRecipient.getEmail());
+            mandrillRecipient.setName(mailRecipient.getName());
+            recipients.add(mandrillRecipient);
+        }
+
+        message.setTo(recipients);
+        message.setPreserveRecipients(true);
+
+        message.setTrackClicks(false);
+
+        List<MandrillMessage.MergeVar> mergeVars = new ArrayList<>();
+        for (String param : parameters.keySet()) {
+            mergeVars.add(new MandrillMessage.MergeVar(param, parameters.get(param)));
+        }
+        message.setGlobalMergeVars(mergeVars);
+
+        return mandrillApi.messages().sendTemplate(templateName, new HashMap<String, String>(), message, true)[0];
+    }
+
+    public MandrillApi getMandrillApi() throws EmailsNotSetupException {
+        EmailSettings settings = getEmailSettings();
+        return new MandrillApi(settings.getMandrillApiKey());
+    }
+
 
     //-------------------------------------------------------------------------
 

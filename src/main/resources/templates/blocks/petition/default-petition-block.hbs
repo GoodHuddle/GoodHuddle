@@ -1,0 +1,68 @@
+<div class="gh-petition-wrapper">
+
+    <div style="display: none" class="gh-petition-success alert alert-info">
+        Thank you for signing the petition
+    </div>
+
+    <form class="gh-petition">
+
+        <span data-gh-petition-error="general" class="has-error"></span>
+
+        <input type="hidden" data-gh-petition-name="petitionId" value="{{value.petitionId}}"/>
+
+        <div class="petition-area">
+            {{#petition petitionId=value.petitionId}}
+                <div class="petition-content">
+                    {{{content}}}
+                </div>
+            {{/petition}}
+        </div>
+
+
+        <div class="form-group">
+            <label for="firstName">First Name*</label>
+            <input data-gh-petition-name="firstName" class="form-control" placeholder=""/>
+            <span data-gh-petition-error="firstName" class="has-error"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="lastName">Last Name*</label>
+            <input data-gh-petition-name="lastName" class="form-control" placeholder=""/>
+            <span data-gh-petition-error="lastName" class="has-error"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="postcode">Email*</label>
+            <input data-gh-petition-name="email" class="form-control" placeholder=""/>
+            <span data-gh-petition-error="email" class="has-error"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="postcode">Postcode*</label>
+            <input data-gh-petition-name="postCode" class="form-control" placeholder=""/>
+            <span data-gh-petition-error="postCode" class="has-error"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone (optional)</label>
+            <input data-gh-petition-name="phone" class="form-control" placeholder=""/>
+            <span data-gh-petition-error="phone" class="has-error"></span>
+        </div>
+
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit">Sign the petition</button>
+        </div>
+
+    </form>
+</div>
+
+{{#append "scripts" addOnlyOnce="ghpetition"}}
+
+    <script src="/js/goodhuddle-petition.js"></script>
+
+    <script type="text/javascript">
+        goodHuddlePetition.init();
+    </script>
+
+{{/append}}
+

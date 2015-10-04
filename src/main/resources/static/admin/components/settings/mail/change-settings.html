@@ -27,16 +27,22 @@
 
         <div class="col-sm-12 margin-top">
             <div class="form-group">
-                <label>Mailchimp API key</label>
-                <input type="text" class="form-control" ng-model="settings.mailChimpApiKey">
-            </div>
-            <div class="form-group">
                 <label>Email address to send as</label>
                 <input type="text" class="form-control" ng-model="settings.sendFromAddress">
             </div>
             <div class="form-group">
                 <label>Display name to send as</label>
                 <input type="text" class="form-control" ng-model="settings.sendFromName">
+            </div>
+            <div class="form-group">
+                <input type="checkbox" ng-model="settings.updateMailChimpApiKey"> <label>Change MailChimp API key</label>
+                <input type="text" class="form-control" ng-model="settings.mailChimpApiKey"
+                       ng-disabled="!settings.updateMailChimpApiKey">
+            </div>
+            <div class="form-group">
+                <input type="checkbox" ng-model="settings.updateMandrillApiKey"> <label>Change Mandrill API key</label>
+                <input type="text" class="form-control" ng-model="settings.mandrillApiKey"
+                        ng-disabled="!settings.updateMandrillApiKey">
             </div>
         </div>
 
