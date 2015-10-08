@@ -14,14 +14,8 @@
 
 package com.goodhuddle.huddle.service.impl;
 
-import com.goodhuddle.huddle.domain.Huddle;
-import com.goodhuddle.huddle.domain.Member;
-import com.goodhuddle.huddle.domain.Petition;
-import com.goodhuddle.huddle.domain.PetitionSignature;
-import com.goodhuddle.huddle.repository.MemberRepository;
-import com.goodhuddle.huddle.repository.PetitionRepository;
-import com.goodhuddle.huddle.repository.PetitionSignatureRepository;
-import com.goodhuddle.huddle.repository.PetitionSignatureSpecification;
+import com.goodhuddle.huddle.domain.*;
+import com.goodhuddle.huddle.repository.*;
 import com.goodhuddle.huddle.service.HuddleService;
 import com.goodhuddle.huddle.service.MemberService;
 import com.goodhuddle.huddle.service.PetitionService;
@@ -33,6 +27,7 @@ import com.goodhuddle.huddle.service.impl.security.SecurityHelper;
 import com.goodhuddle.huddle.service.request.member.CreateMemberRequest;
 import com.goodhuddle.huddle.service.request.petition.*;
 import com.microtripit.mandrillapp.lutung.model.MandrillApiError;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +39,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -54,6 +51,7 @@ public class PetitionServiceImpl implements PetitionService {
 
     private final EmailSender emailSender;
     private final PetitionRepository petitionRepository;
+    private final PetitionTargetRepository petitionTargetRepository;
     private final PetitionSignatureRepository petitionSignatureRepository;
     private final MemberRepository memberRepository;
     private final MemberService memberService;
@@ -67,6 +65,7 @@ public class PetitionServiceImpl implements PetitionService {
                                PetitionSignatureRepository petitionSignatureRepository,
                                MemberService memberService,
                                EmailSender emailSender,
+                               PetitionTargetRepository petitionTargetRepository,
                                HuddleService huddleService) {
         this.emailSender = emailSender;
         this.petitionRepository = petitionRepository;
@@ -74,6 +73,7 @@ public class PetitionServiceImpl implements PetitionService {
         this.memberRepository = memberRepository;
         this.securityHelper = securityHelper;
         this.memberService = memberService;
+        this.petitionTargetRepository = petitionTargetRepository;
         this.huddleService = huddleService;
     }
 
@@ -101,11 +101,19 @@ public class PetitionServiceImpl implements PetitionService {
                 request.getDescription(),
                 request.getSubject(),
                 request.getContent(),
+                request.getPetitionEmailTemplate(),
                 request.getThankyouEmailTemplate(),
                 request.getAdminEmailAddresses(),
                 request.getAdminEmailTemplate(),
                 currentMember
         ));
+
+        if (CollectionUtils.isNotEmpty(request.getTargets())) {
+            for (AbstractPetitionRequest.Target target : request.getTargets()) {
+                petitionTargetRepository.save(new PetitionTarget(petition, target.getName(), target.getEmail()));
+            }
+        }
+
         log.info("New petition '{}' created with ID", request.getName(), petition.getId());
 
         return petition;
@@ -122,11 +130,19 @@ public class PetitionServiceImpl implements PetitionService {
                 request.getDescription(),
                 request.getSubject(),
                 request.getContent(),
+                request.getPetitionEmailTemplate(),
                 request.getThankyouEmailTemplate(),
                 request.getAdminEmailAddresses(),
                 request.getAdminEmailTemplate());
 
         petitionRepository.save(petition);
+
+        petitionTargetRepository.deleteByPetition(petition);
+        if (CollectionUtils.isNotEmpty(request.getTargets())) {
+            for (AbstractPetitionRequest.Target target : request.getTargets()) {
+                petitionTargetRepository.save(new PetitionTarget(petition, target.getName(), target.getEmail()));
+            }
+        }
 
         log.info("Petition with ID {} updated", request.getId());
         return petition;
@@ -168,7 +184,7 @@ public class PetitionServiceImpl implements PetitionService {
         }
 
         PetitionSignature signature = petitionSignatureRepository.save(new PetitionSignature(
-                petition, member, petition.getSubject(), petition.getContent(),
+                petition, member, request.getSubject(), request.getContent(),
                 securityHelper.getCurrentMember()
         ));
 
@@ -176,13 +192,31 @@ public class PetitionServiceImpl implements PetitionService {
 
         params.put("petition_id", String.valueOf(petition.getId()));
         params.put("petition_name", petition.getName());
-        params.put("petition_subject", petition.getSubject());
-        params.put("petition_content", petition.getContent());
+        params.put("petition_subject", signature.getSubject());
+        params.put("petition_content", signature.getMessage());
 
         params.put("member_first_name", member.getFirstName());
         params.put("member_last_name", member.getLastName());
         params.put("member_display_name", member.getDisplayName());
         params.put("member_email", member.getEmail());
+
+
+        List<EmailSender.MailRecipient> recipients = new ArrayList<>();
+        if (petition.getTargets() != null && petition.getTargets().size() > 0) {
+            for (PetitionTarget target : petition.getTargets()) {
+                recipients.add(new EmailSender.MailRecipient(
+                        target.getName(), target.getEmail()
+                ));
+            }
+            emailSender.sendEmailWithTemplate(
+                    petition.getPetitionEmailTemplate(),
+                    params,
+                    recipients,
+                    petition.getSubject()
+            );
+        } else {
+            log.warn("No target recipients for petition: {}", petition.getSubject());
+        }
 
         if (StringUtils.isNotBlank(petition.getThankyouEmailTemplate())) {
             emailSender.sendEmailWithTemplate(

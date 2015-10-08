@@ -61,6 +61,41 @@
 
                 <hr/>
 
+
+                <!-- Petition targets -->
+                <div class="row form-group">
+                    <label class="col-sm-2 control-label">Petition targets</label>
+
+                    <div class="col-sm-6">
+
+                        <div ng-repeat="target in petition.targets">
+                            <input type="text" placeholder="Name"
+                                   ng-model="target.name"/>
+                            <input type="text" placeholder="Email"
+                                   ng-model="target.email"/>
+                            <a ng-if="$index > 0" ng-click="deleteTarget($index)">delete</a>
+                        </div>
+
+                        <a ng-click="addTarget()">Add target</a>
+
+                        <p class="help-block error-message"></p>
+                    </div>
+                </div>
+
+                <!-- Petition Email Template -->
+                <div class="row form-group">
+                    <label class="col-sm-2 control-label">Petition email template</label>
+
+                    <div class="col-sm-6">
+                        <input id="petitionEmailTemplate"
+                               ng-model="petition.petitionEmailTemplate"
+                               class="form-control" type="text"/>
+                        <p class="text-muted">Email template sent to petition targets (must be an existing template in Mandrill)</p>
+
+                        <p class="help-block error-message"></p>
+                    </div>
+                </div>
+
                 <!-- Thankyou Email Template -->
                 <div class="row form-group">
                     <label class="col-sm-2 control-label">Thank you email template</label>

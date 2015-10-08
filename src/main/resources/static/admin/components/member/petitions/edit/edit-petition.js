@@ -39,6 +39,16 @@ angular.module('huddleAdmin')
                 ]
             };
 
+            $scope.addTarget = function() {
+                $scope.petition.targets.push({
+                    name: '', email: ''
+                });
+            };
+
+            $scope.deleteTarget = function(index) {
+                $scope.petition.targets.splice(index, 1);
+            };
+
             $scope.submit = function() {
                 PetitionService.update($scope.petition, function(petition) {
                     $state.go('member.petition.view', { petitionId: petition.id });

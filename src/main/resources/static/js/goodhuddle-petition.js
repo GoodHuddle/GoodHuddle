@@ -40,6 +40,8 @@ var goodHuddlePetition = (function () {
                 successMessage.hide();
 
                 var petitionIdField = $form.find('[data-gh-petition-name="petitionId"]');
+                var subjectField = $form.find('[data-gh-petition-name="subject"]');
+                var contentField = $form.find('[data-gh-petition-name="content"]');
                 var firstNameField = $form.find('[data-gh-petition-name="firstName"]');
                 var lastNameField = $form.find('[data-gh-petition-name="lastName"]');
                 var emailField = $form.find('[data-gh-petition-name="email"]');
@@ -48,11 +50,16 @@ var goodHuddlePetition = (function () {
                 var submitButton = $form.find('button[type=submit]');
 
                 var petitionId = petitionIdField.val();
+                var subject = subjectField.val();
+                var content = contentField.val();
                 var firstName = firstNameField.val();
                 var lastName = lastNameField.val();
                 var email = emailField.val();
                 var postCode = postCodeField.val();
                 var phone = phoneField.val();
+
+                console.log('Subject: ' + subject);
+                console.log('Message: ' + content);
 
                 submitButton.attr('disabled', 'disabled');
                 $.ajax({
@@ -60,6 +67,8 @@ var goodHuddlePetition = (function () {
                     url: '/petition/sign.do',
                     data: JSON.stringify({
                         petitionId: petitionId,
+                        subject: subject,
+                        content: content,
                         firstName: firstName,
                         lastName: lastName,
                         email: email,

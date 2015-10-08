@@ -17,32 +17,39 @@ package com.goodhuddle.huddle.web.dto.petition;
 import com.goodhuddle.huddle.web.dto.member.MemberRef;
 import org.joda.time.DateTime;
 
+import java.util.List;
+
 public class PetitionDetail extends PetitionRef {
 
     private String description;
     private String subject;
     private String content;
+    private String petitionEmailTemplate;
     private String thankyouEmailTemplate;
     private String adminEmailTemplate;
     private String adminEmailAddresses;
     private DateTime createdOn;
     private MemberRef createdBy;
+    private List<PetitionTargetRef> targets;
 
     public PetitionDetail(long id, String name, String description,
                           String subject, String content,
-                          String thankyouEmailTemplate,
+                          String petitionEmailTemplate, String thankyouEmailTemplate,
                           String adminEmailTemplate,
                           String adminEmailAddresses,
-                          DateTime createdOn, MemberRef createdBy) {
+                          DateTime createdOn, MemberRef createdBy,
+                          List<PetitionTargetRef> targets) {
         super(id, name);
         this.description = description;
         this.subject = subject;
         this.content = content;
+        this.petitionEmailTemplate = petitionEmailTemplate;
         this.thankyouEmailTemplate = thankyouEmailTemplate;
         this.adminEmailTemplate = adminEmailTemplate;
         this.adminEmailAddresses = adminEmailAddresses;
         this.createdOn = createdOn;
         this.createdBy = createdBy;
+        this.targets = targets;
     }
 
     public String getDescription() {
@@ -51,6 +58,10 @@ public class PetitionDetail extends PetitionRef {
 
     public String getSubject() {
         return subject;
+    }
+
+    public String getPetitionEmailTemplate() {
+        return petitionEmailTemplate;
     }
 
     public String getThankyouEmailTemplate() {
@@ -77,4 +88,7 @@ public class PetitionDetail extends PetitionRef {
         return createdBy;
     }
 
+    public List<PetitionTargetRef> getTargets() {
+        return targets;
+    }
 }

@@ -19,6 +19,8 @@ import com.goodhuddle.huddle.service.request.member.AbstractMemberDetailRequest;
 public class SignPetitionRequest extends AbstractMemberDetailRequest {
 
     private Long petitionId;
+    private String subject;
+    private String content;
 
     public SignPetitionRequest() {
     }
@@ -29,5 +31,21 @@ public class SignPetitionRequest extends AbstractMemberDetailRequest {
 
     public void setPetitionId(Long petitionId) {
         this.petitionId = petitionId;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }

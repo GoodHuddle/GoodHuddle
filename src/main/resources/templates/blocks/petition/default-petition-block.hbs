@@ -12,12 +12,20 @@
 
         <div class="petition-area">
             {{#petition petitionId=value.petitionId}}
-                <div class="petition-content">
-                    {{{content}}}
+                <div class="form-group">
+                    <label for="firstName">Subject*</label>
+                    <input data-gh-petition-name="subject" class="form-control" placeholder=""/>
+                    <span data-gh-petition-error="subject" class="has-error"></span>
+                </div>
+                <div class="form-group">
+                    <label for="firstName">Message*</label>
+                    <textarea class="form-control content-area" data-gh-petition-name="content">
+                        {{{content}}}
+                    </textarea>
+                    <span data-gh-petition-error="content" class="has-error"></span>
                 </div>
             {{/petition}}
         </div>
-
 
         <div class="form-group">
             <label for="firstName">First Name*</label>

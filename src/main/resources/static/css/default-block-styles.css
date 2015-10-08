@@ -152,7 +152,12 @@
 
 .block .petition-area {
     border: 1px solid #d3d3d3;
-    padding: 20px;
+    padding: 10px;
     margin-bottom: 20px;
+    background-color: lightgrey;
+}
+
+.block .petition-area .content-area {
+    min-height: 200px;
 }
 

@@ -20,6 +20,10 @@ angular.module('huddleAdmin')
         function($scope, $state, $stateParams, PetitionService) {
 
             $scope.petition = {
+                targets: [{
+                    name: '',
+                    email: ''
+                }]
             };
 
             // setup editor options
@@ -36,6 +40,16 @@ angular.module('huddleAdmin')
                     { name: 'clipboard', items: [ 'Undo', 'Redo' ] },
                     { name: 'document', items: [ 'Source' ] }
                 ]
+            };
+
+            $scope.addTarget = function() {
+                $scope.petition.targets.push({
+                    name: '', email: ''
+                });
+            };
+
+            $scope.deleteTarget = function(index) {
+                $scope.petition.targets.splice(index, 1);
             };
 
             $scope.submit = function() {

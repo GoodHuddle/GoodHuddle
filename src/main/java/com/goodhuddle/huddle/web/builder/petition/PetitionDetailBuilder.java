@@ -25,10 +25,12 @@ import org.springframework.stereotype.Service;
 public class PetitionDetailBuilder extends AbstractDTOBuilder<PetitionDetail, Petition> {
 
     private final MemberRefBuilder memberRefBuilder;
+    private final PetitionTargetRefBuilder petitionTargetRefBuilder;
 
     @Autowired
-    public PetitionDetailBuilder(MemberRefBuilder memberRefBuilder) {
+    public PetitionDetailBuilder(MemberRefBuilder memberRefBuilder, PetitionTargetRefBuilder petitionTargetRefBuilder) {
         this.memberRefBuilder = memberRefBuilder;
+        this.petitionTargetRefBuilder = petitionTargetRefBuilder;
     }
 
     @Override
@@ -39,10 +41,12 @@ public class PetitionDetailBuilder extends AbstractDTOBuilder<PetitionDetail, Pe
                 entity.getDescription(),
                 entity.getSubject(),
                 entity.getContent(),
+                entity.getPetitionEmailTemplate(),
                 entity.getThankyouEmailTemplate(),
                 entity.getAdminEmailTemplate(),
                 entity.getAdminEmailAddresses(),
                 entity.getCreatedOn(),
-                memberRefBuilder.build(entity.getCreatedBy()));
+                memberRefBuilder.build(entity.getCreatedBy()),
+                petitionTargetRefBuilder.build(entity.getTargets()));
     }
 }

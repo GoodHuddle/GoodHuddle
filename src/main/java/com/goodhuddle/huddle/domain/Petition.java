@@ -19,6 +19,7 @@ import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 @Entity
@@ -38,6 +39,9 @@ public class Petition extends AbstractHuddleObject<Long> {
     @Column(name = "content")
     private String content;
 
+    @Column(name = "petition_email_template")
+    private String petitionEmailTemplate;
+
     @Column(name = "thankyou_email_template")
     private String thankyouEmailTemplate;
 
@@ -55,6 +59,9 @@ public class Petition extends AbstractHuddleObject<Long> {
     @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     private DateTime createdOn;
 
+    @OneToMany(mappedBy = "petition", fetch = FetchType.LAZY)
+    private List<PetitionTarget> targets;
+
     public Petition() {
     }
 
@@ -63,6 +70,7 @@ public class Petition extends AbstractHuddleObject<Long> {
                     String description,
                     String subject,
                     String content,
+                    String petitionEmailTemplate,
                     String thankyouEmailTemplate,
                     String adminEmailAddresses,
                     String adminEmailTemplate,
@@ -72,6 +80,7 @@ public class Petition extends AbstractHuddleObject<Long> {
         this.description = description;
         this.subject = subject;
         this.content = content;
+        this.petitionEmailTemplate = petitionEmailTemplate;
         this.thankyouEmailTemplate = thankyouEmailTemplate;
         this.adminEmailAddresses = adminEmailAddresses;
         this.adminEmailTemplate = adminEmailTemplate;
@@ -84,6 +93,7 @@ public class Petition extends AbstractHuddleObject<Long> {
                        String description,
                        String subject,
                        String content,
+                       String petitionEmailTemplate,
                        String thankyouEmailTemplate,
                        String adminEmailAddresses,
                        String adminEmailTemplate) {
@@ -91,6 +101,7 @@ public class Petition extends AbstractHuddleObject<Long> {
         this.description = description;
         this.subject = subject;
         this.content = content;
+        this.petitionEmailTemplate = petitionEmailTemplate;
         this.thankyouEmailTemplate = thankyouEmailTemplate;
         this.adminEmailAddresses = adminEmailAddresses;
         this.adminEmailTemplate = adminEmailTemplate;
@@ -127,6 +138,14 @@ public class Petition extends AbstractHuddleObject<Long> {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getPetitionEmailTemplate() {
+        return petitionEmailTemplate;
+    }
+
+    public void setPetitionEmailTemplate(String petitionEmailTemplate) {
+        this.petitionEmailTemplate = petitionEmailTemplate;
     }
 
     public String getThankyouEmailTemplate() {
@@ -171,5 +190,13 @@ public class Petition extends AbstractHuddleObject<Long> {
 
     public void setCreatedOn(DateTime createdOn) {
         this.createdOn = createdOn;
+    }
+
+    public List<PetitionTarget> getTargets() {
+        return targets;
+    }
+
+    public void setTargets(List<PetitionTarget> targets) {
+        this.targets = targets;
     }
 }

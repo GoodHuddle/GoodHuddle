@@ -89,6 +89,24 @@
                             </div>
                         </div>
 
+                        <!-- Petition Targets -->
+                        <div class="row form-group">
+                            <label class="col-sm-3 control-label">Petition targets</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" ng-repeat="target in petition.targets">
+                                    {{target.name}} ({{target.email}})
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Petition Email Template -->
+                        <div class="row form-group">
+                            <label class="col-sm-3 control-label">Petition email template</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static">{{petition.petitionEmailTemplate}}</p>
+                            </div>
+                        </div>
+
                         <!-- Thankyou Email Template -->
                         <div class="row form-group">
                             <label class="col-sm-3 control-label">Thank you email template</label>
